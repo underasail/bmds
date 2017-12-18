@@ -34,7 +34,7 @@ with open(argv[1], newline = '') as f_buchnera, open(argv[2], newline = '') as f
                 i = i + 1
             buch_list.append(buch_row)
         i = i + 1
-    print('buch_list done'+buch_list[:10]+buch_list[-10:])
+    print(buch_list[:10]+buch_list[-10:])
     while j <= other_len:
         other_row = next(other_csv)
         if int(other_row[0]) == j:
@@ -48,7 +48,7 @@ with open(argv[1], newline = '') as f_buchnera, open(argv[2], newline = '') as f
                 j = j + 1
             other_list.append(other_row)
         j = j + 1
-print('other_list done'+other_list[:10]+other_list[-10:])
+print(other_list[:10]+other_list[-10:])
 for (buch_list_row, other_list_row) in zip(buch_list, other_list):
     if buch_list_row[0] == other_list_row[0] and buch_list_row[0] != 0:
         print(buch_list_row[0]+' matches '+other_list_row[0])
