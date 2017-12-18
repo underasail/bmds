@@ -1,13 +1,14 @@
 #! /share/opt/python/3.3.1/bin/python
 
-# Usage: ./parseSAM.py [INPUT SAM FILE] (> Results passed to stdout, redirect with carrot to generate output file)
+# Usage: ./parseSAM.py [INPUT SAM FILE] ['percent OR 'parsed' (see choice below) (> Results passed to stdout, redirect with carrot to generate output file)
 
 from sys import argv
 import csv
 from Bio import Entrez
 from Bio import SeqIO
 
-choice = input('Output genome percentage rankings [percent] or parsed genename, genome, sequence data [parsed]: ')
+choice = argv[2]
+# choice = input('Output genome percentage rankings [percent] or parsed genename, genome, sequence data [parsed]: ')
 # make decsion on output format,
 #   percent will output a listing for each genome 
 #       with name, description, and number of and percentage of reads matched
@@ -87,7 +88,7 @@ for (entry, olddictkey) in zip(GIs, refdict.keys()):
     # result = result[0] returned index error saying list index out of range on full dataset
     # gi_list.append(result) to avoid above problem, used below instead
     gi_list = gi_list + result
-    refdict[result[0]] = refdict.pop(olddictkey)
+    refdict[gi_list[-1]] = refdict.pop(olddictkey)
     # changes keys in primary dictionary to GeneBank Identifiers unstead of SAM ID
 gi_str = ",".join(gi_list)
 
