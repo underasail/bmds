@@ -4,7 +4,7 @@
 
 from sys import argv
 import csv
-import matplotlib
+import matplotlib.pyplot as plot
 
 
 genedict = {}
@@ -48,8 +48,13 @@ with open(argv[2], newline='') as f:
                     pass
         else:
             pass
+
+histlist = []
 for i in sorted(genedict, key = lambda values: len(genedict[values]), reverse=True):
     if len(genedict[i]) >= 3:
-        print('%s maps to %s genomes.' % (i, str(len(genedict[i]))))
+        histlist.append(len(genedict[i]))
+
+plot.hist(histlist, bins = 10, histtype = 'bar', align = 'mid', color = 'red')
+plot.savefig('~/temp/genenamehist.jpg', bbox_inches = 'tight')
 
 
