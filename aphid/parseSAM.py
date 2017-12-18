@@ -24,8 +24,10 @@ else:
 totalreads = 0
 refdict = {}
 gi_list = list()
+
 if choice == 'parsed':
     refdict_seq = {}
+    sorted_list = []
 else: # choice == 'percent'
     refdict_count = {}
     refdict_per = {}
@@ -115,6 +117,8 @@ else: # choice == 'parsed'
 
 
 """Output CSV"""
+sorteddict = {}
+
 if choice == 'parsed':
     for ((GI, readnums), (key, seqs)) in zip(refdict.items(), refdict_seq.items()):
         # iterates over the values while carrying the keys for the two dictionaries simultaneously
@@ -123,7 +127,15 @@ if choice == 'parsed':
         seqlist = []
         seqlist.extend(seqs)
         for (genename, seq) in zip(values, seqlist):
-            print('%s\t%s\t%s' % (genename, GI, seq))
+            thing = []
+            thing.append(genename)
+            thing.append(GI)
+            thing.append(seq)
+            sorted_list.append(thing)
+            # print('%s\t%s\t%s' % (genename, GI, seq))
             # sends the parsed results to stdout
+    print(sorted_list[-1][0])
+    for i in sorted_list:
+        print('%s\t%s\t%s' % (i[0], i[1], i[2]))
 else: # choice == 'percent'
     pass
