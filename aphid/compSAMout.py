@@ -40,7 +40,7 @@ with open(argv[1], newline = '') as f_buchnera, open(argv[2], newline = '') as f
         if int(other_row[0]) == j:
             other_list.append(other_row)
             print(other_list[-1])
-        elif int(other_row[0]) < i:
+        elif int(other_row[0]) < j:
             buch_list.append(buch_row)
             j = j - 1
         else:
