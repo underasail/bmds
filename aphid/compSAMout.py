@@ -49,17 +49,26 @@ with open(argv[1], newline = '') as f_buchnera, open(argv[2], newline = '') as f
             other_list.append(other_row)
         j = j + 1
 print(other_list[:10]+other_list[-10:])
-for (buch_list_row, other_list_row) in zip(buch_list, other_list):
+buch_list_iter = iter(buch_list)
+other_list_iter = iter(other_list)
+other_back_iter = iter([None]+other_list[-1:])
+for (buch_list_row, other_list_row, other_back_one) in zip(buch_list_iter, other_list_iter, other_back_iter):
     if buch_list_row[0] == other_list_row[0] and int(buch_list_row[0]) != 0:
         print(buch_list_row[0]+' matches '+other_list_row[0])
         seqdict.setdefault(buch_list_row[0], []).append(other_list_row[2])
         GIdict.setdefault(buch_list_row[0], []).append(other_list_row[1])
     elif int(buch_list_row[0]) == int(other_list_row[0]) == 0:
         pass
-    elif int(buch_list_row[0]) == 0 and int(other_list_row[0]) != 0 or int(buch_list_row[0]) < int(other_list_row[0]):
-        next(buch_list_row)
+    elif int(buch_list_row[0]) == 0 and int(other_list_row[0]) != 0:
+        buch_list_row = next(buch_list_iter)
+    elif int(buch_list_row[0]) < int(other_list_row[0]) and int(buch_list_row[0]) != int(other_back_one[0]):
+        buch_list_row = next(buch_list_iter)
+    elif int(buch_list_row[0]) < int(other_list_row[0]) and int(buch_list_row[0]) == int(other_back_one[0]):
+        print(buch_list_row[0]+' matches '+other_back_one[0])
+        seqdict.setdefault(buch_list_row[0], []).append(other_list_row[2])
+        GIdict.setdefault(buch_list_row[0], []).append(other_list_row[1])
     elif int(buch_list_row[0]) != 0 and int(other_list_row[0]) == 0 or int(buch_list_row[0]) > int(other_list_row[0]):
-        next(other_list_row)
+        other_list_row = next(other_list_iter)
 
 
 print(GIdict)
