@@ -4,8 +4,6 @@
 
 from sys import argv
 import csv
-import matplotlib.pyplot as plot
-
 
 genedict = {}
 
@@ -53,8 +51,9 @@ histlist = []
 for i in sorted(genedict, key = lambda values: len(genedict[values]), reverse=True):
     if len(genedict[i]) >= 3:
         histlist.append(len(genedict[i]))
+        print(len(genedict[i]), end = '\t')
 
-plot.hist(histlist, bins = 10, histtype = 'bar', align = 'mid', color = 'red')
-plot.savefig('~/temp/genenamehist.jpg', bbox_inches = 'tight')
+# plot.hist(histlist, bins = 10, histtype = 'bar', align = 'mid', color = 'red')
+# plot.savefig('~/temp/genenamehist.jpg', bbox_inches = 'tight')
 
 
