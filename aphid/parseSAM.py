@@ -117,8 +117,6 @@ else: # choice == 'parsed'
 
 
 """Output CSV"""
-sorteddict = {}
-
 if choice == 'parsed':
     for ((GI, readnums), (key, seqs)) in zip(refdict.items(), refdict_seq.items()):
         # iterates over the values while carrying the keys for the two dictionaries simultaneously
