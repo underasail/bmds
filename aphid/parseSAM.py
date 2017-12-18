@@ -87,7 +87,7 @@ for (entry, olddictkey) in zip(GIs, refdict.keys()):
     # result = result[0] returned index error saying list index out of range on full dataset
     # gi_list.append(result) to avoid above problem, used below instead
     gi_list = gi_list + result
-    refdict[result] = refdict.pop(olddictkey)
+    refdict[result[0]] = refdict.pop(olddictkey)
     # changes keys in primary dictionary to GeneBank Identifiers unstead of SAM ID
 gi_str = ",".join(gi_list)
 
