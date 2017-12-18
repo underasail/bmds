@@ -43,7 +43,9 @@ with open(argv[2], newline='') as f:
                 seq = row[9]
                 try:
                     e = genedict[readnum]
-                    e.append(refgen)
+                    genedict[readnum].append(refgen)
+                except KeyError:
+                    pass
         else:
             pass
 
