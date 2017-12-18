@@ -126,7 +126,7 @@ if choice == 'parsed':
         seqlist.extend(seqs)
         for (genename, seq) in zip(values, seqlist):
             thing = []
-            thing.append(genename)
+            thing.append(genename[0])
             thing.append(GI)
             thing.append(seq)
             sorted_list.append(thing)
