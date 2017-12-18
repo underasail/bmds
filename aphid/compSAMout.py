@@ -4,6 +4,7 @@
 
 from sys import argv
 import csv
+import itertools
 
 seqdict = {}
 GIdict = {}
@@ -39,7 +40,6 @@ with open(argv[1], newline = '') as f_buchnera, open(argv[2], newline = '') as f
         other_row = next(other_csv)
         if int(other_row[0]) == j:
             other_list.append(other_row)
-            print(other_list[-1])
         elif int(other_row[0]) < j:
             buch_list.append(buch_row)
             j = j - 1
@@ -50,11 +50,18 @@ with open(argv[1], newline = '') as f_buchnera, open(argv[2], newline = '') as f
             other_list.append(other_row)
         j = j + 1
 print(other_list[:10]+other_list[-10:])
-for (buch_list_row, other_list_row) in zip(buch_list, other_list):
-    if buch_list_row[0] == other_list_row[0] and buch_list_row[0] != 0:
+for (buch_list_row, other_list_row) in itertools.izip(buch_list, other_list):
+    if buch_list_row[0] == other_list_row[0] and int(buch_list_row[0]) != 0:
         print(buch_list_row[0]+' matches '+other_list_row[0])
         seqdict.setdefault(buch_list_row[0], []).append(other_list_row[2])
         GIdict.setdefault(buch_list_row[0], []).append(other_list_row[1])
-                
+    elif int(buch_list_row[0]) == int(other_list_row[0]) == 0:
+        pass
+    elif int(buch_list_row[0]) == 0 and int(other_list_row[0]) != 0 or int(buch_list_row[0]) < int(other_list_row[0]):
+        buch_list_row = next(buch_list)
+    elif int(buch_list_row[0]) != 0 and int(other_list_row[0]) == 0 or int(buch_list_row[0]) > int(other_list_row[0]):
+        other_list_row = next(other_list)
+
+
 print(GIdict)
 print(seqdict)
