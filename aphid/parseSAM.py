@@ -13,9 +13,9 @@ choice = input('Output genome percentage rankings [percent] or parsed genename, 
 #       with name, description, and number of and percentage of reads matched
 #   parsed will output an entry for each matched read 
 #       with the read name, aligned genome, and sequence in a \t deliminated format
-if choice == percent:
+if choice == 'percent':
     pass
-elif choice == parsed:
+elif choice == 'parsed':
     pass
 else:
     sys.exit('ChoiceError: Please choose only "percent" or "parsed"')
@@ -25,7 +25,7 @@ refdict = {}
 gi_list = list()
 if choice == 'parsed':
     refdict_seq = {}
-else: # choice == percent
+else: # choice == 'percent'
     refdict_count = {}
     refdict_per = {}
     all_list = list()
@@ -61,7 +61,7 @@ elif 'BTIRed' in argv[1]:
 
 
 """Determination of Number of Sequences per Reference Genome"""
-if choice == percent:
+if choice == 'percent':
     for key, value in refdict.items():
         refdict_count.setdefault(key, []).append(len(value))
         # estabilishes dictionary with GIs as keys and number of sequences mapped to that ref genome as value
@@ -69,7 +69,7 @@ if choice == percent:
         percent = round(((value[0]/totalreads)*100), 2)
         refdict_per.setdefault(key, []).append(percent)
         # Sums total reads caught and generates a percent for each reference genome
-else: # choice == parsed
+else: # choice == 'parsed'
     pass
 
 
@@ -98,7 +98,7 @@ handle = Entrez.efetch(db='nuccore', id=gi_str, rettype='gb', retmode='text')
 # http://biopython.org/DIST/docs/tutorial/Tutorial.html#sec:entrez-search-fetch-genbank
 records = SeqIO.parse(handle, 'gb')
 
-if choice == percent:
+if choice == 'percent':
     for (record, GI, count, per, seq) in zip(records, gi_list, refdict_count.values(), refdict_per.values(), readdict_seq.values()):
         # record is a SeqRecord object and has all of its attributes
         # http://biopython.org/DIST/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
@@ -109,12 +109,12 @@ if choice == percent:
         refdict_alltogether.setdefault(record.id, []).append(all_list)
         # builds a final dictionary that houses all pertinate attributes stored under the SeqRecord ID/sequence ID
         print('"""%s"""\nGenBank Identifier: %s\nDescription: %s\nNumber of matched reads: %s\nTotal reads mapped to this genome: %s%%\n' % (record.id, GI, record.description, count[0], per[0]))
-else: # choice == parsed
+else: # choice == 'parsed'
     pass
 
 
 """Output CSV"""
-if choice == parsed:
+if choice == 'parsed':
     for ((GI, readnums), (key, seqs)) in zip(refdict.items(), refdict_seq.items()):
         # iterates over the values while carrying the keys for the two dictionaries simultaneously
         values = []
@@ -124,5 +124,5 @@ if choice == parsed:
         for (genename, seq) in zip(values, seqlist):
             print('%s\t%s\t%s' % (genename, GI, seq))
             # sends the parsed results to stdout
-else: # choice == percent
+else: # choice == 'percent'
     pass
