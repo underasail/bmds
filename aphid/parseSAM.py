@@ -132,6 +132,7 @@ if choice == 'parsed':
             sorted_list.append(thing)
             # print('%s\t%s\t%s' % (genename, GI, seq))
             # sends the parsed results to stdout
+    sorted_list.sort()
     print(sorted_list[-1][0])
     for i in sorted_list:
         print('%s\t%s\t%s' % (i[0], i[1], i[2]))
