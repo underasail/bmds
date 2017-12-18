@@ -1,6 +1,6 @@
 #! /share/opt/python/3.3.1/bin/python
 
-# Usage: ./parseSAM.py [INPUT SAM FILE] ['percent OR 'parsed' (see choice below) (> Results passed to stdout, redirect with carrot to generate output file)
+# Usage: ./parseSAM.py [INPUT SAM BUCHNERA FILE] [INPUT SAM OTHER FILE] (> Results passed to stdout, redirect with carrot to generate output file)
 
 from sys import argv
 import csv
@@ -29,7 +29,7 @@ with open(argv[1], newline='') as f:
                 genedict.setdefault(readnum, []).append(refgen)
         else:
             pass
-
+print(genedict[:10]+'\n'+genedict[-10:])
 with open(argv[2], newline='') as f:
     next(f)
     next(f)
@@ -43,11 +43,9 @@ with open(argv[2], newline='') as f:
                 seq = row[9]
                 try:
                     e = genedict[readnum]
-                    genedict[readnum].append(refgen)
+                    genedict[readnum].append(refgen)                    
                 except KeyError:
                     pass
         else:
             pass
-
-print(genedict)
-        
+print(len(genedict.key()))
