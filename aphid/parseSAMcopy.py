@@ -4,12 +4,10 @@
 
 from sys import argv
 import csv
+import matplotlib
 
 
-gi_list = list()
 genedict = {}
-refdict_seq = {}
-sorted_list = []
 
 """Parsing of Bowtie2 SAM Output"""
 with open(argv[1], newline='') as f:
@@ -29,7 +27,9 @@ with open(argv[1], newline='') as f:
                 genedict.setdefault(readnum, []).append(refgen)
         else:
             pass
-print(genedict[:10]+'\n'+genedict[-10:])
+
+print('genedict done')
+
 with open(argv[2], newline='') as f:
     next(f)
     next(f)
@@ -48,4 +48,8 @@ with open(argv[2], newline='') as f:
                     pass
         else:
             pass
-print(len(genedict.key()))
+for i in sorted(genedict, key = lambda values: len(genedict[values]), reverse=True):
+    if len(genedict[i]) >= 3:
+        print('%s maps to %s genomes.' % (i, str(len(genedict[i]))))
+
+
