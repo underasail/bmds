@@ -1,7 +1,6 @@
 #! /usr/bin/python3
 
 # Usage: ./parseSAM.py [INPUT SAM FILE] (> Results passed to stdout, redirect with carrot to generate output file)
-# Uncomment double '##' lines to run as percentages ranker
 
 from sys import argv
 import csv
@@ -9,7 +8,11 @@ from Bio import Entrez
 from Bio import SeqIO
 
 choice = input('Output genome percentage rankings [percent] or parsed genename, genome, sequence data [parsed]: ')
-
+# make decsion on output format,
+#   percent will output a listing for each genome 
+#       with name, description, and number of and percentage of reads matched
+#   parsed will output an entry for each matched read 
+#       with the read name, aligned genome, and sequence in a \t deliminated format
 if choice == percent:
     pass
 elif choice == parsed:
