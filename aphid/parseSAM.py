@@ -117,6 +117,7 @@ else: # choice == 'parsed'
 
 
 """Output CSV"""
+genedict = {}
 if choice == 'parsed':
     for ((GI, readnums), (key, seqs)) in zip(refdict.items(), refdict_seq.items()):
         # iterates over the values while carrying the keys for the two dictionaries simultaneously
@@ -130,11 +131,10 @@ if choice == 'parsed':
             thing.append(GI)
             thing.append(seq)
             sorted_list.append(thing)
-            # print('%s\t%s\t%s' % (genename, GI, seq))
-            # sends the parsed results to stdout
+            genedict.setdefault(genename, []).append(GI)
     sorted_list.sort(key = lambda gn: int(gn[0]))
-    print(sorted_list[-1][0])
-    for i in sorted_list:
-        print('%s\t%s\t%s' % (i[0], i[1], i[2]))
+    ##print(sorted_list[-1][0])
+    ##for i in sorted_list:
+        ##print('%s\t%s\t%s' % (i[0], i[1], i[2]))
 else: # choice == 'percent'
     pass
