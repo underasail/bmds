@@ -111,9 +111,8 @@ if choice == 'percent':
         all_list.append(per[0])
         refdict_alltogether.setdefault(record.id, []).append(all_list)
         # builds a final dictionary that houses all pertinate attributes stored under the SeqRecord ID/sequence ID
-        print('"""%s"""\nGenBank Identifier: %s\nDescription: %s\nNumber of matched reads: %s\nTotal reads mapped to this genome: %s%%\n' % (record.id, GI, record.description, count[0], per[0]))
-else: # choice == 'parsed'
-    pass
+        # print('"""%s"""\nGenBank Identifier: %s\nDescription: %s\nNumber of matched reads: %s\nTotal reads mapped to this genome: %s%%\n' % (record.id, GI, record.description, count[0], per[0]))
+        print('%s\t%s\t%s\t%s\t%s' % (record.description, per[0], count[0], GI, record.id)
 
 
 """Output CSV"""
@@ -192,38 +191,13 @@ if choice == 'percent':
         refdict_per2.setdefault(key, []).append(percent)
         # Sums total reads caught and generates a percent for each reference genome
 else: # choice == 'parsed'
-    pass
-
-
-"""Use NCBI to Generate SeqRecord Object for Reference Genomes"""
-# Need to generate a list of the keys(Genebank Identifiers)
-# List will be searched against NCBI using Entrez
-# http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc131
-GIs2 = list(refdict2.keys())
-Entrez.email = 'mct30@miami.edu'
-for (entry, olddictkey) in zip(GIs2, refdict2.keys()):
-    handle = Entrez.esearch(db='nuccore', term = entry)
-    record = Entrez.read(handle)
-    result = record['IdList']
-    # print(type(result)) returns: <class 'Bio.Entrez.Parser.ListElement'>
-    # result = result[0] returned index error saying list index out of range on full dataset
-    # gi_list.append(result) to avoid above problem, used below instead
-    gi_list2 = gi_list2 + result
-    refdict[gi_list2[-1]] = refdict2.pop(olddictkey)
-    # changes keys in primary dictionary to GeneBank Identifiers unstead of SAM ID
-gi_str2 = ",".join(gi_list2)
-
-handle = Entrez.efetch(db='nuccore', id=gi_str2, rettype='gb', retmode='text') 
-# Biopython should convert the query to a string of query GIs separated by commas (123,234,345)
-# Genome database no longer supported for efretch calls; nuccore contains better info
-# https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch
-# http://biopython.org/DIST/docs/tutorial/Tutorial.html#sec:entrez-search-fetch-genbank
-records2 = SeqIO.parse(handle, 'gb')
+    passl/Tutorial.html#sec:entrez-search-fetch-genbank
+records2 = SeqIO.parse(handle, 'gb
 
 if choice == 'percent':
     for (record, GI, count, per, seq) in zip(records2, gi_list2, refdict_count2.values(), refdict_per2.values(), readdict_seq2.values()):
         # record is a SeqRecord object and has all of its attributes
-        # http://biopython.org/DIST/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
+        # http://biopython.org/DIS/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
         all_list2.append(GI)
         all_list2.append(record.description)
         all_list2.append(count[0])
@@ -260,10 +234,4 @@ if choice == 'parsed':
     sorted_list2.sort(key = lambda gn: int(gn[0]))
     ##print(sorted_list2[-1][0])
     ##for i in sorted_list2:
-        ##print('%s\t%s\t%s' % (i[0], i[1], i[2]))
-else: # choice == 'percent'
-    pass
-
-"""Compare Two Genedicts"""
-
-
+        ##print('%s\t%s\t%s' % (i[0], i[1],
