@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /share/opt/python/3.3.1/bin/python
 
 # Usage: ./parseSAM.py [INPUT SAM FILE] (> Results passed to stdout, redirect with carrot to generate output file)
 
