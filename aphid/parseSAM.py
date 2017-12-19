@@ -28,7 +28,7 @@ gi_list = list()
 if choice == 'parsed':
     refdict_seq = {}
     sorted_list = []
-else: # choice == 'percent'
+else:
     refdict_count = {}
     refdict_per = {}
     all_list = list()
@@ -51,7 +51,8 @@ with open(argv[1], newline='') as f:
                 # Set up ref genome as key and append read numbers as values
                 refdict.setdefault(refgen, []).append(readnum)
                 # allows entry to be created if not and added to without disruption if previously generated
-                refdict_seq.setdefault(refgen, []).append(seq)
+                if argv[2] == 'parsed':
+                    refdict_seq.setdefault(refgen, []).append(seq)
         else:
             pass
 
@@ -102,7 +103,7 @@ handle = Entrez.efetch(db='nuccore', id=gi_str, rettype='gb', retmode='text')
 records = SeqIO.parse(handle, 'gb')
 
 if choice == 'percent':
-    for (record, GI, count, per, seq) in zip(records, gi_list, refdict_count.values(), refdict_per.values(), readdict_seq.values()):
+    for (record, GI, count, per) in zip(records, gi_list, refdict_count.values(), refdict_per.values()):
         # record is a SeqRecord object and has all of its attributes
         # http://biopython.org/DIST/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
         all_list.append(GI)
@@ -112,7 +113,7 @@ if choice == 'percent':
         refdict_alltogether.setdefault(record.id, []).append(all_list)
         # builds a final dictionary that houses all pertinate attributes stored under the SeqRecord ID/sequence ID
         # print('"""%s"""\nGenBank Identifier: %s\nDescription: %s\nNumber of matched reads: %s\nTotal reads mapped to this genome: %s%%\n' % (record.id, GI, record.description, count[0], per[0]))
-        print('%s\t%s\t%s\t%s\t%s' % (record.description, per[0], count[0], GI, record.id)
+        print('%s\t%s\t%s\t%s\t%s' % (record.description, per[0], count[0], GI, record.id))
 
 
 """Output CSV"""
