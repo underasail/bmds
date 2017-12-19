@@ -31,8 +31,6 @@ if choice == 'parsed':
 else:
     refdict_count = {}
     refdict_per = {}
-    all_list = list()
-    refdict_alltogether = {}
 
 """Parsing of Bowtie2 SAM Output"""
 with open(argv[1], newline='') as f:
@@ -83,7 +81,7 @@ else: # choice == 'parsed'
 # http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc131
 GIs = list(refdict.keys())
 Entrez.email = 'mct30@miami.edu'
-for (entry, olddictkey) in zip(GIs, refdict.keys()):
+for entry in GIs:
     handle = Entrez.esearch(db='nuccore', term = entry)
     record = Entrez.read(handle)
     result = record['IdList']
@@ -106,13 +104,6 @@ if choice == 'percent':
     for (record, GI, count, per) in zip(records, gi_list, refdict_count.values(), refdict_per.values()):
         # record is a SeqRecord object and has all of its attributes
         # http://biopython.org/DIST/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
-        all_list.append(GI)
-        all_list.append(record.description)
-        all_list.append(count[0])
-        all_list.append(per[0])
-        refdict_alltogether.setdefault(record.id, []).append(all_list)
-        # builds a final dictionary that houses all pertinate attributes stored under the SeqRecord ID/sequence ID
-        # print('"""%s"""\nGenBank Identifier: %s\nDescription: %s\nNumber of matched reads: %s\nTotal reads mapped to this genome: %s%%\n' % (record.id, GI, record.description, count[0], per[0]))
         print('%s\t%s\t%s\t%s\t%s' % (record.description, per[0], count[0], GI, record.id))
 
 
