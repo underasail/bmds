@@ -28,9 +28,7 @@ gi_list = list()
 if choice == 'parsed':
     refdict_seq = {}
     sorted_list = []
-else:
-    refdict_count = {}
-    refdict_per = {}
+
 
 """Parsing of Bowtie2 SAM Output"""
 with open(argv[1], newline='') as f:
@@ -65,11 +63,11 @@ elif 'BTIRed' in argv[1]:
 """Determination of Number of Sequences per Reference Genome"""
 if choice == 'percent':
     for key, value in refdict.items():
-        refdict_count.setdefault(key, []).append(len(value))
+        refdict[key].append(len(value))
         # estabilishes dictionary with GIs as keys and number of sequences mapped to that ref genome as value
-    for key, value in refdict_count.items():
-        percent = round(((value[0]/totalreads)*100), 2)
-        refdict_per.setdefault(key, []).append(percent)
+    for key, value in refdict.items():
+        percent = round(((int(value[1])/totalreads)*100), 2)
+        refdict[key].append(percent)
         # Sums total reads caught and generates a percent for each reference genome
 else: # choice == 'parsed'
     pass
@@ -89,7 +87,7 @@ for entry in GIs:
     # result = result[0] returned index error saying list index out of range on full dataset
     # gi_list.append(result) to avoid above problem, used below instead
     gi_list = gi_list + result
-    refdict[gi_list[-1]] = refdict.pop(olddictkey)
+    refdict[gi_list[-1]] = refdict.pop(entry)
     # changes keys in primary dictionary to GeneBank Identifiers unstead of SAM ID
 gi_str = ",".join(gi_list)
 
@@ -101,10 +99,10 @@ handle = Entrez.efetch(db='nuccore', id=gi_str, rettype='gb', retmode='text')
 records = SeqIO.parse(handle, 'gb')
 
 if choice == 'percent':
-    for (record, GI, count, per) in zip(records, gi_list, refdict_count.values(), refdict_per.values()):
+    for (record, (key, value)) in zip(records, refdict.items()):
         # record is a SeqRecord object and has all of its attributes
         # http://biopython.org/DIST/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
-        print('%s\t%s\t%s\t%s\t%s' % (record.description, per[0], count[0], GI, record.id))
+        print('%s\t%s\t%s\t%s\t%s' % (record.description, value[2], value[1], key, record.id))
 
 
 """Output CSV"""
