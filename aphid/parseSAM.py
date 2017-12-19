@@ -66,7 +66,7 @@ if choice == 'percent':
         refdict[key].append(len(value))
         # estabilishes dictionary with GIs as keys and number of sequences mapped to that ref genome as value
     for key, value in refdict.items():
-        percent = round(((int(value[1])/totalreads)*100), 2)
+        percent = round(((int(value[-1])/totalreads)*100), 2)
         refdict[key].append(percent)
         # Sums total reads caught and generates a percent for each reference genome
 else: # choice == 'parsed'
@@ -102,7 +102,8 @@ if choice == 'percent':
     for (record, (key, value)) in zip(records, refdict.items()):
         # record is a SeqRecord object and has all of its attributes
         # http://biopython.org/DIST/docs/api/Bio.SeqRecord-pysrc.html#SeqRecord.__init__
-        print('%s\t%s\t%s\t%s\t%s' % (record.description, value[2], value[1], key, record.id))
+        print('%s\t%s\t%s\t%s\t%s' % (record.description, value[-1], value[-2], key, record.id))
+        # percent is stored at the end of the list with count one in from that and all of the reads before them
 
 
 """Output CSV"""
