@@ -1,3 +1,3 @@
 # Aphid Bacteriocyte sRNA Analysis Project
-parseSAM.py
-  Parses output SAM files from Bowtie2 for downstream analysis by
+
+Contains scripts used in the end of semester project to parse bacteriocyte SAM files and analyze the alignments. 
