@@ -29,16 +29,18 @@ module load bowtie2
 # Building an index for the G002 line using the G002 genome and pLeu plasmid
 # as well as the G006 Myzus genome
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 \
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
 -x /nethome/mct30/bmds/index/G002/G002_Buchnera_Myzus_index \
 -U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fa \
 -S /nethome/mct30/bmds/SAM_out/G002_Bac_Buchnera.map
-# -L 10 (seed length) -f (FASTA format for reads), -p 8 (number of parallel search threads on separate cores), 
-# -x (index files' basename), -U (reads FASTA file), -S (SAM file output)
+# -L 10 (seed length) -f (FASTA format for reads), 
+# -p 8 (number of parallel search threads on separate cores), 
+# --no-unal (doesn't record unaligned reads), -x (index files' basename), 
+# -U (reads FASTA file), -S (SAM file output)
 # G002 bacteriocyte reads aligned against G002 Buchnera (genome and plasmid)
 # and G006 Myzus (genome)
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 \
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
 -x /nethome/mct30/bmds/index/G002/G002_Buchnera_Myzus_index \
 -U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35.fa \
 -S /nethome/mct30/bmds/SAM_out/G002_Gut_Buchnera.map
@@ -58,14 +60,14 @@ module load bowtie2
 # Building an index for the G006 line using the two sections of the G006 genome
 # as well as the G006 Myzus genome
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 \
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
 -x /nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_index \
 -U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fa \
 -S /nethome/mct30/bmds/SAM_out/G006_Bac_Buchnera.map
 # G006 bacteriocyte reads aligned against G006 Buchnera (genome parts 1 and 2)
 # and G006 Myzus (genome)
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 \
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
 -x /nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_index \
 -U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
 -S /nethome/mct30/bmds/SAM_out/G006_Gut_Buchnera.map
@@ -85,14 +87,14 @@ module load bowtie2
 # Building an index for the BTIRed line using BTIRed genome and pLeu plasmid
 # as well as the G006 Myzus genome
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 \
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
 -x /nethome/mct30/bmds/index/BTIRed/BTIRed_Buchnera_Myzus_index \
 -U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fa \
 -S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Buchnera.map
 # BTIRed bacteriocyte reads aligned against BTIRed Buchnera (genome and pLeu plasmid)
 # and G006 Myzus (genome)
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 \
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
 -x /nethome/mct30/bmds/index/BTIRed/BTIRed_Buchnera_Myzus_index \
 -U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fa \
 -S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Buchnera.map
