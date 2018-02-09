@@ -112,12 +112,6 @@ module load bowtie2
 # ├ index
 # │   ├ BTIRed
 # │   ├ G002
-# │   │   ├ G002_Buchnera_Myzus_index.1.bt2
-# │   │   ├ G002_Buchnera_Myzus_index.2.bt2
-# │   │   ├ G002_Buchnera_Myzus_index.3.bt2
-# │   │   ├ G002_Buchnera_Myzus_index.4.bt2
-# │   │   ├ G002_Buchnera_Myzus_index.rev.1.bt2
-# │   │   └ G002_Buchnera_Myzus_index.rev.2.bt2
 # │   └ G006
 # ├ reads
 # │   ├ BTIRed_Bac_trimmed_17-35.fa
@@ -131,9 +125,7 @@ module load bowtie2
 # │   ├ BTIRed_Buchnera_pLeu_ref.fasta
 # │   ├ G002_Buchnera_genome_ref.fasta
 # │   ├ G002_Buchnera_pLeu_ref.fasta
-# │   ├ G006b_filled.fa.bz2
 # │   ├ G006_Buchnera_1genome_ref.fasta
 # │   ├ G006_Buchnera_2genome_ref.fasta
 # │   └ G006_Myzus_genome_ref.fasta
 # └ SAM_out
-#     └ G002_Bac_Buchnera.map
