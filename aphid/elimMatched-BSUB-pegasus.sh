@@ -4,7 +4,7 @@
 #BSUB -e /nethome/mct30/eliminate_matched.err
 #BSUB -o /nethome/mct30/eliminate_matched.out
 #BSUB -n 1
-#BSUB -R "rusage[mem=6500]"
+#BSUB -R "rusage[mem=13000]"
 #BSUB -q general
 #BSUB -W 72:00
 #BSUB -B
