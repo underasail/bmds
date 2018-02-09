@@ -25,14 +25,14 @@ module switch python/3.3.1
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 /nethome/mct30/bmds/SAM_out/G002_Bac_Buchnera.map \
 /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fa \
-/nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fast
+/nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fasta
 # Builds new FASTA file for G002 bacteriocyte reads that didn't perfectly
 # align to reference genomes for Buchnera and/or Myzus
 
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 /nethome/mct30/bmds/SAM_out/G002_Gut_Buchnera.map \
 /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35.fa \
-/nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35_unmatched.fast
+/nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35_unmatched.fasta
 # Builds new FASTA file for G002 gut reads that didn't perfectly
 # align to reference genomes for Buchnera and/or Myzus
 
@@ -44,14 +44,14 @@ module switch python/3.3.1
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 /nethome/mct30/bmds/SAM_out/G006_Bac_Buchnera.map \
 /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fa \
-/nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35_unmatched.fast
+/nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35_unmatched.fasta
 # Builds new FASTA file for G006 bacteriocyte reads that didn't perfectly
 # align to reference genomes for Buchnera and/or Myzus
 
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 /nethome/mct30/bmds/SAM_out/G006_Gut_Buchnera.map \
 /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
-/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_unmatched.fast
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_unmatched.fasta
 # Builds new FASTA file for G006 gut reads that didn't perfectly
 # align to reference genomes for Buchnera and/or Myzus
 
@@ -63,13 +63,13 @@ module switch python/3.3.1
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Buchnera.map \
 /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fa \
-/nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35_unmatched.fast
+/nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35_unmatched.fasta
 # Builds new FASTA file for BTIRed bacteriocyte reads that didn't perfectly
 # align to reference genomes for Buchnera and/or Myzus
 
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Buchnera.map \
 /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fa \
-/nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35_unmatched.fast
+/nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35_unmatched.fasta
 # Builds new FASTA file for BTIRed gut reads that didn't perfectly
 # align to reference genomes for Buchnera and/or Myzus
