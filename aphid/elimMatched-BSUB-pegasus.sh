@@ -4,14 +4,16 @@
 #BSUB -e /nethome/mct30/eliminate_matched.err
 #BSUB -o /nethome/mct30/eliminate_matched.out
 #BSUB -n 1
+#BSUB -R "rusage[mem=6500]"
 #BSUB -q general
 #BSUB -W 72:00
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
 #
-# Job title, error output, standard output, number of cores, queue, run time limit, 
-# send email when jobs begins, send email with stats when job finished, email,
+# Job title, error output, standard output, number of cores, RAM per core in MB,
+# queue, run time limit, send email when jobs begins, 
+# send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
 module switch python/3.3.1
