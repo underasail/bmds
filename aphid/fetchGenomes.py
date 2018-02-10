@@ -22,8 +22,7 @@ with open(argv[1], newline='') as f:
         organisms.append(organism)
 
 for organism in organisms:
-    search_term = '"%s"[Organism] AND ("reference genome"[RefSeq Category] \
-    OR "representative genome"[RefSeq Category] OR "complete genome"[Assembly Level]) \
+    search_term = '"%s"[Organism] AND "reference genome"[RefSeq Category] \
     AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
     # Uses name from lit search as organism; requires hits to be a reference genome,
     # representative genome, or a complete genome. Hits are then filtered.
@@ -32,8 +31,40 @@ for organism in organisms:
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
     if esearch_result['Count'] == '0':
-        print('No hits for %s' % str(organism))
+        print('No reference genome hits for %s' % str(organism))
         # Ensure there is at least one genome for the organism
+        search_term = '"%s"[Organism] AND "representative genome"[RefSeq Category] \
+        AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
+        esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
+        esearch_result = Entrez.read(esearch_handle)
+        esearch_handle.close()
+            if esearch_result['Count'] == '0':
+                print('No representative genome hits for %s' % str(organism))
+                search_term = '"%s"[Organism] AND "complete genome"[Assembly Level] \
+                AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
+                esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
+                esearch_result = Entrez.read(esearch_handle)
+                esearch_handle.close()
+                if esearch_result['Count'] == '0':
+                    print('No complete genome hits for %s' % str(organism))
+                    print('%s not included.' % str(organism))
+                else:
+                    for ID in esearch_result['IdList']:
+                        esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
+                        esummary_result = Entrez.read(esummary_handle)
+                        accession_numbers.append(\
+                        esummary_result['DocumentSummarySet']['DocumentSummary'][0]\
+                        ['GB_BioProjects'][0]['BioprojectId'])
+            else:
+                for ID in esearch_result['IdList']:
+                    esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
+                    esummary_result = Entrez.read(esummary_handle)
+                    accession_numbers.append(\
+                    esummary_result['DocumentSummarySet']['DocumentSummary'][0]\
+                    ['GB_BioProjects'][0]['BioprojectId'])
+    # Nested ifs above serve to search for reference genomes first, then representative
+    # if there are no reference, then just complete if there are no representative
+    # This limits number of results and insures better quality genomes if available
     else:
         for ID in esearch_result['IdList']:
             esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
@@ -64,4 +95,3 @@ for genebank_id in genebank_ids:
     with open(filename, 'w') as f:
         f.write(efetch_handle.read())
         # Writes FASTA file under specified directory 
-    print('GeneBank ID: %s saved under %s' % (genebank_id, filename))
