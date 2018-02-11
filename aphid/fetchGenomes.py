@@ -23,7 +23,7 @@ with open(argv[1], newline='') as f:
 
 for organism in organisms:
     search_term = '"%s"[Organism] AND "reference genome"[RefSeq Category] \
-    ("complete genome"[Assembly Level] OR "chromosome"[Assembly Level]) \
+    ("complete genome"[Assembly Level]) \
     AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
     # Uses name from lit search as organism; requires hits to be a complete reference genome,
     esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
@@ -34,7 +34,7 @@ for organism in organisms:
         print('No reference genome hits for %s' % str(organism))
         # Ensure there is at least one genome for the organism
         search_term = '"%s"[Organism] AND "representative genome"[RefSeq Category] \
-        ("complete genome"[Assembly Level] OR "chromosome"[Assembly Level]) \
+        ("complete genome"[Assembly Level]) \
         AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
         esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
         esearch_result = Entrez.read(esearch_handle)
@@ -42,7 +42,7 @@ for organism in organisms:
         if esearch_result['Count'] == '0':
             print('No representative genome hits for %s' % str(organism))
             search_term = '"%s"[Organism] AND \
-            ("complete genome"[Assembly Level] OR "chromosome"[Assembly Level]) \
+            ("complete genome"[Assembly Level]) \
             AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
             esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
             esearch_result = Entrez.read(esearch_handle)
@@ -83,12 +83,15 @@ for organism in organisms:
                 # Location of BioProject ID
 for biosample_accession_number in biosample_accession_numbers:
     esearch_handle = Entrez.esearch(db = 'nuccore', \
-    term = '%s[BioSample]' % biosample_accession_number)
+    term = '%s[BioSample] AND biomol_genomic[PROP] \
+    NOT "sequencing project"' % biosample_accession_number)
     # Searching BioSample Accession number to get GeneBank IDs for FASTA download
+    # Sorted by decreasing sequence length
+    # NOT is to avoid WGS projects
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
-    genebank_ids.extend(esearch_result['IdList'])
-    # If there are multiple results, should add them all indivudally
+    genebank_ids.extend(esearch_result['IdList'][0])
+    # Only takes the longest complete genome sequence
 for genebank_id in genebank_ids:
     efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_id, rettype = 'fasta', retmode = 'text')
     # Fetches FASTA file for genome
