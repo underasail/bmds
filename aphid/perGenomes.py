@@ -63,18 +63,22 @@ with open(argv[1], newline='') as f:
         else:
             pass
 
-for genbank_accession_number, readnums in genomes_dict.items():
-    efetch_handle = Entrez.efetch\
-    (db = 'nuccore', id = genbank_accession_number, rettype = 'gb', retmode = 'text')
-    efetch_record = SeqIO.read(efetch_handle, 'gb')
-    efetch_handle.close()
-    name = efetch_record.annotations['organism']
-    genomes_dict[name] = genomes_dict.pop(genbank_accession_number)
-    # Uses GenBank Accession number that's stored as the genome ID in the SAM file
-    # to find and create a SeqRecord object. Then pulls the organism name from the 
-    # annotations fo the SeqRecord object to identify the genome later on in output files
-    genomes_dict[name].append(efetch_record.description)
+genbank_accession_numbers = list(genomes_dict.keys())
+efetch_handle = Entrez.efetch(db = 'nuccore', id = genbank_accession_numbers, rettype = 'gb', retmode = 'text')
+efetch_records = SeqIO.parse(efetch_handle, 'gb')
+# Search all accession numbers at once to avoid API search limits at NCBI
+for (record, genbank_accession_number) in zip(efetch_records, genbank_accession_numbers):
+    organism_name = record.annotations['organism']
+    record_GBA = str(record.annotations['accessions'][0])
+    if record_GBA in str(genbank_accession_number):
+        genomes_dict[organism_name] = genomes_dict.pop(genbank_accession_number)
+    else:
+        print('Records not aligned')
+    # Pulls the organism name from the annotations of the SeqRecord 
+    # object to identify the genome later on in output files
+    genomes_dict[organism_name].append(record.description)
     # Added description to end of readnums list because it contains strain and genome info
+    print(organism_name)
 
 with open(argv[2], 'w') as f:
     f.write('%s\t\t\t\n' % (argv[1]))
