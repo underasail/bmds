@@ -59,8 +59,8 @@ with open(argv[1], newline='') as f:
         else:
             pass
 with open(argv[2], 'w') as f:
-    f.write('%s\t\t' % (argv[1]))
-    f.write('Percentage\tNumber of reads\tFilename')
+    f.write('%s\t\t\n' % (argv[1]))
+    f.write('Percentage\tNumber of reads\tFilename\n')
     for refgen, readnums in genomes_dict.items():
         count = len(readnums)
         genomes_dict[refgen].append(count)
@@ -70,4 +70,4 @@ with open(argv[2], 'w') as f:
         # Calculates the percent of total reads mapped to that ggenome
         genomes_dict[refgen].append(percent)
         # genomes_dict[genome] = {read1, read2, ... , count, percentage}
-        f.write('%s%%\t%s\t%s' % (percent, count, argv[2]))
+        f.write('%s%%\t%s\t%s\n' % (percent, count, argv[2]))
