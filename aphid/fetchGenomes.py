@@ -31,7 +31,6 @@ for organism in organisms:
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
     if esearch_result['Count'] == '0':
-        print('No reference genome hits for %s' % str(organism))
         # Ensure there is at least one genome for the organism
         search_term = '"%s"[Organism] AND "representative genome"[RefSeq Category] \
         ("complete genome"[Assembly Level]) \
@@ -40,7 +39,6 @@ for organism in organisms:
         esearch_result = Entrez.read(esearch_handle)
         esearch_handle.close()
         if esearch_result['Count'] == '0':
-            print('No representative genome hits for %s' % str(organism))
             search_term = '"%s"[Organism] AND \
             ("complete genome"[Assembly Level]) \
             AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
@@ -48,20 +46,21 @@ for organism in organisms:
             esearch_result = Entrez.read(esearch_handle)
             esearch_handle.close()
             if esearch_result['Count'] == '0':
-                print('No complete genome hits for %s' % str(organism))
-                print('%s not included.' % str(organism))
+                print('%s   N/A Not Included' % str(organism))
             else:
                 for ID in esearch_result['IdList']:
                     esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                     esummary_result = Entrez.read(esummary_handle)
                     biosample_accession_numbers.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
+                    print('%s   Complete Genome Included' % str(organism))
         else:
             for ID in esearch_result['IdList']:
                 esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                 esummary_result = Entrez.read(esummary_handle)
                 biosample_accession_numbers.append(\
                 esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
+                print('%s   Representative Genome   Included' % str(organism))
     # Nested ifs above serve to search for reference genomes first, then representative
     # if there are no reference, then just complete if there are no representative
     # This limits number of results and insures better quality genomes if available
@@ -81,6 +80,7 @@ for organism in organisms:
             # esummary_result['DocumentSummarySet']['DocumentSummary'][0]\
             # ['GB_BioProjects'][0]['BioprojectId'])
                 # Location of BioProject ID
+            print('%s   Reference Genome    Included' % str(organism))
 for biosample_accession_number in biosample_accession_numbers:
     esearch_handle = Entrez.esearch(db = 'nuccore', \
     term = '%s[BioSample] AND biomol_genomic[PROP] \
@@ -93,9 +93,9 @@ for biosample_accession_number in biosample_accession_numbers:
     genebank_ids.extend(esearch_result['IdList'][0])
     # Only takes the longest complete genome sequence
 for genebank_id in genebank_ids:
-    efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_id, rettype = 'fasta', retmode = 'text')
+    efetch_handle = Entrez.efetch(db = 'nuccore', id = str(genebank_id), rettype = 'fasta', retmode = 'text')
     # Fetches FASTA file for genome
-    filename = '%sGBID%s.fasta' % (argv[2], genebank_id)
+    filename = '%sGBID%s.fasta' % (argv[2], str(genebank_id))
     # ex: /root/path/to/ref_genomes_folder/GBID1234567.fasta
     with open(filename, 'w') as f:
         f.write(efetch_handle.read())
