@@ -1,9 +1,9 @@
-#! /bin/bash
+BB#! /bin/bash
 
 #BSUB -J fetchGenomes
 #BSUB -e /nethome/mct30/fetchGenomes.err
 #BSUB -o /nethome/mct30/fetchGenomes.out
-#BSUB -n 1
+#BSUB -n 4
 #BSUB -q general
 #BSUB -W 72:00
 #BSUB -B
@@ -23,9 +23,9 @@ module switch python/3.3.1
 # Plants
 #
 
-/nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
-/nethome/mct30/bmds/associated/aphid-associated-plant.csv \
-/nethome/mct30/bmds/ref_genomes/plants/
+# /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
+# /nethome/mct30/bmds/associated/aphid-associated-plant.csv \
+# /nethome/mct30/bmds/ref_genomes/plants/
 # Uses BioPython to fetch genomes of aphid associated plants
 # and download them in FASTA format
 
@@ -34,9 +34,9 @@ module switch python/3.3.1
 # Other Bacteria
 #
 
-/nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
-/nethome/mct30/bmds/associated/aphid-associated-other_bacteria.csv \
-/nethome/mct30/bmds/ref_genomes/other_bacteria/
+# /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
+# /nethome/mct30/bmds/associated/aphid-associated-other_bacteria.csv \
+# /nethome/mct30/bmds/ref_genomes/other_bacteria/
 # Uses BioPython to fetch genomes of aphid associated other bacteria
 # and download them in FASTA format
 
