@@ -47,13 +47,19 @@ for organism in organisms:
             esearch_handle.close()
             if esearch_result['Count'] == '0':
                 print('%s   N/A Not Included' % str(organism))
-            else:
+            elif 'virus' not in str(organism):
                 for ID in esearch_result['IdList']:
                     esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                     esummary_result = Entrez.read(esummary_handle)
                     biosample_accession_numbers.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
                     print('%s   Complete Genome Included' % str(organism))
+            else:
+                esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
+                    esummary_result = Entrez.read(esummary_handle)
+                    genebank_ids.append(\
+                    esummary_result['DocumentSummarySet']['DocumentSummary'][0]['GbUid'])
+                    # GenBank ID Location
         else:
             for ID in esearch_result['IdList']:
                 esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
@@ -81,17 +87,21 @@ for organism in organisms:
             # ['GB_BioProjects'][0]['BioprojectId'])
                 # Location of BioProject ID
             print('%s   Reference Genome    Included' % str(organism))
-for biosample_accession_number in biosample_accession_numbers:
-    esearch_handle = Entrez.esearch(db = 'nuccore', \
-    term = '%s[BioSample] AND biomol_genomic[PROP] \
-    NOT "sequencing project"' % biosample_accession_number)
-    # Searching BioSample Accession number to get GeneBank IDs for FASTA download
-    # Sorted by decreasing sequence length
-    # NOT is to avoid WGS projects
-    esearch_result = Entrez.read(esearch_handle)
-    esearch_handle.close()
-    genebank_ids.append(esearch_result['IdList'][0])
-    # Only takes the longest complete genome sequence
+if len(biosample_accesion_numbers) > 0:
+    for biosample_accession_number in biosample_accession_numbers:
+        esearch_handle = Entrez.esearch(db = 'nuccore', \
+        term = '%s[BioSample] AND biomol_genomic[PROP] \
+        NOT "sequencing project"' % biosample_accession_number)
+        # Searching BioSample Accession number to get GeneBank IDs for FASTA download
+        # Sorted by decreasing sequence length
+        # NOT is to avoid WGS projects
+        esearch_result = Entrez.read(esearch_handle)
+        esearch_handle.close()
+        genebank_ids.append(esearch_result['IdList'][0])
+        # Only takes the longest complete genome sequence
+else:
+    pass
+    # Viruses should be only thing to pass, and they already have GBIDs
 for genebank_id in genebank_ids:
     efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_id, rettype = 'fasta', retmode = 'text')
     # Fetches FASTA file for genome
