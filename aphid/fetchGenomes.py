@@ -8,7 +8,8 @@ import csv
 from Bio import Entrez
 
 organisms = []
-accession_numbers = []
+bioproject_accession_numbers = []
+refseq_accession_numbers = []
 genebank_ids = []
 
 Entrez.email = 'mct30@miami.edu'
@@ -54,16 +55,20 @@ for organism in organisms:
                 for ID in esearch_result['IdList']:
                     esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                     esummary_result = Entrez.read(esummary_handle)
-                    accession_numbers.append(\
+                    bioproject_accession_numbers.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]\
                     ['GB_BioProjects'][0]['BioprojectId'])
+                    refseq_accession_numbers.append(\
+                    esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession'])
         else:
             for ID in esearch_result['IdList']:
                 esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                 esummary_result = Entrez.read(esummary_handle)
-                accession_numbers.append(\
+                bioproject_accession_numbers.append(\
                 esummary_result['DocumentSummarySet']['DocumentSummary'][0]\
                 ['GB_BioProjects'][0]['BioprojectId'])
+                refseq_accession_numbers.append(\
+                esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession'])
     # Nested ifs above serve to search for reference genomes first, then representative
     # if there are no reference, then just complete if there are no representative
     # This limits number of results and insures better quality genomes if available
@@ -73,15 +78,17 @@ for organism in organisms:
             # Utilize esummary to fetch BioProject Accession number from Assembly IDs
             # https://www.biostars.org/p/141581/
             esummary_result = Entrez.read(esummary_handle)
-            accession_numbers.append(\
+            bioproject_accession_numbers.append(\
             esummary_result['DocumentSummarySet']['DocumentSummary'][0]\
             ['GB_BioProjects'][0]['BioprojectId'])
+            refseq_accession_numbers.append(\
+            esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession'])
             # Location of BioProject Assembly Number in resulting dictionary structure
             # BioProject Id allows access to all genomes associated with that Assembly ID, and
             # only those genomes when searching below (RefSeq brought up all for organism)
-            # esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession'])
+            # esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
                 # Location of RefSeq Accession Number
-for accession_number in accession_numbers:
+for bioproject_accession_number, refseq_accession_number in zip(bioproject_accession_numbers, refseq_accession_numbers):
     esearch_handle = Entrez.esearch(db = 'nuccore', \
     term = '%s[BioProject]' % accession_number)
     # Searching BioProject Accession number to get GeneBank IDs for FASTA download
