@@ -18,136 +18,194 @@ module load bowtie2
 # Need to load bowtie2 module from /share
 
 #
-# G002 Buchnera
+# G002 Plants
 #
 
+export filelist=''
+for filename in /nethome/mct30/bmds/ref_genomes/plants/*.fasta; do
+    filelist+=$filename;
+    filelist+=',';
+done
+
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
-/nethome/mct30/bmds/ref_genomes/G002_Buchnera_genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/G002_Buchnera_pLeu_ref.fasta \
-/nethome/mct30/bmds/index/G002-Buchnera/G002_Buchnera_index
-# Building an index for the G002 line using the G002 genome and pLeu plasmid
+$filelist \
+/nethome/mct30/bmds/index/plants/plants_index
+# Building an index for the plant
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G002-Buchnera/G002_Buchnera_index \
--U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G002_Bac_Buchnera-only.map
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Bac_plants.map
 # -L 10 (seed length) -f (FASTA format for reads), 
 # -p 8 (number of parallel search threads on separate cores), 
 # --no-unal (doesn't record unaligned reads), -x (index files' basename), 
 # -U (reads FASTA file), -S (SAM file output)
-# G002 bacteriocyte reads aligned against G002 Buchnera (genome and plasmid)
+# G002 bacteriocyte reads aligned against the plants
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G002-Buchnera/G002_Buchnera_index \
--U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G002_Gut_Buchnera-only.map
-# G002 gut reads aligned against G002 Buchnera (genome and plasmid)
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Gut_plants.map
+# G002 gut reads aligned against the plants
 
 
 #
-# G002 Myzus
+# G006 Plants
 #
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Bac_plants.map
+# G006 bacteriocyte reads aligned against the plants
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Gut_plants.map
+# G006 gut reads aligned against the plants
+
+
+#
+# BTIRed Plants
+#
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_plants.map
+# BTIRed bacteriocyte reads aligned against the plants
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_plants.map
+# BTIRed gut reads aligned against the plants
+
+
+#
+# G002 Other Bacteria
+#
+
+export filelist=''
+for filename in /nethome/mct30/bmds/ref_genomes/other_bacteria/*.fasta; do
+    filelist+=$filename;
+    filelist+=',';
+done
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
-/nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta \
-/nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index
-# Building an index for G006 Myzus
+$filelist \
+/nethome/mct30/bmds/index/other_bacteria/other_bacteria_index
+# Building an index for the other bacteria
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
--U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G002_Bac_Myzus-only.map
-# G002 bacteriocyte reads aligned against G006 Myzus
+-x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Bac_other_bacteria.map
+# G002 bacteriocyte reads aligned against the other_bacteria
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
--U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G002_Gut_Myzus-only.map
-# G002 gut reads aligned against G006 Myzus
+-x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Gut_other_bacteria.map
+# G002 gut reads aligned against the other_bacteria
 
 
 #
-# G006 Buchnera
+# G006 Other Bacteria
 #
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Bac_other_bacteria.map
+# G006 bacteriocyte reads aligned against the other_bacteria
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Gut_other_bacteria.map
+# G006 gut reads aligned against the other_bacteria
+
+
+#
+# BTIRed Other Bacteria
+#
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_other_bacteria.map
+# BTIRed bacteriocyte reads aligned against the other_bacteria
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_other_bacteria.map
+# BTIRed gut reads aligned against the other_bacteria
+
+
+#
+# G002 Viruses
+#
+
+export filelist=''
+for filename in /nethome/mct30/bmds/ref_genomes/viruses/*.fasta; do
+    filelist+=$filename;
+    filelist+=',';
+done
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
-/nethome/mct30/bmds/ref_genomes/G006_Buchnera_1genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/G006_Buchnera_2genome_ref.fasta \
-/nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index
-# Building an index for the G006 line using the two sections of the G006 genome
+$filelist \
+/nethome/mct30/bmds/index/viruses/viruses_index
+# Building an index for the viruses
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index \
--U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Bac_Buchnera-only.map
-# G006 bacteriocyte reads aligned against G006 Buchnera (genome parts 1 and 2)
+-x /nethome/mct30/bmds/index/viruses/viruses_index \
+-U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Bac_viruses.map
+# G002 bacteriocyte reads aligned against the viruses
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index \
--U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Gut_Buchnera-only.map
-# G006 gut reads aligned against G006 Buchnera (genome parts 1 and 2)
+-x /nethome/mct30/bmds/index/viruses/viruses_index \
+-U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Gut_viruses.map
+# G002 gut reads aligned against the viruses
 
 
 #
-# G006 Myzus
+# G006 Viruses
 #
 
-# Myzus index is the same as the one for G002 reads
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/viruses/viruses_index \
+-U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Bac_viruses.map
+# G006 bacteriocyte reads aligned against the viruses
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
--U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Bac_Myzus-only.map
-# G006 bacteriocyte reads aligned against G006 Myzus
-
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
--U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Gut_Myzus-only.map
-# G006 gut reads aligned against G006 Myzus
+-x /nethome/mct30/bmds/index/viruses/viruses_index \
+-U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Gut_viruses.map
+# G006 gut reads aligned against the viruses
 
 
 #
-# BTIRed Buchnera
+# BTIRed Viruses
 #
 
-/share/apps/bowtie2/2.2.6/bowtie2-build -f \
-/nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_pLeu_ref.fasta \
-/nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index
-# Building an index for the BTIRed line using BTIRed genome and pLeu plasmid
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/viruses/viruses_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_viruses.map
+# BTIRed bacteriocyte reads aligned against the viruses
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index \
--U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Buchnera-only.map
-# BTIRed bacteriocyte reads aligned against BTIRed Buchnera (genome and pLeu plasmid)
+-x /nethome/mct30/bmds/index/viruses/viruses_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35_unmatched.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_viruses.map
+# BTIRed gut reads aligned against the viruses
 
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index \
--U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Buchnera-only.map
-# BTIRed gut reads aligned against BTIRed Buchnera (genome and pLeu plasmid)
-
-
-#
-# BTIRed Myzus
-#
-
-# Myzus index is the same as the one for G002 reads
-
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
--U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Myzus-only.map
-# BTIRed bacteriocyte reads aligned against G006 Myzus
-
-/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
--U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Myzus-only.map
-# BTIRed gut reads aligned against G006 Myzus
 
 
 #
@@ -156,6 +214,9 @@ module load bowtie2
 
 # /nethome/mct30/bmds/
 # ├ index
+# │   ├ plants
+# │   ├ other_bacteria
+# │   ├ viruses
 # │   ├ BTIRed-Buchnera
 # │   ├ G002-Buchnera
 # │   ├ G006-Buchnera
@@ -173,6 +234,9 @@ module load bowtie2
 # │   ├ G006_Bac_F_trimmed_17-35.fa
 # │   └ G006_Gut_F_trimmed_17-35.fa
 # ├ ref_genomes
+# │   ├ G006-Myzus
+# │   ├ BTIRed
+# │   ├ G002
 # │   ├ BTIRed_Buchnera_genome_ref.fasta
 # │   ├ BTIRed_Buchnera_pLeu_ref.fasta
 # │   ├ G002_Buchnera_genome_ref.fasta
