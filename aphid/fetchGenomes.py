@@ -23,6 +23,7 @@ with open(argv[1], newline='') as f:
 
 for organism in organisms:
     search_term = '"%s"[Organism] AND "reference genome"[RefSeq Category] \
+    ("complete genome"[Assembly Level] OR "chromosome"[Assembly Level]) \
     AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
     # Uses name from lit search as organism; requires hits to be a complete reference genome,
     esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
@@ -33,6 +34,7 @@ for organism in organisms:
         print('No reference genome hits for %s' % str(organism))
         # Ensure there is at least one genome for the organism
         search_term = '"%s"[Organism] AND "representative genome"[RefSeq Category] \
+        ("complete genome"[Assembly Level] OR "chromosome"[Assembly Level]) \
         AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
         esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
         esearch_result = Entrez.read(esearch_handle)
