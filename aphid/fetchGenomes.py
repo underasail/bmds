@@ -55,7 +55,8 @@ for organism in organisms:
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
                     print('%s   Complete Genome Included' % str(organism))
             else:
-                esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
+                for ID in esearch_result['IdList']:
+                    esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                     esummary_result = Entrez.read(esummary_handle)
                     genebank_ids.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['GbUid'])
