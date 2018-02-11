@@ -9,34 +9,34 @@ matched_reads_dict = {}
 
 if 'G002' in argv[1]:
     if 'Bac' in argv[1]:
-        if any(word in argv[1] for work in secondary):
+        if any(word in argv[1] for word in secondary):
             totalreads = 3427212
         elif any(word in argv[1] for word in primary):
             totalreads = 12085742
     elif 'Gut' in argv[1]:
-        if any(word in argv[1] for work in secondary):
+        if any(word in argv[1] for word in secondary):
             totalreads = 5942393
         elif any(word in argv[1] for word in primary):
             totalreads = 9032198
 elif 'G006' in argv[1]:
     if 'Bac' in argv[1]:
-        if any(word in argv[1] for work in secondary):
+        if any(word in argv[1] for word in secondary):
             totalreads = 2054109
         elif any(word in argv[1] for word in primary):
             totalreads = 21960873
     elif 'Gut' in argv[1]:
-        if any(word in argv[1] for work in secondary):
+        if any(word in argv[1] for word in secondary):
             totalreads = 1530897
         elif any(word in argv[1] for word in primary):
             totalreads = 2626650
 elif 'BTIRed' and 'Bac' in argv[1]:
     if 'Bac' in argv[1]:
-        if any(word in argv[1] for work in secondary):
+        if any(word in argv[1] for word in secondary):
             totalreads = 3999644
         elif any(word in argv[1] for word in primary):
             totalreads = 13931847
     elif 'Gut' in argv[1]:
-        if any(word in argv[1] for work in secondary):
+        if any(word in argv[1] for word in secondary):
             totalreads = 6570398
         elif any(word in argv[1] for word in primary):
             totalreads = 9064708
