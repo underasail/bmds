@@ -23,7 +23,7 @@ module load bowtie2
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 /nethome/mct30/bmds/ref_genomes/G002_Buchnera_genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/G002_Buchnera_pLeu_ref.fasta,\
+/nethome/mct30/bmds/ref_genomes/G002_Buchnera_pLeu_ref.fasta \
 /nethome/mct30/bmds/index/G002-Buchnera/G002_Buchnera_index
 # Building an index for the G002 line using the G002 genome and pLeu plasmid
 
@@ -49,7 +49,7 @@ module load bowtie2
 #
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
-/nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta
+/nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta \
 /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index
 # Building an index for G006 Myzus
 
@@ -72,7 +72,7 @@ module load bowtie2
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 /nethome/mct30/bmds/ref_genomes/G006_Buchnera_1genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/G006_Buchnera_2genome_ref.fasta,\
+/nethome/mct30/bmds/ref_genomes/G006_Buchnera_2genome_ref.fasta \
 /nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index
 # Building an index for the G006 line using the two sections of the G006 genome
 
@@ -114,7 +114,7 @@ module load bowtie2
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 /nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_pLeu_ref.fasta,\
+/nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_pLeu_ref.fasta \
 /nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index
 # Building an index for the BTIRed line using BTIRed genome and pLeu plasmid
 
