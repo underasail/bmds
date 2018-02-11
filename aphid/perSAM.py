@@ -3,40 +3,42 @@
 from sys import argv
 import csv
 
+primary = ['Buchnera', 'Myzus']
+secondary = ['plants', 'other_bacteria', 'viruses']
 matched_reads_dict = {}
 
 if 'G002' in argv[1]:
     if 'Bac' in argv[1]:
-        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
+        if any(word in argv[1] for work in secondary):
             totalreads = 3427212
-        elif any('Buchnera' or 'Myzus' in argv[1]):
+        elif any(word in argv[1] for word in primary):
             totalreads = 12085742
     elif 'Gut' in argv[1]:
-        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
+        if any(word in argv[1] for work in secondary):
             totalreads = 5942393
-        elif any('Buchnera' or 'Myzus' in argv[1]):
+        elif any(word in argv[1] for word in primary):
             totalreads = 9032198
 elif 'G006' in argv[1]:
     if 'Bac' in argv[1]:
-        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
+        if any(word in argv[1] for work in secondary):
             totalreads = 2054109
-        elif any('Buchnera' or 'Myzus' in argv[1]):
+        elif any(word in argv[1] for word in primary):
             totalreads = 21960873
     elif 'Gut' in argv[1]:
-        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
+        if any(word in argv[1] for work in secondary):
             totalreads = 1530897
-        elif any('Buchnera' or 'Myzus' in argv[1]):
+        elif any(word in argv[1] for word in primary):
             totalreads = 2626650
 elif 'BTIRed' and 'Bac' in argv[1]:
     if 'Bac' in argv[1]:
-        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
+        if any(word in argv[1] for work in secondary):
             totalreads = 3999644
-        elif any('Buchnera' or 'Myzus' in argv[1]):
+        elif any(word in argv[1] for word in primary):
             totalreads = 13931847
     elif 'Gut' in argv[1]:
-        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
+        if any(word in argv[1] for work in secondary):
             totalreads = 6570398
-        elif any('Buchnera' or 'Myzus' in argv[1]):
+        elif any(word in argv[1] for word in primary):
             totalreads = 9064708
 
 with open(argv[1], newline='') as f:
@@ -59,6 +61,3 @@ matched_reads_per = round((len(matched_reads_dict.keys())*100)/totalreads, 4)
 # percent or reads that mapped perfectly to the genome
 
 print('%s%%\t%s\t%s' % (matched_reads_per, totalreads, argv[1]))
-            
-            
-            
