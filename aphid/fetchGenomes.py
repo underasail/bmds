@@ -23,8 +23,8 @@ with open(argv[1], newline='') as f:
 
 for organism in organisms:
     search_term = '"%s"[Organism] AND "reference genome"[RefSeq Category] \
-    ("complete genome"[Assembly Level]) \
-    AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
+    AND ("complete genome"[Assembly Level]) \
+    AND (all[filter] NOT anomalous[filter])' % str(organism)
     # Uses name from lit search as organism; requires hits to be a complete reference genome,
     esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
     # Use Assembly database to find Assembly DB IDs for complete genomes of organisms
@@ -33,15 +33,15 @@ for organism in organisms:
     if esearch_result['Count'] == '0':
         # Ensure there is at least one genome for the organism
         search_term = '"%s"[Organism] AND "representative genome"[RefSeq Category] \
-        ("complete genome"[Assembly Level]) \
-        AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
+        AND ("complete genome"[Assembly Level]) \
+        AND (all[filter] NOT anomalous[filter])' % str(organism)
         esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
         esearch_result = Entrez.read(esearch_handle)
         esearch_handle.close()
         if esearch_result['Count'] == '0':
             search_term = '"%s"[Organism] AND \
             ("complete genome"[Assembly Level]) \
-            AND ("latest refseq"[filter] AND all[filter] NOT anomalous[filter])' % str(organism)
+            AND (all[filter] NOT anomalous[filter])' % str(organism)
             esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
             esearch_result = Entrez.read(esearch_handle)
             esearch_handle.close()
