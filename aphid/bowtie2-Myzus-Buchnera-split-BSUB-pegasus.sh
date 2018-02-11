@@ -18,7 +18,7 @@ module load bowtie2
 # Need to load bowtie2 module from /share
 
 #
-# G002
+# G002 Buchnera
 #
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
@@ -43,6 +43,11 @@ module load bowtie2
 -S /nethome/mct30/bmds/SAM_out/G002_Gut_Buchnera-only.map
 # G002 gut reads aligned against G002 Buchnera (genome and plasmid)
 
+
+#
+# G002 Myzus
+#
+
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 /nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta
 /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index
@@ -62,57 +67,87 @@ module load bowtie2
 
 
 #
-# G006
+# G006 Buchnera
 #
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 /nethome/mct30/bmds/ref_genomes/G006_Buchnera_1genome_ref.fasta,\
 /nethome/mct30/bmds/ref_genomes/G006_Buchnera_2genome_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta \
-/nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_index
+/nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index
 # Building an index for the G006 line using the two sections of the G006 genome
-# as well as the G006 Myzus genome
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_index \
+-x /nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index \
 -U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Bac_Buchnera.map
+-S /nethome/mct30/bmds/SAM_out/G006_Bac_Buchnera-only.map
 # G006 bacteriocyte reads aligned against G006 Buchnera (genome parts 1 and 2)
-# and G006 Myzus (genome)
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_index \
+-x /nethome/mct30/bmds/index/G006-Buchnera/G006_Buchnera_index \
 -U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Gut_Buchnera.map
+-S /nethome/mct30/bmds/SAM_out/G006_Gut_Buchnera-only.map
 # G006 gut reads aligned against G006 Buchnera (genome parts 1 and 2)
-# and G006 Myzus (genome)
 
 
 #
-# BTIRed
+# G006 Myzus
+#
+
+# Myzus index is the same as the one for G002 reads
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
+-U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Bac_Myzus-only.map
+# G006 bacteriocyte reads aligned against G006 Myzus
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
+-U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
+-S /nethome/mct30/bmds/SAM_out/G006_Gut_Myzus-only.map
+# G006 gut reads aligned against G006 Myzus
+
+
+#
+# BTIRed Buchnera
 #
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 /nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_genome_ref.fasta,\
 /nethome/mct30/bmds/ref_genomes/BTIRed_Buchnera_pLeu_ref.fasta,\
-/nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta \
-/nethome/mct30/bmds/index/BTIRed/BTIRed_Buchnera_Myzus_index
+/nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index
 # Building an index for the BTIRed line using BTIRed genome and pLeu plasmid
-# as well as the G006 Myzus genome
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/BTIRed/BTIRed_Buchnera_Myzus_index \
+-x /nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index \
 -U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Buchnera.map
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Buchnera-only.map
 # BTIRed bacteriocyte reads aligned against BTIRed Buchnera (genome and pLeu plasmid)
-# and G006 Myzus (genome)
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/BTIRed/BTIRed_Buchnera_Myzus_index \
+-x /nethome/mct30/bmds/index/BTIRed-Buchnera/BTIRed_Buchnera_index \
 -U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Buchnera.map
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Buchnera-only.map
 # BTIRed gut reads aligned against BTIRed Buchnera (genome and pLeu plasmid)
-# and G006 Myzus (genome)
+
+
+#
+# BTIRed Myzus
+#
+
+# Myzus index is the same as the one for G002 reads
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_Myzus-only.map
+# BTIRed bacteriocyte reads aligned against G006 Myzus
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
+-x /nethome/mct30/bmds/index/G006-Myzus/G006_Myzus_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fa \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_Myzus-only.map
+# BTIRed gut reads aligned against G006 Myzus
 
 
 #
@@ -121,6 +156,12 @@ module load bowtie2
 
 # /nethome/mct30/bmds/
 # ├ index
+# │   ├ BTIRed-Buchnera
+# │   ├ G002-Buchnera
+# │   ├ G006-Buchnera
+# │   ├ BTIRed-Myzus
+# │   ├ G002-Myzus
+# │   ├ G006-Myzus
 # │   ├ BTIRed
 # │   ├ G002
 # │   └ G006
