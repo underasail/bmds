@@ -7,36 +7,36 @@ matched_reads_dict = {}
 
 if 'G002' in argv[1]:
     if 'Bac' in argv[1]:
-        if ('plants' or 'other_bacteria' or 'viruses') in argv[1]:
+        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
             totalreads = 3427212
-        elif ('Buchnera' or 'Myzus') in argv[1]:
+        elif any('Buchnera' or 'Myzus' in argv[1]):
             totalreads = 12085742
     elif 'Gut' in argv[1]:
-        if ('plants' or 'other_bacteria' or 'viruses') in argv[1]:
+        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
             totalreads = 5942393
-        elif ('Buchnera' or 'Myzus') in argv[1]:
+        elif any('Buchnera' or 'Myzus' in argv[1]):
             totalreads = 9032198
 elif 'G006' in argv[1]:
     if 'Bac' in argv[1]:
-        if ('plants' or 'other_bacteria' or 'viruses') in argv[1]:
+        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
             totalreads = 2054109
-        elif ('Buchnera' or 'Myzus') in argv[1]:
+        elif any('Buchnera' or 'Myzus' in argv[1]):
             totalreads = 21960873
     elif 'Gut' in argv[1]:
-        if ('plants' or 'other_bacteria' or 'viruses') in argv[1]:
+        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
             totalreads = 1530897
-        elif ('Buchnera' or 'Myzus') in argv[1]:
+        elif any('Buchnera' or 'Myzus' in argv[1]):
             totalreads = 2626650
 elif 'BTIRed' and 'Bac' in argv[1]:
     if 'Bac' in argv[1]:
-        if ('plants' or 'other_bacteria' or 'viruses') in argv[1]:
+        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
             totalreads = 3999644
-        elif ('Buchnera' or 'Myzus') in argv[1]:
+        elif any('Buchnera' or 'Myzus' in argv[1]):
             totalreads = 13931847
     elif 'Gut' in argv[1]:
-        if ('plants' or 'other_bacteria' or 'viruses') in argv[1]:
+        if any('plants' or 'other_bacteria' or 'viruses' in argv[1]):
             totalreads = 6570398
-        elif ('Buchnera' or 'Myzus') in argv[1]:
+        elif any('Buchnera' or 'Myzus' in argv[1]):
             totalreads = 9064708
 
 with open(argv[1], newline='') as f:
