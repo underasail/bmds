@@ -4,6 +4,10 @@
 
 from sys import argv
 import csv
+from Bio import Entrez
+from Bio import SeqIO
+
+Entrez.email = 'mct30@miami.edu'
 
 primary = ['Buchnera', 'Myzus']
 secondary = ['plants', 'other_bacteria', 'viruses']
@@ -58,11 +62,26 @@ with open(argv[1], newline='') as f:
             # if previously generated
         else:
             pass
+
+for genbank_accession_number, readnums in genomes_dict.items():
+    efetch_handle = Entrez.efetch\
+    (db = 'nuccore', id = genbank_accession_number, rettype = 'gb', retmode = 'text')
+    efetch_record = SeqIO.read(efetch_handle, 'gb')
+    efetch_handle.close()
+    name = efetch_record.annotations['organism']
+    genomes_dict[name] = genomes_dict.pop(genbank_accession_number)
+    # Uses GenBank Accession number that's stored as the genome ID in the SAM file
+    # to find and create a SeqRecord object. Then pulls the organism name from the 
+    # annotations fo the SeqRecord object to identify the genome later on in output files
+    genomes_dict[name].append(efetch_record.description)
+    # Added description to end of readnums list because it contains strain and genome info
+
 with open(argv[2], 'w') as f:
-    f.write('%s\t\t\n' % (argv[1]))
-    f.write('Percentage\tNumber of reads\tFilename\n')
+    f.write('%s\t\t\t\n' % (argv[1]))
+    f.write('Percentage\tNumber of Reads\tOrganism Name\tDescription\n')
     for refgen, readnums in genomes_dict.items():
-        count = len(readnums)
+        count = len(readnums) - 1
+        # -1 accounts for added description at the end
         genomes_dict[refgen].append(count)
         # Appends a new entry to end of readnums list with 
         # the number of matched reads for that genome
@@ -70,4 +89,4 @@ with open(argv[2], 'w') as f:
         # Calculates the percent of total reads mapped to that ggenome
         genomes_dict[refgen].append(percent)
         # genomes_dict[genome] = {read1, read2, ... , count, percentage}
-        f.write('%s%%\t%s\t%s\n' % (percent, count, argv[2]))
+        f.write('%s%%\t%s\t%s\t%s\n' % (percent, count, refgen, readnums[-3]))
