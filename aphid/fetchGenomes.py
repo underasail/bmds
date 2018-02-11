@@ -88,7 +88,7 @@ for organism in organisms:
             # ['GB_BioProjects'][0]['BioprojectId'])
                 # Location of BioProject ID
             print('%s   Reference Genome    Included' % str(organism))
-if len(biosample_accesion_numbers) > 0:
+if len(biosample_accession_numbers) > 0:
     for biosample_accession_number in biosample_accession_numbers:
         esearch_handle = Entrez.esearch(db = 'nuccore', \
         term = '%s[BioSample] AND biomol_genomic[PROP] \
