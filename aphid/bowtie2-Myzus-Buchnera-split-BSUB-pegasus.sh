@@ -1,8 +1,8 @@
 #! /bin/bash
 
-#BSUB -J bowtie2_Buch_Myz_alignments
-#BSUB -e /nethome/mct30/bowtie2_Buch_Myz_alignments.err
-#BSUB -o /nethome/mct30/bowtie2_Buch_Myz_alignments.out
+#BSUB -J bowtie2_Buch_Myz_split_alignments
+#BSUB -e /nethome/mct30/bowtie2_Buch_Myz_split_alignments.err
+#BSUB -o /nethome/mct30/bowtie2_Buch_Myz_split_alignments.out
 #BSUB -n 8
 #BSUB -q general
 #BSUB -W 72:00
