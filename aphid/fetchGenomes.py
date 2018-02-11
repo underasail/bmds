@@ -90,12 +90,12 @@ for biosample_accession_number in biosample_accession_numbers:
     # NOT is to avoid WGS projects
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
-    genebank_ids.extend(esearch_result['IdList'][0])
+    genebank_ids.append(esearch_result['IdList'][0])
     # Only takes the longest complete genome sequence
 for genebank_id in genebank_ids:
-    efetch_handle = Entrez.efetch(db = 'nuccore', id = str(genebank_id), rettype = 'fasta', retmode = 'text')
+    efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_id, rettype = 'fasta', retmode = 'text')
     # Fetches FASTA file for genome
-    filename = '%sGBID%s.fasta' % (argv[2], str(genebank_id))
+    filename = '%sGBID%s.fasta' % (argv[2], genebank_id)
     # ex: /root/path/to/ref_genomes_folder/GBID1234567.fasta
     with open(filename, 'w') as f:
         f.write(efetch_handle.read())
