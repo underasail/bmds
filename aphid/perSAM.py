@@ -29,7 +29,7 @@ elif 'G006' in argv[1]:
             totalreads = 1530897
         elif any(word in argv[1] for word in primary):
             totalreads = 2626650
-elif 'BTIRed' and 'Bac' in argv[1]:
+elif 'BTIRed' in argv[1]:
     if 'Bac' in argv[1]:
         if any(word in argv[1] for word in secondary):
             totalreads = 3999644
