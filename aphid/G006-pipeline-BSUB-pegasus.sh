@@ -156,9 +156,11 @@ $filelist \
 # G006 Percentage Calculations #
 ################################
 
-for filename in /nethome/mct30/bmds/SAM_out/G006*Buchnera.map; do
+cd /nethome/mct30/bmds/SAM_out/
+for filename in G006*Buchnera.map; do
     /nethome/mct30/gitclones/bmds/aphid/perSAM.py \
-    $filename;
+    /nethome/mct30/bmds/SAM_out/$filename \
+    /nethome/mct30/gitclones/bmds/aphid/files/$filename.tsv
 done
 # Gets percentage of matched reads for Buchnera and Myzus genomes
 
@@ -167,7 +169,6 @@ done
 # Percentage for G006 Other Bacteria Genomes #
 ##############################################
 
-cd /nethome/mct30/bmds/SAM_out/
 for filename in G006*other_bacteria.map; do
     /nethome/mct30/gitclones/bmds/aphid/perGenomes.py \
     /nethome/mct30/bmds/SAM_out/$filename \
