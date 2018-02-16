@@ -44,7 +44,7 @@ elif 'BTIRed' in argv[1]:
 with open(argv[1], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if len(row) >= 14 and 'XM:i:0' in str(row):
+        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
             # used to select only for allignments with no mismatches
             # length factor skips header rows also
             readnum = row[0]
