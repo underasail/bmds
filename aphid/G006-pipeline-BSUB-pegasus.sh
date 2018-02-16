@@ -23,7 +23,7 @@ module load bowtie2
 
 
 #
-# G006
+# G006 Unmatched FASTA Creation
 #
 
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
@@ -43,7 +43,7 @@ module load bowtie2
 
 
 #
-# G006 Plants
+# G006 Plants Alignments
 #
 
 export filelist=''
@@ -71,7 +71,7 @@ $filelist \
 
 
 #
-# G006 Other Bacteria
+# G006 Other Bacteria Alignments
 #
 
 export filelist=''
@@ -99,7 +99,7 @@ $filelist \
 
 
 #
-# G006 Viruses
+# G006 Viruses Alignments
 #
 
 export filelist=''
@@ -129,10 +129,10 @@ $filelist \
 
 
 #
-# Percentage Calculations
+# G006 Percentage Calculations
 #
 
-for filename in /nethome/mct30/bmds/SAM_out/*.map; do
+for filename in /nethome/mct30/bmds/SAM_out/G006*.map; do
     /nethome/mct30/gitclones/bmds/aphid/perSAM.py \
     $filename;
 done
