@@ -1,5 +1,7 @@
 #! /share/opt/python/3.3.1/bin/python
 
+# USAGE: ./perSAM.py [SAM FILE] [/root/path/to/percentage_output.tsv]
+
 from sys import argv
 import csv
 
@@ -60,4 +62,11 @@ with open(argv[1], newline='') as f:
 matched_reads_per = round((len(matched_reads_dict.keys())*100)/totalreads, 4)
 # percent or reads that mapped perfectly to the genome
 
-print('%s%%\t%s\t%s' % (matched_reads_per, totalreads, argv[1]))
+# print('%s%%\t%s\t%s' % (matched_reads_per, totalreads, argv[1]))
+
+with open(argv[2], 'w') as f:
+    f.write('%s\t\n' % (argv[1]))
+    f.write('Percentage\tNumber of Reads\n')
+    f.write('%s%%\t%s\n' % (matched_reads_per, totalreads))
+    
+    
