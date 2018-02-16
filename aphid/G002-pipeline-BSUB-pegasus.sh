@@ -1,8 +1,8 @@
 #! /bin/bash
 
-#BSUB -J G006_pipline
-#BSUB -e /nethome/mct30/err/G006_pipline.err
-#BSUB -o /nethome/mct30/out/G006_pipline.out
+#BSUB -J G002_pipline
+#BSUB -e /nethome/mct30/err/G002_pipline.err
+#BSUB -o /nethome/mct30/out/G002_pipline.out
 #BSUB -n 8
 #BSUB -q general
 #BSUB -W 72:00
@@ -23,7 +23,7 @@ module load bowtie2
 
 
 ###########################################
-# G006 Myzus/Buchnera Together Alignments #
+# G002 Myzus/Buchnera Together Alignments #
 ###########################################
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
@@ -42,10 +42,10 @@ module load bowtie2
 # and G006 Myzus (genome)
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_index \
--U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa \
--S /nethome/mct30/bmds/SAM_out/G006_Gut_Buchnera.map
-# G006 gut reads aligned against G006 Buchnera (genome and plasmid)
+-x /nethome/mct30/bmds/index/G002/G002_Buchnera_Myzus_index \
+-U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Gut_Buchnera.map
+# G002 gut reads aligned against G002 Buchnera (genome and plasmid)
 # and G006 Myzus (genome)
 
 
@@ -57,7 +57,7 @@ module load bowtie2
 /nethome/mct30/bmds/SAM_out/G002_Bac_Buchnera.map \
 /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fa \
 /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fasta
-# Builds new FASTA file for G006 bacteriocyte reads that didn't perfectly
+# Builds new FASTA file for G002 bacteriocyte reads that didn't
 # align to reference genomes for Buchnera and/or Myzus
 
 /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
@@ -153,7 +153,7 @@ $filelist \
 
 
 ################################
-# G006 Percentage Calculations #
+# G002 Percentage Calculations #
 ################################
 
 cd /nethome/mct30/bmds/SAM_out/
