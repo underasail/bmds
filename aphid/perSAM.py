@@ -67,6 +67,6 @@ matched_reads_per = round((len(matched_reads_dict.keys())*100)/totalreads, 4)
 with open(argv[2], 'w') as f:
     f.write('%s\t\n' % (argv[1]))
     f.write('Percentage\tNumber of Reads\n')
-    f.write('%s%%\t%s\n' % (matched_reads_per, totalreads))
+    f.write('%s%%\t%s\n' % (matched_reads_per, len(matched_reads_dict.keys())))
     
     
