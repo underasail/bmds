@@ -1,8 +1,8 @@
 #! /bin/bash
 
-#BSUB -J perGenomes
-#BSUB -e /nethome/mct30/err/perGenomes.err
-#BSUB -o /nethome/mct30/out/perGenomes.out
+#BSUB -J perSAM
+#BSUB -e /nethome/mct30/perSAM.err
+#BSUB -o /nethome/mct30/perSAM.out
 #BSUB -n 4
 #BSUB -q general
 #BSUB -W 72:00
@@ -15,19 +15,18 @@
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
-module switch python/3.3.1 > /dev/null 2>&1
-# Need to work in python3
-# Should silence error output
+module switch python/3.3.1
+# need to work in python3
 
 
 #
-# Percentage for Genomes
+# Percentage Calculations
 #
 
 cd /nethome/mct30/bmds/SAM_out/
-for filename in *other_bacteria.map; do
-    /nethome/mct30/gitclones/bmds/aphid/perGenomes.py \
+for filename in *only.map; do
+    /nethome/mct30/gitclones/bmds/aphid/perSAM.py \
     /nethome/mct30/bmds/SAM_out/$filename \
     /nethome/mct30/gitclones/bmds/aphid/files/$filename.tsv
 done
-
+# Gets percentage of matched reads for Buchnera and Myzus genomes

@@ -1,63 +1,63 @@
 /nethome/mct30/bmds/SAM_out/G006_Bac_other_bacteria.map			
 Percentage	Number of Reads	Organism Name	Description
-0.1156%	2374	Pseudomonas putida KT2440	Pseudomonas putida KT2440 chromosome, complete genome.
-0.0045%	92	Wolbachia endosymbiont of Drosophila melanogaster	Wolbachia endosymbiont of Drosophila melanogaster, complete genome.
-0.0009%	19	Spiroplasma kunkelii CR2-3x	Spiroplasma kunkelii CR2-3x plasmid pSKU76, complete sequence.
-0.0469%	963	Paenibacillus beijingensis	Paenibacillus beijingensis strain DSM 24997, complete genome.
-0.0976%	2005	Pseudomonas aeruginosa PAO1	Pseudomonas aeruginosa PAO1, complete genome.
-0.0385%	791	Paenibacillus swuensis	Paenibacillus swuensis strain DY6, complete genome.
-0.0695%	1427	Paenibacillus yonginensis	Paenibacillus yonginensis strain DCY84 chromosome, complete genome.
-0.2386%	4902	Microbacterium paludicola	Microbacterium paludicola strain CC3, complete genome.
-0.1252%	2572	Microbacterium testaceum StLB037	Microbacterium testaceum StLB037 DNA, complete genome.
-0.0064%	132	Spiroplasma helicoides	Spiroplasma helicoides strain TABS-2 chromosome, complete genome.
-0.0626%	1286	Paenibacillus naphthalenovorans	Paenibacillus naphthalenovorans strain 32O-Y, complete genome.
-0.0618%	1270	Paenibacillus odorifer	Paenibacillus odorifer strain DSM 15391, complete genome.
-0.0961%	1974	Paenibacillus donghaensis	Paenibacillus donghaensis strain KCTC 13049 chromosome, complete genome.
-0.0002%	4	Pseudomonas syringae pv. tomato str. DC3000	Pseudomonas syringae pv. tomato str. DC3000 plasmid pDC3000B, complete sequence.
-0.0077%	159	Spiroplasma eriocheiris	Spiroplasma eriocheiris strain DSM 21848, complete genome.
-3.0178%	61988	Serratia symbiotica str. 'Cinara cedri'	Serratia symbiotica str. 'Cinara cedri', complete genome.
-0.0439%	902	Ralstonia mannitolilytica	Ralstonia mannitolilytica strain SN82F48 chromosome 1, complete sequence.
-0.0049%	100	Spiroplasma mirum ATCC 29335	Spiroplasma mirum ATCC 29335 strain SMCA, complete genome.
-0.0005%	11	Microbacterium chocolatum	Microbacterium chocolatum strain SIT 101 plasmid 3, complete sequence.
-0.0027%	55	Pantoea agglomerans	Pantoea agglomerans strain C410P1 plasmid unnamed3, complete sequence.
+0.0041%	84	Wolbachia endosymbiont of Drosophila melanogaster	Wolbachia endosymbiont of Drosophila melanogaster, complete genome.
+0.0215%	442	Ralstonia solanacearum GMI1000	Ralstonia solanacearum GMI1000 megaplasmid complete sequence.
+0.0388%	796	Ralstonia mannitolilytica	Ralstonia mannitolilytica strain SN82F48 chromosome 1, complete sequence.
+0.0417%	856	Paenibacillus beijingensis	Paenibacillus beijingensis strain DSM 24997, complete genome.
+0.0024%	50	Spiroplasma diminutum CUAS-1	Spiroplasma diminutum CUAS-1, complete genome.
+0.0351%	721	Corynebacterium glutamicum ATCC 13032	Corynebacterium glutamicum ATCC 13032 DNA, complete genome.
+0.0697%	1431	Paenibacillus donghaensis	Paenibacillus donghaensis strain KCTC 13049 chromosome, complete genome.
+0.0038%	79	Spiroplasma litorale	Spiroplasma litorale strain TN-1, complete genome.
+0.0757%	1555	Paenibacillus bovis	Paenibacillus bovis strain BD3526, complete genome.
+0.0239%	491	Cupriavidus necator N-1	Cupriavidus necator N-1 plasmid pBB1, complete sequence.
+0.2356%	4840	Microbacterium paludicola	Microbacterium paludicola strain CC3, complete genome.
+0.0037%	77	Spiroplasma apis B31	Spiroplasma apis B31, complete genome.
+0.0044%	90	Wolbachia endosymbiont of Onchocerca ochengi	Wolbachia endosymbiont of Onchocerca ochengi complete genome, strain wOo.
 0.0001%	2	Paenibacillus durus	Paenibacillus durus strain DSM 1735 plasmid, complete sequence.
-0.0048%	99	Spiroplasma cantharicola	Spiroplasma cantharicola strain CC-1, complete genome.
-0.0768%	1578	Paenibacillus larvae subsp. larvae	Paenibacillus larvae subsp. larvae strain ATCC 9545 chromosome, complete genome.
-0.0168%	345	Spiroplasma sabaudiense Ar-1343	Spiroplasma sabaudiense Ar-1343, complete genome.
+0.0345%	709	Paenibacillus swuensis	Paenibacillus swuensis strain DY6, complete genome.
+0.0049%	101	Spiroplasma helicoides	Spiroplasma helicoides strain TABS-2 chromosome, complete genome.
+0.0265%	544	Cupriavidus metallidurans CH34	Cupriavidus metallidurans CH34 megaplasmid, complete sequence.
+0.0706%	1451	Paenibacillus larvae subsp. larvae	Paenibacillus larvae subsp. larvae strain ATCC 9545 chromosome, complete genome.
+0.0179%	368	Rickettsia prowazekii str. Madrid E	Rickettsia prowazekii str. Madrid E, complete genome.
+0.0384%	789	Lactobacillus plantarum WCFS1	Lactobacillus plantarum WCFS1 complete genome.
 0.0016%	33	Mesorhizobium ciceri biovar biserrulae WSM1271	Mesorhizobium ciceri biovar biserrulae WSM1271 plasmid pMESCI01, complete sequence.
-0.0049%	100	Wolbachia endosymbiont of Onchocerca ochengi	Wolbachia endosymbiont of Onchocerca ochengi complete genome, strain wOo.
-0.005%	103	Spiroplasma culicicola AES-1	Spiroplasma culicicola AES-1, complete genome.
-0.0054%	110	Spiroplasma litorale	Spiroplasma litorale strain TN-1, complete genome.
-0.0491%	1008	Paenibacillus borealis	Paenibacillus borealis strain DSM 13188, complete genome.
-0.1006%	2067	Paenibacillus mucilaginosus 3016	Paenibacillus mucilaginosus 3016, complete genome.
-0.0389%	800	Serratia symbiotica	Serratia symbiotica strain STs genome assembly, chromosome: 1.
-0.0343%	705	Cupriavidus basilensis	Cupriavidus basilensis strain 4G11 chromosome secondary, complete sequence.
-0.0707%	1452	Microbacterium aurum	Microbacterium aurum strain KACC 15219 chromosome, complete genome.
-0.011%	226	Wolbachia endosymbiont of Drosophila simulans wNo	Wolbachia endosymbiont of Drosophila simulans wNo, complete genome.
-0.3166%	6503	Candidatus Hamiltonella defensa (Bemisia tabaci)	Candidatus Hamiltonella defensa (Bemisia tabaci) strain MEAM1, complete genome.
-0.044%	903	Lactobacillus plantarum WCFS1	Lactobacillus plantarum WCFS1 complete genome.
-0.0246%	505	Cupriavidus necator N-1	Cupriavidus necator N-1 plasmid pBB1, complete sequence.
-0.0083%	170	Wolbachia endosymbiont of Cimex lectularius	Wolbachia endosymbiont of Cimex lectularius DNA, complete genome.
-0.0372%	765	Corynebacterium glutamicum ATCC 13032	Corynebacterium glutamicum ATCC 13032 DNA, complete genome.
-0.0582%	1195	Paenibacillus stellifer	Paenibacillus stellifer strain DSM 14472, complete genome.
-0.0045%	93	Spiroplasma diminutum CUAS-1	Spiroplasma diminutum CUAS-1, complete genome.
-0.0012%	24	Lactobacillus salivarius UCC118	Lactobacillus salivarius UCC118 plasmid pMP118, complete sequence.
-0.0117%	240	Wolbachia endosymbiont strain TRS of Brugia malayi	Wolbachia endosymbiont strain TRS of Brugia malayi, complete genome.
-0.0188%	386	Cupriavidus gilardii CR3	Cupriavidus gilardii CR3 chromosome 2, complete sequence.
-0.0017%	34	Paenibacillus polymyxa SC2	Paenibacillus polymyxa SC2 plasmid pSC2, complete sequence.
-0.0103%	212	Spiroplasma turonicum	Spiroplasma turonicum strain Tab4c, complete genome.
+0.0692%	1421	Microbacterium aurum	Microbacterium aurum strain KACC 15219 chromosome, complete genome.
+0.0442%	908	Paenibacillus borealis	Paenibacillus borealis strain DSM 13188, complete genome.
+0.0475%	975	Xanthomonas campestris pv. campestris str. ATCC 33913	Xanthomonas campestris pv. campestris str. ATCC 33913, complete genome.
+0.0057%	117	Spiroplasma eriocheiris	Spiroplasma eriocheiris strain DSM 21848, complete genome.
+0.007%	144	Spiroplasma syrphidicola EA-1	Spiroplasma syrphidicola EA-1, complete genome.
+0.0156%	321	Serratia symbiotica	Serratia symbiotica strain STs genome assembly, chromosome: 1.
+0.122%	2505	Microbacterium testaceum StLB037	Microbacterium testaceum StLB037 DNA, complete genome.
+0.0009%	18	Spiroplasma kunkelii CR2-3x	Spiroplasma kunkelii CR2-3x plasmid pSKU76, complete sequence.
+0.005%	103	Spiroplasma chrysopicola DF-1	Spiroplasma chrysopicola DF-1, complete genome.
+0.0653%	1342	Paenibacillus yonginensis	Paenibacillus yonginensis strain DCY84 chromosome, complete genome.
+0.0478%	981	Propionibacterium freudenreichii subsp. freudenreichii	Propionibacterium freudenreichii subsp. freudenreichii strain DSM 20271, complete genome.
+0.0094%	193	Wolbachia endosymbiont of Drosophila simulans wNo	Wolbachia endosymbiont of Drosophila simulans wNo, complete genome.
 0.0001%	3	Ralstonia pickettii 12J	Ralstonia pickettii 12J plasmid pRPIC01, complete sequence.
-0.028%	576	Cupriavidus metallidurans CH34	Cupriavidus metallidurans CH34 megaplasmid, complete sequence.
-0.021%	431	Lactobacillus acidophilus NCFM	Lactobacillus acidophilus NCFM, complete genome.
-0.0232%	476	Ralstonia solanacearum GMI1000	Ralstonia solanacearum GMI1000 megaplasmid complete sequence.
-0.0057%	118	Spiroplasma apis B31	Spiroplasma apis B31, complete genome.
-0.0517%	1062	Propionibacterium freudenreichii subsp. freudenreichii	Propionibacterium freudenreichii subsp. freudenreichii strain DSM 20271, complete genome.
-0.0824%	1693	Paenibacillus bovis	Paenibacillus bovis strain BD3526, complete genome.
-0.0078%	161	Spiroplasma syrphidicola EA-1	Spiroplasma syrphidicola EA-1, complete genome.
-0.021%	431	Rickettsia prowazekii str. Madrid E	Rickettsia prowazekii str. Madrid E, complete genome.
-0.1552%	3188	Pseudomonas syringae pv. syringae B728a	Pseudomonas syringae pv. syringae B728a, complete genome.
-0.0042%	86	Spiroplasma taiwanense CT-1	Spiroplasma taiwanense CT-1, complete genome.
-0.0182%	374	Arsenophonus symbiont of Lipoptena fortisetosa	Arsenophonus symbiont of Lipoptena fortisetosa strain CB, complete genome.
-0.0056%	115	Spiroplasma chrysopicola DF-1	Spiroplasma chrysopicola DF-1, complete genome.
-0.0525%	1079	Xanthomonas campestris pv. campestris str. ATCC 33913	Xanthomonas campestris pv. campestris str. ATCC 33913, complete genome.
-0.1128%	2318	Bradyrhizobium diazoefficiens USDA 110	Bradyrhizobium diazoefficiens USDA 110 DNA, complete genome.
+0.0891%	1831	Pseudomonas putida KT2440	Pseudomonas putida KT2440 chromosome, complete genome.
+0.1429%	2935	Pseudomonas syringae pv. syringae B728a	Pseudomonas syringae pv. syringae B728a, complete genome.
+0.001%	20	Lactobacillus salivarius UCC118	Lactobacillus salivarius UCC118 plasmid pMP118, complete sequence.
+0.0172%	353	Lactobacillus acidophilus NCFM	Lactobacillus acidophilus NCFM, complete genome.
+0.011%	226	Wolbachia endosymbiont strain TRS of Brugia malayi	Wolbachia endosymbiont strain TRS of Brugia malayi, complete genome.
+0.0101%	207	Arsenophonus symbiont of Lipoptena fortisetosa	Arsenophonus symbiont of Lipoptena fortisetosa strain CB, complete genome.
+0.0568%	1167	Paenibacillus odorifer	Paenibacillus odorifer strain DSM 15391, complete genome.
+0.0083%	171	Spiroplasma turonicum	Spiroplasma turonicum strain Tab4c, complete genome.
+0.2925%	6008	Candidatus Hamiltonella defensa (Bemisia tabaci)	Candidatus Hamiltonella defensa (Bemisia tabaci) strain MEAM1, complete genome.
+0.0322%	661	Cupriavidus basilensis	Cupriavidus basilensis strain 4G11 chromosome secondary, complete sequence.
+0.0021%	44	Spiroplasma culicicola AES-1	Spiroplasma culicicola AES-1, complete genome.
+0.0027%	55	Pantoea agglomerans	Pantoea agglomerans strain C410P1 plasmid unnamed3, complete sequence.
+0.0589%	1209	Paenibacillus naphthalenovorans	Paenibacillus naphthalenovorans strain 32O-Y, complete genome.
+0.0074%	151	Wolbachia endosymbiont of Cimex lectularius	Wolbachia endosymbiont of Cimex lectularius DNA, complete genome.
+0.0746%	1532	Bradyrhizobium diazoefficiens USDA 110	Bradyrhizobium diazoefficiens USDA 110 DNA, complete genome.
+0.004%	83	Spiroplasma mirum ATCC 29335	Spiroplasma mirum ATCC 29335 strain SMCA, complete genome.
+0.003%	61	Spiroplasma cantharicola	Spiroplasma cantharicola strain CC-1, complete genome.
+0.0762%	1565	Pseudomonas aeruginosa PAO1	Pseudomonas aeruginosa PAO1, complete genome.
+0.0959%	1969	Paenibacillus mucilaginosus 3016	Paenibacillus mucilaginosus 3016, complete genome.
+0.0015%	31	Paenibacillus polymyxa SC2	Paenibacillus polymyxa SC2 plasmid pSC2, complete sequence.
+0.0152%	312	Spiroplasma sabaudiense Ar-1343	Spiroplasma sabaudiense Ar-1343, complete genome.
+0.0001%	3	Pseudomonas syringae pv. tomato str. DC3000	Pseudomonas syringae pv. tomato str. DC3000 plasmid pDC3000B, complete sequence.
+0.0549%	1128	Paenibacillus stellifer	Paenibacillus stellifer strain DSM 14472, complete genome.
+0.0005%	10	Microbacterium chocolatum	Microbacterium chocolatum strain SIT 101 plasmid 3, complete sequence.
+0.0171%	352	Cupriavidus gilardii CR3	Cupriavidus gilardii CR3 chromosome 2, complete sequence.
+0.0018%	37	Spiroplasma taiwanense CT-1	Spiroplasma taiwanense CT-1, complete genome.
+2.9898%	61414	Serratia symbiotica str. 'Cinara cedri'	Serratia symbiotica str. 'Cinara cedri', complete genome.
