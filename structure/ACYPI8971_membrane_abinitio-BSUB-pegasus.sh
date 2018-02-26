@@ -1,42 +1,46 @@
 #! /bin/bash
 
-#BSUB -J ACYPI8971_membrane_abinitio
-#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio.err
-#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio.out
-#BSUB -n 8
-#BSUB -q general
-#BSUB -W 165:00
+#BSUB -J ACYPI8971_membrane_abinitio_MPI
+#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_MPI.err
+#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_MPI.out
+#BSUB -n 500
+#BSUB -q parallel
+#BSUB -R "span[ptile=16]"
+#BSUB -R "rusage[mem=250]"
+#BSUB -W 24:00
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
-#
+
 # Job title, error output, standard output, number of cores,
-# queue, run time limit, send email when jobs begins, 
-# send email with stats when job finished, email,
-# default RAM per core is 1500MB
+# queue, cores per node, RAM per core in MB, run time limit, 
+# send email when jobs begins, send email with stats when job finished, 
+# email
 
 /nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/\
 main/source/bin/membrane_abinitio2.static.linuxgccrelease \
--in:file:fasta /nethome/mct30/aphid/acypi8971.fa \
--in:file:spanfile /nethome/mct30/aphid/acypi8971_octopus.span \
--in:file:lipofile /nethome/mct30/aphid/acypi8971.lips4
+-abinitio:membrane \
+-in:file:fasta /nethome/mct30/aphid/acypi8971_prot.fa \
 -in:file:frag3 /nethome/mct30/aphid/robetta/aat000_03_05.200_v1_3 \
--in:file:frag9 /nethome/mct30/aphid/robetta/aat000_09_05.200_v1_3
+-in:file:frag9 /nethome/mct30/aphid/robetta/aat000_09_05.200_v1_3 \
+-in:file:spanfile /nethome/mct30/aphid/acypi8971_octopus.span \
+-in:file:lipofile /nethome/mct30/aphid/acypi8971.lips4 \
 -in:path:database \
 /nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/main/database \
--abinitio:membrane \
 -score:find_neighbors_3dgrid \
 -membrane:no_interpolate_Mpair \
 -membrane:Menv_penalties \
 -membrane:normal_cycles 40 \
 -membrane:normal_mag 15 \
 -membrane:center_mag 2 \
--out:file:silent /nethome/mct30/aphid/ACYPI008971_silent.out
--nstruct 30000
-
+-out:membrane_pdb true \
+-out:pdb \
+-out:path:all /nethome/mct30/aphid/ \
+-out:nstruct 20
+# Membrane ab initio application,
 # Protein sequence in fasta format, Octopus transmembrane prediction, 
 # Lipophilicity prediction, 3-residue fragments, 9-residue fragments, 
-# Path to rosetta database, Membrane ab initio application, 
+# Path to rosetta database, 
 # Use a 3D lookup table for residue neighbors calculations, 
 # Switch off the interpolation between the two layers for the Mpair term, 
 # Switch on the following penalties:
@@ -47,5 +51,9 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 #     * no transmembrane helices with orientation >45 degrees relative to the 
 #       membrane normal vector.
 # Speed settings for Monte Carlo based membrane normal and center search
-# Number of output structures
+# Include a 30 nm membrane in the output
+# Output file
+# Number of times to process each input PDB
+# Total number of decoys to produce
+# Number of output structures (500 cores * 20 iterations = 10,000 structures)
 # Silent output file
