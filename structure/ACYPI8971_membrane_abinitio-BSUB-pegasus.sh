@@ -1,13 +1,13 @@
 #! /bin/bash
 
-#BSUB -J ACYPI8971_membrane_abinitio_MPI
-#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_MPI.err
-#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_MPI.out
+#BSUB -J "ACYPI8971_membrane_abinitio_parallel[1-500]"
+#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_parallel.err
+#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_parallel.out
 #BSUB -n 500
 #BSUB -q parallel
 #BSUB -R "span[ptile=16]"
 #BSUB -R "rusage[mem=250]"
-#BSUB -W 24:00
+#BSUB -W 165:00
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
@@ -16,6 +16,10 @@
 # queue, cores per node, RAM per core in MB, run time limit, 
 # send email when jobs begins, send email with stats when job finished, 
 # email
+
+# $LSB_JOBINDEX goes from 1 to 500 for each job
+
+mkdir /nethome/mct30/aphid/$LSB_JOBINDEX
 
 /nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/\
 main/source/bin/membrane_abinitio2.static.linuxgccrelease \
@@ -33,9 +37,9 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 -membrane:normal_cycles 40 \
 -membrane:normal_mag 15 \
 -membrane:center_mag 2 \
+-out:pdb true \
 -out:membrane_pdb true \
--out:pdb \
--out:path:all /nethome/mct30/aphid/ \
+-out:path:all /nethome/mct30/aphid/$LSB_JOBINDEX \
 -out:nstruct 20
 # Membrane ab initio application,
 # Protein sequence in fasta format, Octopus transmembrane prediction, 
