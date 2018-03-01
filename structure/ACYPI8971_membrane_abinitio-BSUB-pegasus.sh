@@ -5,8 +5,8 @@
 #BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_parallel_%I.out
 #BSUB -n 1
 #BSUB -q general
-#BSUB -R "rusage[mem=250]"
-#BSUB -W 120:00
+#BSUB -R "rusage[mem=750]"
+#BSUB -W 160:00
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
@@ -18,7 +18,7 @@
 
 # $LSB_JOBINDEX goes from 1 to 32 for each job
 
-mkdir /nethome/mct30/aphid/$LSB_JOBINDEX
+mkdir /nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX
 
 /nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/\
 main/source/bin/membrane_abinitio2.static.linuxgccrelease \
@@ -38,7 +38,11 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 -membrane:center_mag 2 \
 -out:membrane_pdb true \
 -out:pdb \
--out:path /nethome/mct30/aphid/$LSB_JOBINDEX/ \
+-out:path /nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX/ \
+-out:file:silent \
+/nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX/ACYPI008971_silent.$LSB_JOBINDEX.out \
+-out:file:scorefile \
+/nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX/ACYPI008971_score.$LSB_JOBINDEX.sc \
 -out:nstruct 315
 # Membrane ab initio application,
 # Protein sequence in fasta format, Octopus transmembrane prediction, 
