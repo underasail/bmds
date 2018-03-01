@@ -1,12 +1,13 @@
 #! /bin/bash
 
-#BSUB -J "ACYPI8971_membrane_abinitio_parallel[1-32]"
-#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_parallel_%I.err
-#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_parallel_%I.out
-#BSUB -n 1
-#BSUB -q general
+#BSUB -J "ACYPI8971_membrane_abinitio_paralleltest[1-256]"
+#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_paralleltest.err
+#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_paralleltest.out
+#BSUB -n 256
+#BSUB -q parallel
+#BSUB -R "span[ptile=16]"
 #BSUB -R "rusage[mem=250]"
-#BSUB -W 120:00
+#BSUB -W 24:00
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
@@ -16,9 +17,9 @@
 # send email when jobs begins, send email with stats when job finished, 
 # email
 
-# $LSB_JOBINDEX goes from 1 to 32 for each job
+# $LSB_JOBINDEX goes from 1 to 500 for each job
 
-mkdir /nethome/mct30/aphid/$LSB_JOBINDEX
+mkdir /nethome/mct30/aphid/$LSB_JOBINDEX.3
 
 /nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/\
 main/source/bin/membrane_abinitio2.static.linuxgccrelease \
@@ -36,10 +37,10 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 -membrane:normal_cycles 40 \
 -membrane:normal_mag 15 \
 -membrane:center_mag 2 \
+-out:pdb true \
 -out:membrane_pdb true \
--out:pdb \
--out:path /nethome/mct30/aphid/$LSB_JOBINDEX/ \
--out:nstruct 315
+-out:path:all /nethome/mct30/aphid/$LSB_JOBINDEX.3 \
+-out:nstruct 40
 # Membrane ab initio application,
 # Protein sequence in fasta format, Octopus transmembrane prediction, 
 # Lipophilicity prediction, 3-residue fragments, 9-residue fragments, 
@@ -58,5 +59,5 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 # Output file
 # Number of times to process each input PDB
 # Total number of decoys to produce
-# Number of output structures (32 cores * 315 iterations = 10,080 structures)
+# Number of output structures (500 cores * 20 iterations = 10,000 structures)
 # Silent output file
