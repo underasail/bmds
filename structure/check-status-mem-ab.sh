@@ -3,9 +3,11 @@
 echo '##############################################'
 echo '# STATUS OF ACYPI008971 STRUCTURE PREDICTION #'
 echo '##############################################'
-echo 'Number of structures produced:               #'
+echo '# Number of structures produced:             #'
+echo -n '# '
 ls -lh ~/aphid/mem-ab-out.*/*.pdb | wc -l 
-echo 'Number of cores running:                     #'
+echo '# Number of cores running:                   #'
+echo -n '# '
 bjobs | grep 'RUN' | wc -l
 max=0
 for filename in ~/aphid/mem-ab-out.*; do 
@@ -18,7 +20,8 @@ for filename in ~/aphid/mem-ab-out.*; do
 	max=$number;
     fi
 done
-echo 'Script with max output has created:          #'
+echo '# Script with max output has created:        #'
+echo -n '# '
 echo -n $max
 echo ' structures'
 echo '##############################################'
