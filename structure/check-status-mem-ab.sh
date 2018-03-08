@@ -15,9 +15,9 @@ for filename in ~/aphid/mem-ab-out.*; do
     number=$(ls $filename | tail -n 1); 
     number=${number:7:3}; 
     # echo $number;
-    if expr $number > $max;
-    then
+    if [ $number -gt $max ]; then
 	max=$number;
+	# echo $max
     fi
 done
 echo '# Script with max output has created:        #'
