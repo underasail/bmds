@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#BSUB -J "ACYPI8971_membrane_abinitio_parallel[1-32]"
+#BSUB -J "ACYPI8971_membrane_abinitio_parallel[33-45]"
 #BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_parallel_%I.err
 #BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_parallel_%I.out
 #BSUB -n 1

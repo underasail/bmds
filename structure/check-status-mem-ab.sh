@@ -17,11 +17,12 @@ for filename in ~/aphid/mem-ab-out.*; do
     # echo $number;
     if [ $number -gt $max ]; then
 	max=$number;
-	# echo $max
+	maxfile=$filename
     fi
 done
 echo '# Script with max output has created:        #'
 echo -n '# '
 echo -n $max
 echo ' structures'
+echo $maxfile
 echo '##############################################'
