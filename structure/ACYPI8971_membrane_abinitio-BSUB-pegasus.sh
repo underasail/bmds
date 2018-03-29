@@ -1,12 +1,12 @@
 #! /bin/bash
 
-#BSUB -J "ACYPI8971_membrane_abinitio_parallel[33-45]"
+#BSUB -J "ACYPI8971_membrane_abinitio_parallel[46-78]"
 #BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_parallel_%I.err
 #BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_parallel_%I.out
 #BSUB -n 1
 #BSUB -q general
-#BSUB -R "rusage[mem=750]"
-#BSUB -W 160:00
+#BSUB -R "rusage[mem=1500]"
+#BSUB -W 165:00
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
