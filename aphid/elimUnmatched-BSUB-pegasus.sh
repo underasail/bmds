@@ -1,8 +1,8 @@
 #! /bin/bash
 
 #BSUB -J eliminate_unmatched
-#BSUB -e /nethome/mct30/eliminate_unmatched.err
-#BSUB -o /nethome/mct30/eliminate_unmatched.out
+#BSUB -e /nethome/mct30/err/eliminate_unmatched.err
+#BSUB -o /nethome/mct30/out/eliminate_unmatched.out
 #BSUB -n 1
 #BSUB -R "rusage[mem=7000]"
 #BSUB -q general
@@ -16,7 +16,7 @@
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
-module switch python/3.6.5
+module switch python/3.6.5 > /dev/null 2>&1
 # need to work in python3
 
 
