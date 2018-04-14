@@ -91,7 +91,7 @@ ax2.spines['top'].set_visible(False)
 ax2.yaxis.set_ticks_position('left')
 ax2.xaxis.set_ticks_position('bottom')
 
-plt.subplots_adjust(top = 0.75, wspace = 0.6)
+plt.subplots_adjust(top = 0.75, wspace = 0.75)
 # plt.suptitle('Reads Aligned per Genome', fontsize = 18, family = 'serif', fontweight = 'bold')
 plt.savefig('C:\\Users\Thompson\Documents\Figure_1_GvB.svg', bbox_inches = 'tight', format = 'svg')
 plt.show()
