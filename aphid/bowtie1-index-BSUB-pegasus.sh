@@ -15,9 +15,11 @@
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
-/nethome/mct30/gitclones/mirdeep2/essentials/bowtie-1.1.1/bowtie-build -f \
-/nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref.fasta \
-/nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index
+module load bowtie
+
+bowtie-build -f \
+/nethome/mct30/bmds/ref_genomes/plants/single/plant_genome.fasta \
+/nethome/mct30/bmds/index/bt1-plant/plant
 # Path to bowtie-build from mirdeep2 bowtie1 install
-# Myzus G006 reference genome
+# Plant reference genome
 # Path to index directory
