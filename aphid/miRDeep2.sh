@@ -15,16 +15,51 @@
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
+module load bowtie
+
 cd /nethome/mct30/bmds/miRDeep2/
 
+#/nethome/mct30/gitclones/mirdeep2/essentials/bowtie-1.1.1/bowtie-build \
+#-f /nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref_noheader.fasta \
+#/nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index
+# Builds bowtie1 index for noheader fasta
+
+#/nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
+#/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus.fasta -c \
+#-i -j -m \
+#-s /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta
+# Takes Myzus only filtered reads and collapses redundancy while renaming reads
+
+#/nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
+#/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta -c \
+#-i -j -p /nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index \
+#-t /nethome/mct30/bmds/Myzus-miRDeep2/G006_Gut_F_trimmed_17-35_Myzus_collapsed_vs_genome.arf
+# produces arf mapped output with no mismatches from collapsed reads
+
+# There is an error produced when using these two together. count2 isn't set well
+# If doing separately, need to carry the collapsed reads over as the input to generate
+# the arf file
+
 /nethome/mct30/gitclones/mirdeep2/bin/miRDeep2.pl \
-/nethome/mct30/bmds/G006_Gut_F_trimmed_17-35_seqx_collapsed.fa \
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta \
 /nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref_noheader.fasta \
-/nethome/mct30/bmds/G006_Gut_mapped_seqreadid2.arf none /nethome/mct30/bmds/api_miRNAs.fa none
+/nethome/mct30/bmds/Myzus-miRDeep2/G006_Gut_F_trimmed_17-35_Myzus_collapsed_vs_genome.arf \
+/nethome/mct30/bmds/Myzus-miRDeep2/Mpe_miRNAs_mature.fa \
+/nethome/mct30/bmds/Myzus-miRDeep2/api_miRNAs.fa \
+/nethome/mct30/bmds/Myzus-miRDeep2/Mpe_miRNAs_precursors.fa
 # Path to program
-# Input FASTA reads file
+# Input miRDeep2 collapsed FASTA reads file
 # Input genome FASTA with no whitespaces in header
 # Input ARF file with 'seq_x' before each read number 
 #     sed "s/^/seq_x/" ~/bmds/G006_Gut_mapped.arf > 
 #     ~/bmds/G006_Gut_mapped_seqreadid.arf
+# Input file of known Mpe miRNAs
 # Input file of miRNAs from A pisum
+# Input file of known Mpe miRNA precursors
+
+#/nethome/mct30/local/perl/bin/perl \
+#/nethome/mct30/gitclones/mirdeep2/bin/make_html.pl \
+#-f /nethome/mct30/bmds/miRDeep2/mirdeep_runs/run*/output.mrd \
+#-s /nethome/mct30/bmds/miRDeep2/mirdeep_runs/run*/survey.csv \
+#-c -y 2
+# creates output csv, html, and pdf files
