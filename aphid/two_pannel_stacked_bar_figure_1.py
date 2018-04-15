@@ -55,8 +55,8 @@ np_buchnera_plot = plt.bar(N, np_buchnera, bottom = np_aphid, width = 0.5, color
 np_both_plot = plt.bar(N, np_both, bottom = np_aphid + np_buchnera, width = 0.5, color = 'gold', linewidth = 0)
 np_unknown_plot = plt.bar(N, np_unknown, bottom = np_aphid + np_buchnera + np_both, width = 0.5, color = 'm', linewidth = 0)
 
-plt.title('Without $\it{B. oleracea}$\n', fontdict = title_font)
-plt.legend((np_unknown_plot[0], np_both_plot[0], np_buchnera_plot[0], np_aphid_plot[0]), ('Unknown', '$\it{M. persicae}$ and $\it{B. aphidicola}$', '$\it{B. aphidicola}$', '$\it{M. persicae}$'), loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), prop = {'family' : 'serif', 'size' : 12}, frameon = False)
+plt.title('Without $\it{Br. oleracea}$\n', fontdict = title_font)
+plt.legend((np_unknown_plot[0], np_both_plot[0], np_buchnera_plot[0], np_aphid_plot[0]), ('Unknown', '$\it{M. persicae}$ and $\it{Bu. aphidicola}$', '$\it{Bu. aphidicola}$', '$\it{M. persicae}$'), loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), prop = {'family' : 'serif', 'size' : 12}, frameon = False)
 plt.ylabel('Percentage', fontdict = other_font)
 plt.ylim(ymax = 100)
 plt.xticks((0.25, 1.0), ('Gut', 'Bacteriocyte'), size = 12, family = 'serif')
@@ -78,8 +78,8 @@ p_bp_plot = plt.bar(N, p_bp, bottom = p_aphid + p_buchnera + p_ab + p_plant + p_
 p_abp_plot = plt.bar(N, p_abp, bottom = p_aphid + p_buchnera + p_ab + p_plant+ p_ap + p_bp, width = 0.5, color = 'deepskyblue', linewidth = 0)
 p_unknown_plot = plt.bar(N, p_unknown, bottom = p_aphid + p_buchnera + p_ab + p_plant + p_ap + p_bp + p_abp, width = 0.5, color = 'm', linewidth = 0)
 
-plt.title('With $\it{B. oleracea}$\n', fontdict = title_font)
-plt.legend((p_unknown_plot[0], p_abp_plot[0], p_bp_plot[0], p_ap_plot[0], p_plant_plot[0], p_ab_plot[0], p_buchnera_plot[0], p_aphid_plot[0]), ('Unknown', 'All', '$\it{B. aphidicola}$ and $\it{B. oleracea}$', '$\it{M. persicae}$ and $\it{B. oleracea}$', '$\it{B. oleracea}$', '$\it{M. persicae}$ and $\it{B. aphidicola}$', '$\it{B. aphidicola}$', '$\it{M. persicae}$'), loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), prop = {'family' : 'serif', 'size' : 12}, frameon = False)
+plt.title('With $\it{Br. oleracea}$\n', fontdict = title_font)
+plt.legend((p_unknown_plot[0], p_abp_plot[0], p_bp_plot[0], p_ap_plot[0], p_plant_plot[0], p_ab_plot[0], p_buchnera_plot[0], p_aphid_plot[0]), ('Unknown', 'All', '$\it{Br. aphidicola}$ and $\it{Bu. oleracea}$', '$\it{M. persicae}$ and $\it{Br. oleracea}$', '$\it{Br. oleracea}$', '$\it{M. persicae}$ and $\it{Bu. aphidicola}$', '$\it{Bu. aphidicola}$', '$\it{M. persicae}$'), loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), prop = {'family' : 'serif', 'size' : 12}, frameon = False)
 plt.ylabel('Percentage', fontdict = other_font)
 plt.ylim(ymax = 100)
 plt.xticks((0.25, 1.0), ('Gut', 'Bacteriocyte'), size = 12, family = 'serif')
