@@ -3,13 +3,21 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-gut_data = {'aphid' : 1422715/26266.50, 'buchnera' : 7828/26266.50, 'both' : 3670/26266.50, 'unknown' : 1192437/26266.50}
+gut_data = {'aphid' : 1422715/26266.50, 'buchnera' : 7828/26266.50, 
+            'both' : 3670/26266.50, 'unknown' : 1192437/26266.50}
 
-gut_data_plant = {'aphid' : 1217185/26266.50, 'buchnera' : 6797/26266.50, 'plant' : 802790/26266.50, 'ab': 725/26266.50, 'ap' : 205530/26266.50, 'bp' : 1031/26266.50, 'abp' : 2945/219608.73, 'unknown' : 389647/26266.50}
+gut_data_plant = {'aphid' : 1217185/26266.50, 'buchnera' : 6797/26266.50, 
+                  'plant' : 802790/26266.50, 'ab': 725/26266.50, 
+                  'ap' : 205530/26266.50, 'bp' : 1031/26266.50, 
+                  'abp' : 2945/219608.73, 'unknown' : 389647/26266.50}
 
-bac_data = {'aphid' : 1981277/219608.73, 'buchnera' : 15108223/219608.73, 'both' : 3832277/219608.73, 'unknown' : 1039096/219608.73}
+bac_data = {'aphid' : 1981277/219608.73, 'buchnera' : 15108223/219608.73, 
+            'both' : 3832277/219608.73, 'unknown' : 1039096/219608.73}
 
-bac_data_plant = {'aphid' : 1836976/219608.73, 'buchnera' : 13408949/219608.73, 'plant' : 44379/219608.73, 'ab': 1356864/219608.73, 'ap' : 144301/219608.73, 'bp' : 1699274/219608.73, 'abp' : 2475413/219608.73, 'unknown' : 994717/219608.73}
+bac_data_plant = {'aphid' : 1836976/219608.73, 'buchnera' : 13408949/219608.73, 
+                  'plant' : 44379/219608.73, 'ab': 1356864/219608.73, 
+                  'ap' : 144301/219608.73, 'bp' : 1699274/219608.73, 
+                  'abp' : 2475413/219608.73, 'unknown' : 994717/219608.73}
 
 np_aphid = (gut_data['aphid'], bac_data['aphid'])
 np_aphid = np.array(np_aphid)
@@ -48,25 +56,6 @@ other_font = {'family': 'serif',
               'weight': 'normal',
               'size': 14,
               }
-
-# plt.subplot(1, 2, 1)
-# np_aphid_plot = plt.bar(N, np_aphid, width = 0.5, color = 'r', linewidth = 0)
-# np_buchnera_plot = plt.bar(N, np_buchnera, bottom = np_aphid, width = 0.5, color = 'darkorange', linewidth = 0)
-# np_both_plot = plt.bar(N, np_both, bottom = np_aphid + np_buchnera, width = 0.5, color = 'gold', linewidth = 0)
-# np_unknown_plot = plt.bar(N, np_unknown, bottom = np_aphid + np_buchnera + np_both, width = 0.5, color = 'm', linewidth = 0)
-
-# plt.title('Without Host Plant\n', fontdict = title_font)
-# plt.legend((np_unknown_plot[0], np_both_plot[0], np_buchnera_plot[0], np_aphid_plot[0]), ('Unknown', '$\it{M. persicae}$ and $\it{Bu. aphidicola}$', '$\it{Bu. aphidicola}$', '$\it{M. persicae}$'), loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), prop = {'family' : 'serif', 'size' : 12}, frameon = False)
-# plt.ylabel('Percentage', fontdict = other_font)
-# plt.ylim(ymax = 100)
-# plt.xticks((0.25, 1.0), ('Gut', 'Bacteriocyte'), size = 12, family = 'serif')
-# plt.text(-0.7, 113, 'a)', fontsize = 20, family = 'serif')
-# plt.margins(0.05, 0)
-# ax1 = plt.subplot(1, 2, 1)
-# ax1.spines['right'].set_visible(False)
-# ax1.spines['top'].set_visible(False)
-# ax1.yaxis.set_ticks_position('left')
-# ax1.xaxis.set_ticks_position('bottom')
 
 
 labels = ['Unknown', 'Holobiont']
