@@ -56,16 +56,15 @@ other_font = {'family': 'serif',
               'weight': 'normal',
               'size': 14,
               }
-
-
-labels = ['Unknown', 'Holobiont']
 sizes_gut = [gut_data['unknown'], 
              gut_data['both'] + gut_data['buchnera'] + gut_data['aphid']]
-explode = (0, 0)
+sizes_bac = [bac_data['unknown'], 
+             bac_data['both'] + bac_data['buchnera'] + bac_data['aphid']]
 colors = ['m', 'r']
+labels = ['Unknown', 'Holobiont']
 
 plt.subplot(2, 2, 1)
-plt.pie(sizes_gut, explode = explode, colors = colors, autopct = '%1.1f%%',
+plt.pie(sizes_gut, colors = colors, autopct = '%1.1f%%',
         shadow = False, startangle = 90, wedgeprops = {'linewidth': 0}, 
         pctdistance=1.5)
 
@@ -73,40 +72,44 @@ plt.title('sRNA Source\n', fontdict = title_font)
 plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
 
-sizes_bac = [bac_data['unknown'], 
-             bac_data['both'] + bac_data['buchnera'] + bac_data['aphid']]
-
 plt.subplot(2, 2, 3)
-plt.pie(sizes_bac, explode = explode, colors = colors, autopct = '%1.1f%%',
-        shadow = False, startangle = 160, wedgeprops = {'linewidth': 0}, 
+plt.pie(sizes_bac, colors = colors, autopct = '%1.1f%%',
+        shadow = False, startangle = 163.26, wedgeprops = {'linewidth': 0}, 
         pctdistance=1.5)
 
-plt.legend(labels, loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), 
+plt.legend(labels, loc = 'upper left', bbox_to_anchor = (-0.35, -0.21), 
            prop = {'family' : 'serif', 'size' : 12}, frameon = False)
-plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.axis('equal')
 
 plt.subplot(1, 2, 2)
-p_aphid_plot = plt.bar(N, p_aphid, width = 0.5, color = 'r', linewidth = 0)
+p_aphid_plot = plt.bar(N, p_aphid, width = 0.5, color = 'r', linewidth = 0, 
+                       edgecolor = 'w', hatch = '/')
 p_buchnera_plot = plt.bar(N, p_buchnera, bottom = p_aphid, width = 0.5, 
-                          color = 'darkorange', linewidth = 0)
+                          color = 'darkorange', linewidth = 0, edgecolor = 'w', 
+                          hatch = '/')
 p_ab_plot = plt.bar(N, p_ab, bottom = p_aphid + p_buchnera, width = 0.5, 
-                    color = 'gold', linewidth = 0)
+                    color = 'gold', linewidth = 0, edgecolor = 'w', hatch = '/')
 p_plant_plot = plt.bar(N, p_plant, bottom = p_aphid + p_buchnera + p_ab, 
-                       width = 0.5, color = 'g', linewidth = 0)
+                       width = 0.5, color = 'green', linewidth = 0, 
+                       edgecolor = 'w', hatch = '\\')
 p_ap_plot = plt.bar(N, p_ap, bottom = p_aphid + p_buchnera + p_ab + p_plant, 
-                    width = 0.5, color = 'limegreen', linewidth = 0)
+                    width = 0.5, color = 'limegreen', linewidth = 0, 
+                    edgecolor = 'w', hatch = '\\')
 p_bp_plot = plt.bar(N, p_bp, bottom = p_aphid + p_buchnera + p_ab + p_plant + p_ap, 
-                    width = 0.5, color = 'lime', linewidth = 0)
+                    width = 0.5, color = 'greenyellow', linewidth = 0, edgecolor = 'w', 
+                    hatch = '\\')
 p_abp_plot = plt.bar(N, p_abp, 
                      bottom = p_aphid + p_buchnera + p_ab + p_plant+ p_ap + p_bp, 
-                     width = 0.5, color = 'deepskyblue', linewidth = 0)
-p_unknown_plot = plt.bar(N, p_unknown, 
-                         bottom = p_aphid + p_buchnera + p_ab + p_plant + p_ap + p_bp + p_abp, 
+                     width = 0.5, color = 'mediumturquoise', linewidth = 0, 
+                     edgecolor = 'w', hatch = 'x')
+p_unknown_plot = plt.bar(N, p_unknown, bottom = 
+                         p_aphid + p_buchnera + p_ab + p_plant + p_ap + p_bp + p_abp, 
                          width = 0.5, color = 'm', linewidth = 0)
 
 plt.title('sRNA Mapping\n', fontdict = title_font)
 plt.legend((p_unknown_plot[0], p_abp_plot[0], p_bp_plot[0], p_ap_plot[0], 
-           p_plant_plot[0], p_ab_plot[0], p_buchnera_plot[0], p_aphid_plot[0]), 
+           p_plant_plot[0], p_ab_plot[0], p_buchnera_plot[0], p_aphid_plot[0], 
+           plot[0], plot2[0]), 
            ('Unknown', 'All', '$\it{Buchnera}$ and Host Plant', 
            'Pea Aphid and Host Plant', 'Host Plant', 
            'Pea Aphid and $\it{Buchnera}$', '$\it{Buchnera}$', 'Pea Aphid'), 
@@ -117,7 +120,7 @@ plt.ylim(ymax = 100)
 plt.xticks((0.25, 1.0), ('Gut', 'Bacteriocyte'), size = 12, family = 'serif')
 
 plt.text(-3.2, 113, 'a)', fontsize = 20, family = 'serif')
-plt.text(-0.7, 113, 'a)', fontsize = 20, family = 'serif')
+plt.text(-0.7, 113, 'b)', fontsize = 20, family = 'serif')
 plt.text(-3.0, 100, 'Gut', fontsize = 14, family = 'serif')
 plt.text(-3.0, 47, 'Bacteriocyte', fontsize = 14, family = 'serif')
 
@@ -129,7 +132,8 @@ ax2.yaxis.set_ticks_position('left')
 ax2.xaxis.set_ticks_position('bottom')
 
 plt.subplots_adjust(top = 0.75, wspace = 0.8)
-# plt.suptitle('Reads Aligned per Genome', fontsize = 18, family = 'serif', fontweight = 'bold')
-plt.savefig('C:\\Users\Thompson\Documents\Figure_1.1_GvB.svg', 
+# plt.suptitle('Reads Aligned per Genome', fontsize = 18, family = 'serif', 
+#              fontweight = 'bold')
+plt.savefig('C:\\Users\Thompson\Documents\Figure_1.1_GvB_with_hatch.svg', 
             bbox_inches = 'tight', format = 'svg')
 plt.show()
