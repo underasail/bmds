@@ -63,7 +63,8 @@ p_abp = np.array(p_abp)
 # MatPlotLib Initializations #
 ##############################
 
-N = (0, 0.75)  # Positioning of bar plots for panel b
+N = (0.80, 0.05)  # Positioning of bar plots for panel b
+
 title_font = {'family': 'serif',
               'color':  'black',
               'weight': 'normal',
@@ -75,13 +76,23 @@ other_font = {'family': 'serif',
               'weight': 'normal',
               'size': 14,
               }
+              
 sizes_gut = [gut_data['unknown'], 
              gut_data['both'] + gut_data['buchnera'] + gut_data['aphid']]
              # Sets up data for pie charts
 sizes_bac = [bac_data['unknown'], 
              bac_data['both'] + bac_data['buchnera'] + bac_data['aphid']]
-colors = ['m', 'r']  # Sets up colors for pie charts
-labels = ['Unknown', 'Holobiont']  # Sets up labels for pie charts
+             
+colors = ['mediumspringgreen', 'mediumturquoise']  # Sets up colors for pie charts
+labels = ['Other', 'Holobiont']                    #  "   "  labels  "   "    "   
+
+
+data_list = [p_aphid, p_buchnera, p_ab, p_plant, p_ap, p_bp, p_abp, p_unknown]
+string_list = ['p_aphid_plot', 'p_buchnera_plot', 'p_ab_plot', 'p_plant_plot', 'p_ap_plot', 
+               'p_bp_plot', 'p_abp_plot', 'p_unknown_plot']
+string_dict = {}
+color_list = ['maroon', 'red', 'coral', 'darkgreen', 'limegreen', 'greenyellow', 'gold', 'deeppink']
+left = 0
 
 #####################
 # Subplot Structure #
@@ -92,13 +103,14 @@ labels = ['Unknown', 'Holobiont']  # Sets up labels for pie charts
      ###### bb #
      # a2 # bb #
      ###########
-
+     
+plt.subplots(2, 2, figsize = (9, 5))
 
 #######################
 # Panel A: Pie Charts #
 #######################
 
-plt.subplot(2, 2, 1) # Rows, Columns, Position
+plt.subplot(2, 3, 1) # Rows, Columns, Position
 plt.pie(sizes_gut, colors = colors, autopct = '%1.1f%%',
         shadow = False, startangle = 90, wedgeprops = {'linewidth': 0}, 
         pctdistance=1.5)
@@ -107,12 +119,12 @@ plt.title('sRNA Source\n', fontdict = title_font) # Acts as panel title
 plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
 
-plt.subplot(2, 2, 3)
+plt.subplot(2, 3, 4)
 plt.pie(sizes_bac, colors = colors, autopct = '%1.1f%%',
         shadow = False, startangle = 163.26, wedgeprops = {'linewidth': 0}, 
         pctdistance=1.5)
 
-plt.legend(labels, loc = 'upper left', bbox_to_anchor = (-0.35, -0.21), 
+plt.legend(labels, loc = 'upper left', bbox_to_anchor = (-0.35, -0.41), 
            prop = {'family' : 'serif', 'size' : 12}, frameon = False)
 plt.axis('equal')
 
@@ -121,65 +133,48 @@ plt.axis('equal')
 # Panel B: Bar Charts #
 #######################
 
-ax = plt.subplot(1, 2, 2)  # Sets up ax for later proptery manipulations of ticks
-p_aphid_plot = plt.bar(N, p_aphid, width = 0.5, color = 'r', linewidth = 0, 
-                       edgecolor = 'w', hatch = '/')
-p_buchnera_plot = plt.bar(N, p_buchnera, bottom = p_aphid, width = 0.5, 
-                          color = 'darkorange', linewidth = 0, edgecolor = 'w', 
-                          hatch = '/')
-p_ab_plot = plt.bar(N, p_ab, bottom = p_aphid + p_buchnera, width = 0.5, 
-                    color = 'gold', linewidth = 0, edgecolor = 'w', hatch = '/')
-p_plant_plot = plt.bar(N, p_plant, bottom = p_aphid + p_buchnera + p_ab, 
-                       width = 0.5, color = 'green', linewidth = 0, 
-                       edgecolor = 'w', hatch = '\\')
-p_ap_plot = plt.bar(N, p_ap, bottom = p_aphid + p_buchnera + p_ab + p_plant, 
-                    width = 0.5, color = 'limegreen', linewidth = 0, 
-                    edgecolor = 'w', hatch = '\\')
-p_bp_plot = plt.bar(N, p_bp, bottom = p_aphid + p_buchnera + p_ab + p_plant + p_ap, 
-                    width = 0.5, color = 'greenyellow', linewidth = 0, edgecolor = 'w', 
-                    hatch = '\\')
-p_abp_plot = plt.bar(N, p_abp, 
-                     bottom = p_aphid + p_buchnera + p_ab + p_plant+ p_ap + p_bp, 
-                     width = 0.5, color = 'mediumturquoise', linewidth = 0, 
-                     edgecolor = 'w', hatch = 'x')
-p_unknown_plot = plt.bar(N, p_unknown, bottom = 
-                         p_aphid + p_buchnera + p_ab + p_plant + p_ap + p_bp + p_abp, 
-                         width = 0.5, color = 'm', linewidth = 0)
+ax = plt.subplot(1, 3, (2, 3))  # Sets up ax for later proptery manipulations of ticks
 
+for data, string, color in zip(data_list, string_list, color_list):
+    string_dict[string] = ax.barh(N, data, color = color, left = left, height = 0.50, linewidth = 0)
+    left += data
+    
 plt.title('sRNA Mapping\n', fontdict = title_font)
-plt.legend((p_unknown_plot[0], p_abp_plot[0], p_bp_plot[0], p_ap_plot[0], 
-           p_plant_plot[0], p_ab_plot[0], p_buchnera_plot[0], p_aphid_plot[0]), 
-           ('Unknown', 'All', '$\it{Buchnera}$ and Host Plant', 
-           'Pea Aphid and Host Plant', 'Host Plant', 
+plt.legend((string_dict['p_unknown_plot'][0], string_dict['p_plant_plot'][0], 
+           string_dict['p_bp_plot'][0], string_dict['p_ap_plot'][0], 
+           string_dict['p_abp_plot'][0], string_dict['p_ab_plot'][0], 
+           string_dict['p_buchnera_plot'][0], string_dict['p_aphid_plot'][0]), 
+           ('Unknown', 'Host Plant', '$\it{Buchnera}$ and Host Plant', 
+           'Pea Aphid and Host Plant', 'All', 
            'Pea Aphid and $\it{Buchnera}$', '$\it{Buchnera}$', 'Pea Aphid'), 
-           loc = 'upper left', bbox_to_anchor = (-0.35, -0.1), 
-           prop = {'family' : 'serif', 'size' : 12}, frameon = False)
-plt.ylabel('Percentage', fontdict = other_font)
-plt.ylim(ymax = 100)
-plt.xticks((0.25, 1.0), ('Gut', 'Bacteriocyte'), size = 12, family = 'serif')
+           loc = 'upper left', bbox_to_anchor = (-0.1, -0.2), 
+           prop = {'family' : 'serif', 'size' : 12}, frameon = False, ncol = 2)
+plt.xlabel('Percentage', fontdict = other_font)
+plt.xlim(xmax = 100)
+plt.ylim(ymax = 1.35)
+plt.yticks((0.25, 1.0), ('', ''), size = 12, family = 'serif')
 # Sets positioning and text properties for bar chart x-axis
 
-plt.text(-3.2, 113, 'a)', fontsize = 20, family = 'serif')
-plt.text(-0.7, 113, 'b)', fontsize = 20, family = 'serif')
+plt.text(-80, 1.47, 'a)', fontsize = 20, family = 'serif')
+plt.text(-5, 1.47, 'b)', fontsize = 20, family = 'serif')
 # Uses panel b bar chart axes to position text for panel labels
-plt.text(-3.0, 100, 'Gut', fontsize = 14, family = 'serif')
-plt.text(-3.0, 47, 'Bacteriocyte', fontsize = 14, family = 'serif')
+plt.text(-105, 1.0, 'Gut', fontsize = 16, family = 'serif')
+plt.text(-105, 0.25, 'Bacteriocyte', fontsize = 16, family = 'serif')
 # Uses panel b bar chart axes to position text for panel a pie chart subtitles
 
-plt.margins(0.05, 0)  # Helps separate bar charts from y axis (x-margin, y-margin)
 ax.spines['right'].set_visible(False)  # Removes right axis
-ax.spines['top'].set_visible(False)  # Removes top axis
-ax.yaxis.set_ticks_position('left')  # Keeps ticks to left side only horizontally
-ax.xaxis.set_ticks_position('bottom')  # Keeps ticks to bottom side only vertically
+ax.spines['left'].set_visible(False)  # Removes left axis
+# ax.spines['top'].set_visible(False)  # Removes top axis
+ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
 
 
 ######################
 # Figure Adjustments #
 ######################
 
-plt.subplots_adjust(top = 0.75, wspace = 0.8)
+plt.subplots_adjust(top = 0.75, wspace = 0.5)
 # plt.suptitle('Reads Aligned per Genome', fontsize = 18, family = 'serif', 
 #              fontweight = 'bold')
-plt.savefig('C:\\Users\Thompson\Documents\Figure_1.1_GvB_with_hatch.svg', 
+plt.savefig('C:\\Users\Thompson\Documents\Figure_1.1_horizontal_GvB.svg', 
             bbox_inches = 'tight', format = 'svg')
 plt.show()
