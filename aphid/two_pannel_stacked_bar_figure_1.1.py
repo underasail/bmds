@@ -90,6 +90,9 @@ labels = ['Other', 'Holobiont']                    #  "   "  labels  "   "    "
 data_list = [p_aphid, p_buchnera, p_ab, p_plant, p_ap, p_bp, p_abp, p_unknown]
 string_list = ['p_aphid_plot', 'p_buchnera_plot', 'p_ab_plot', 'p_plant_plot', 'p_ap_plot', 
                'p_bp_plot', 'p_abp_plot', 'p_unknown_plot']
+               # Keeps names the same as before for loop
+               # Allows a dictionary to be created with these as the keys and then save 
+               # bar chart characteristics under them for legend generation
 string_dict = {}
 color_list = ['maroon', 'red', 'coral', 'darkgreen', 'limegreen', 'greenyellow', 'gold', 'deeppink']
 left = 0
