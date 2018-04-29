@@ -1,7 +1,7 @@
 #! /bin/bash
 
-while read -r a b c d e f g h; do
+while read -r a b c d e f g h i j k l m n o p q r s; do
     echo -n '>'
-    echo $c
-    echo $g
-done < G006_Gut_plant_filter_P_prediction
+    echo $a
+    echo $p
+done < result_2.csv
