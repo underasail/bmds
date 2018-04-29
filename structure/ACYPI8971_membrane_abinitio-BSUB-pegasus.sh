@@ -1,8 +1,9 @@
 #! /bin/bash
 
-#BSUB -J "ACYPI8971_membrane_abinitio_parallel[46-78]"
-#BSUB -e /nethome/mct30/err/ACYPI8971_membrane_abinitio_parallel_%I.err
-#BSUB -o /nethome/mct30/out/ACYPI8971_membrane_abinitio_parallel_%I.out
+#BSUB -J "ACYPI8971_membrane_abinitio_parallel[79-142]"
+#BSUB -e /scratch/projects/acypi/err/ACYPI8971_membrane_abinitio_parallel_%I.err
+#BSUB -o /dev/null
+#BSUB -P acypi
 #BSUB -n 1
 #BSUB -q general
 #BSUB -R "rusage[mem=1500]"
@@ -18,9 +19,9 @@
 
 # $LSB_JOBINDEX goes from 1 to 32 for each job
 
-mkdir /nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX
+mkdir -p /scratch/projects/acypi/aphid/mem-ab-out-parent/mem-ab-out.$LSB_JOBINDEX
 
-/nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/\
+/nethome/mct30/local/rosetta/rosetta_bin_linux_2017.08.59291_bundle/\
 main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 -abinitio:membrane \
 -in:file:fasta /nethome/mct30/aphid/acypi8971_prot.fa \
@@ -29,7 +30,7 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 -in:file:spanfile /nethome/mct30/aphid/acypi8971_octopus.span \
 -in:file:lipofile /nethome/mct30/aphid/acypi8971.lips4 \
 -in:path:database \
-/nethome/mct30/rosetta/rosetta_bin_linux_2017.08.59291_bundle/main/database \
+/nethome/mct30/local/rosetta/rosetta_bin_linux_2017.08.59291_bundle/main/database \
 -score:find_neighbors_3dgrid \
 -membrane:no_interpolate_Mpair \
 -membrane:Menv_penalties \
@@ -38,11 +39,11 @@ main/source/bin/membrane_abinitio2.static.linuxgccrelease \
 -membrane:center_mag 2 \
 -out:membrane_pdb true \
 -out:pdb \
--out:path /nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX/ \
+-out:path /scratch/projects/acypi/aphid/mem-ab-out-parent/mem-ab-out.$LSB_JOBINDEX/ \
 -out:file:silent \
-/nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX/ACYPI008971_silent.$LSB_JOBINDEX.out \
+/scratch/projects/acypi/aphid/mem-ab-out-parent/mem-ab-out.$LSB_JOBINDEX/ACYPI008971_silent.$LSB_JOBINDEX.out \
 -out:file:scorefile \
-/nethome/mct30/aphid/mem-ab-out.$LSB_JOBINDEX/ACYPI008971_score.$LSB_JOBINDEX.sc \
+/scratch/projects/acypi/aphid/mem-ab-out-parent/mem-ab-out.$LSB_JOBINDEX/ACYPI008971_score.$LSB_JOBINDEX.sc \
 -out:nstruct 315
 # Membrane ab initio application,
 # Protein sequence in fasta format, Octopus transmembrane prediction, 
