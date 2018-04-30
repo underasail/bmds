@@ -8,7 +8,7 @@ echo -n '# '
 ls -lh /scratch/projects/acypi/aphid/mem-ab-out-parent/mem-ab-out.*/*.pdb | wc -l 
 echo '# Number of cores running:                   #'
 echo -n '# '
-bjobs | grep 'allel' | wc -l
+bjobs | grep 'lel\[' | wc -l
 #max='0'
 #for filename in ~/aphid/mem-ab-out.*; do 
 #    # echo $filename; 
