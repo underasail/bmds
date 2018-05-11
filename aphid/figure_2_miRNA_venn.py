@@ -1,8 +1,8 @@
 from matplotlib_venn import venn3
 from matplotlib import pyplot as plt
 
-plt.figure(figsize = (5, 5))
-venn3(subsets = (69, 93, 43, 103, 25, 40, 24), 
+plt.figure(figsize = (7, 7))
+venn3(subsets = (18, 34, 19, 62, 1, 16, 24), 
       set_labels = ('$\it{M. persicae}$, current', 
                     '$\it{M. persicae}$, prior', 
                     '$\it{A. pisum}$, prior')
