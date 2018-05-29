@@ -15,7 +15,7 @@
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
-module switch python/3.3.1 > /dev/null 2>&1
+module switch python/3.6.5 > /dev/null 2>&1
 # need to work in python3
 
 module load bowtie2
