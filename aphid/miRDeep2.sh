@@ -4,6 +4,7 @@
 #BSUB -e /nethome/mct30/err/miRDeep2.err
 #BSUB -o /nethome/mct30/out/miRDeep2.out
 #BSUB -n 1
+#BSUB -P acypi
 #BSUB -q general
 #BSUB -W 24:00
 #BSUB -B
@@ -17,23 +18,25 @@
 
 module load bowtie
 
+mkdir -p bt1-G006-Myzus
+
 cd /nethome/mct30/bmds/miRDeep2/
 
-#/nethome/mct30/gitclones/mirdeep2/essentials/bowtie-1.1.1/bowtie-build \
-#-f /nethome/mct30/bmds/ref_genomes/G006_Myzus_genome_ref_noheader.fasta \
-#/nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index
+/nethome/mct30/gitclones/mirdeep2/essentials/bowtie-1.1.1/bowtie-build \
+-f /nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref.fasta \
+/nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index
 # Builds bowtie1 index for noheader fasta
 
-#/nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
-#/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus.fasta -c \
-#-i -j -m \
-#-s /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta
+/nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus.fasta -c \
+-i -j -m \
+-s /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta
 # Takes Myzus only filtered reads and collapses redundancy while renaming reads
 
-#/nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
-#/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta -c \
-#-i -j -p /nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index \
-#-t /nethome/mct30/bmds/Myzus-miRDeep2/G006_Gut_F_trimmed_17-35_Myzus_collapsed_vs_genome.arf
+/nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_Myzus_collapsed.fasta -c \
+-i -j -p /nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index \
+-t /nethome/mct30/bmds/Myzus-miRDeep2/G006_Gut_F_trimmed_17-35_Myzus_collapsed_vs_genome.arf
 # produces arf mapped output with no mismatches from collapsed reads
 
 # There is an error produced when using these two together. count2 isn't set well

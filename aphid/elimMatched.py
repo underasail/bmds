@@ -1,4 +1,4 @@
-#! /share/opt/python/3.3.1/bin/python
+#! /share/opt/python/3.6.5/bin/python
 
 # USAGE: ./elimMatched.py [APHID/BUCHNERA SAM FILE] [READS FILE] [DESIRED OUTPUT READS FILE]
 
