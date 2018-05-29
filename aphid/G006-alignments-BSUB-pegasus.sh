@@ -3,7 +3,7 @@
 #BSUB -J G006-bowtie2_Buch_Myz_plant_split_alignments
 #BSUB -e /nethome/mct30/err/G006-bowtie2_Buch_Myz_plant_split_alignments.err
 #BSUB -o /nethome/mct30/out/G006-bowtie2_Buch_Myz_plant_split_alignments.out
-#BSUB -n 16
+#BSUB -n 48
 #BSUB -P acypi
 #BSUB -R "span[ptile=16]"
 #BSUB -q parallel
