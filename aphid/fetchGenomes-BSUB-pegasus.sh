@@ -1,9 +1,10 @@
-BB#! /bin/bash
+#! /bin/bash
 
 #BSUB -J fetchGenomes
-#BSUB -e /nethome/mct30/fetchGenomes.err
-#BSUB -o /nethome/mct30/fetchGenomes.out
-#BSUB -n 4
+#BSUB -e /nethome/mct30/err/fetchGenomes_2.err
+#BSUB -o /nethome/mct30/out/fetchGenomes_2.out
+#BSUB -P acypi
+#BSUB -n 1
 #BSUB -q general
 #BSUB -W 72:00
 #BSUB -B
@@ -15,35 +16,24 @@ BB#! /bin/bash
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
-module switch python/3.3.1
+module switch python/3.6.5 > /dev/null 2>&1
 # need to work in python3
 
 
-#
-# Plants
-#
+##################
+# Other Bacteria #
+##################
 
-# /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
-# /nethome/mct30/bmds/associated/aphid-associated-plant.csv \
-# /nethome/mct30/bmds/ref_genomes/plants/
-# Uses BioPython to fetch genomes of aphid associated plants
-# and download them in FASTA format
-
-
-#
-# Other Bacteria
-#
-
-# /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
-# /nethome/mct30/bmds/associated/aphid-associated-other_bacteria.csv \
-# /nethome/mct30/bmds/ref_genomes/other_bacteria/
+/nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
+/nethome/mct30/bmds/associated/aphid-associated-other_bacteria.csv \
+/nethome/mct30/bmds/ref_genomes/other_bacteria/
 # Uses BioPython to fetch genomes of aphid associated other bacteria
 # and download them in FASTA format
 
 
-#
-# Viruses
-#
+###########
+# Viruses #
+###########
 
 /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
 /nethome/mct30/bmds/associated/aphid-associated-viruses.csv \
@@ -51,9 +41,10 @@ module switch python/3.3.1
 # Uses BioPython to fetch genomes of aphid associated viruses
 # and download them in FASTA format
 
-#
-# Directory Structure
-#
+
+#######################
+# Directory Structure #
+#######################
 
 # /nethome/mct30/bmds/
 # ├ associated
