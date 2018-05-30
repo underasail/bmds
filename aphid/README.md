@@ -5,6 +5,9 @@ Use fetchGenomes to collect other bacteria and virus genomes
 
     Manually select those that don't meet script criteria
     Pulls genomes from literature review into downloaded FASTA files
+bowtie2-indexing
+
+    Indexes each of the individual genomes and then the big three together
 G006-alignments
 
     Aligns all three together and each individual alignment with full reads files
