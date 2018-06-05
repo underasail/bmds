@@ -23,3 +23,23 @@ elimUnmatched
 perSAM-BSUB-pegasus.sh >
 
     Calculates percentage of reads used in alignment that mapped to the specificed group of genomes
+# miRNA Analysis
+
+miRDeep2
+
+    Runs miRDeep2 on the Myzus only gut dataset from elimUnmatched
+bowtie1-miRDeep-P
+
+    Runs miRDeep-p on the plant only gut dataset
+miranda
+
+    Runs miranda on the miRDeep2/-P outputs
+
+# Figure Production
+
+two_pannel_stacked_bar_figure_1.1
+
+    Generates Figure 1
+figure_2_miRNA_venn
+
+    Generates Figure 2
