@@ -60,6 +60,7 @@ ax.spines['top'].set_visible(False)
 ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
 ax.yaxis.set_ticks_position('left')
 ax.tick_params(axis = 'y', direction = 'out')  # Positions ticks outside the axis
+ax.yaxis.set_tick_params(width = 1)
 
 
 ax = plt.subplot(6, 1, 6)
@@ -87,6 +88,7 @@ ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
 ax.yaxis.set_ticks_position('none')
 ax.get_xaxis().set_visible(False)
 ax.get_yaxis().set_visible(False)
+
 
 plt.savefig('C:\\Users\Thompson\Documents\Thapsigargin_Dosgae_Figure.svg', 
             bbox_inches = 'tight', format = 'svg')
