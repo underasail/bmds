@@ -11,6 +11,10 @@ a = np.array([14.96148930258410, 15.76298045753450,
               96.19055293136990, 98.19137723441700,
               120.69264610540000, 231.40199129387800])
 
+a = a/20  # Per µg instead of 20µg
+b = b/20
+c = c/20
+
 abc = (a + b + c)/3
 
 std_1 = np.std([a[0], b[0], c[0]])
@@ -41,20 +45,18 @@ ax = plt.subplot(5, 1, (1, 4))
 
 plt.bar(N, abc, yerr = sem, ecolor = 'black', 
         width = 0.1, color = ['white', 'lightgrey', 'lightgrey', 
-                              'lightgrey', 'lightgrey', 'darkgrey'],
-        linewidth = 0.5
+        'lightgrey', 'lightgrey', 'darkgrey'], linewidth = 0.5
         )
 
 # plt.title('Thapsigargin Dosage Curve\n', fontdict = title_font)
 
-plt.xticks(M, ('Control', '0.01', '0.1', '1', '10', '1'
-               ), 
+plt.xticks(M, ('Control', '0.01', '0.1', '1', '10', '1'), 
            rotation = 0, size = 12, family = 'serif'
            )
 # Sets positioning and text properties for bar chart x-axis
-plt.ylabel('Fluorescence Intensity/Minute\n', fontdict = other_font)
+plt.ylabel('Caspase-3 Activity\n(∆F/µg/min)', fontdict = other_font)
 ax.spines['right'].set_visible(False)  # Removes right axis
-ax.spines['top'].set_visible(False)  # Removes top axis
+ax.spines['top'].set_visible(False)
 ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
 ax.yaxis.set_ticks_position('left')
 ax.tick_params(axis = 'y', direction = 'out')  # Positions ticks outside the axis
