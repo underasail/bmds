@@ -1,4 +1,4 @@
-#! /share/opt/python/3.3.1/bin/python
+#! /share/opt/python/3.6.5/bin/python
 
 # USAGE = ./fetchGenomes.py [CSV FILE WITH ORGANISMS] [/root/path/to/ref_genomes_folder/]
 # with closing '/' at end of path
