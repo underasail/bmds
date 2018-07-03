@@ -40,7 +40,8 @@ other_font = {'family': 'serif',
 ax = plt.subplot(5, 1, (1, 4))
 
 plt.bar(N, abc, yerr = sem, ecolor = 'black', 
-        width = 0.1, color = 'white', 
+        width = 0.1, color = ['white', 'lightgrey', 'lightgrey', 
+                              'lightgrey', 'lightgrey', 'darkgrey'],
         linewidth = 0.5
         )
 
