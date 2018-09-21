@@ -1,7 +1,0 @@
-#! /bin/bash
-
-while read -r a b c d; do
-    if [[ $c == 'three_prime_utr' ]]; then
-	echo -e "$a\t$b\t$c\t$d"
-    fi 
-done < G006_Myzus_genome_ref.gff
