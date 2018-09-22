@@ -9,48 +9,10 @@ from matplotlib import pyplot as plt
 # Data Storage #
 ################
 
-# gut_data = {'aphid' : 1422715/26266.50, 'buchnera' : 7828/26266.50, 
-#             'both' : 3670/26266.50, 'unknown' : 1192437/26266.50}
-
-# gut_data_plant = {'aphid' : 1217185/26266.50, 'buchnera' : 6797/26266.50, 
-#                   'plant' : 802790/26266.50, 'ab': 725/26266.50, 
-#                   'ap' : 205530/26266.50, 'bp' : 1031/26266.50, 
-#                   'abp' : 2945/26266.50, 'unknown' : 389647/26266.50}
-# Zeroed out to remove those less than 1%
-# gut_data_plant = {'aphid' : 1217185/26266.50, 'buchnera' : 0/26266.50, 
-#                   'plant' : 802790/26266.50, 'ab': 952/26266.50, 
-#                   'ap' : 286498/26266.50, 'bp' : 1807/26266.50, 
-#                   'abp' : 4058/26266.50, 'unknown' : 389647/26266.50}
-# Old data
-# gut_data_plant = {'aphid' : 1153705/26266.50, 'buchnera' : 6812/26266.50, 
-#                   'plant' : 863949/26266.50, 'ab': 952/26266.50, 
-#                   'ap' : 286498/26266.50, 'bp' : 1807/26266.50, 
-#                   'abp' : 4058/26266.50, 'unknown' : (2626650-2317781)/26266.50}
-# New data not zeroed out
 gut_data_plant = {'aphid' : 1153705/26266.50, 'buchnera' : 0/26266.50, 
                   'plant' : 863949/26266.50, 'ab': 0/26266.50, 
                   'ap' : 286498/26266.50, 'bp' : 0/26266.50, 
                   'abp' : 0/26266.50, 'unknown' : (2626650-2317781)/26266.50}
-
-# bac_data = {'aphid' : 1981277/219608.73, 'buchnera' : 15108223/219608.73, 
-#             'both' : 3832277/219608.73, 'unknown' : 1039096/219608.73}
-
-# bac_data_plant = {'aphid' : 1836976/219608.73, 'buchnera' : 13408949/219608.73, 
-#                   'plant' : 44379/219608.73, 'ab': 1356864/219608.73, 
-#                   'ap' : 144301/219608.73, 'bp' : 1699274/219608.73, 
-#                   'abp' : 2475413/219608.73, 'unknown' : 994717/219608.73}
-                  
-# bac_data_plant = {'aphid' : 1836976/219608.73, 'buchnera' : 13408949/219608.73, 
-#                   'plant' : 0/219608.73, 'ab': 1356864/219608.73, 
-#                   'ap' : 0/219608.73, 'bp' : 1699274/219608.73, 
-#                   'abp' : 2475413/219608.73, 'unknown' : 994717/219608.73}
-# Old data zeroed out
-
-# bac_data_plant = {'aphid' : 1775626/219608.73, 'buchnera' : 13523886/219608.73, 
-#                   'plant' : 48850/219608.73, 'ab': 1422774/219608.73, 
-#                   'ap' : 216230/219608.73, 'bp' : 1850387/219608.73, 
-#                   'abp' : 2553368/219608.73, 'unknown' : (21960873-21391121)/219608.73}
-# New data not zeroed out
 
 bac_data_plant = {'aphid' : 1775626/219608.73, 'buchnera' : 13523886/219608.73, 
                   'plant' : 0/219608.73, 'ab': 1422774/219608.73, 
@@ -61,16 +23,6 @@ bac_data_plant = {'aphid' : 1775626/219608.73, 'buchnera' : 13523886/219608.73,
 ###################
 # Data Formatting #
 ###################
-
-# np_aphid = (gut_data['aphid'], bac_data['aphid'])
-# np_aphid = np.array(np_aphid)
-# np_buchnera = (gut_data['buchnera'], bac_data['buchnera'])
-# np_buchnera = np.array(np_buchnera)
-# np_both = (gut_data['both'], bac_data['both'])
-# np_both = np.array(np_both)
-# np_unknown = (gut_data['unknown'], bac_data['unknown'])
-# np_unknown = np.array(np_unknown)
-# # Without (not) plant data set-up
 
 p_aphid = (gut_data_plant['aphid'], bac_data_plant['aphid'])
 p_aphid = np.array(p_aphid)
