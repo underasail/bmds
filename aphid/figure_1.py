@@ -70,9 +70,6 @@ sizes_bac = [bac_data['unknown'],
              bac_data['both'] + bac_data['buchnera'] + bac_data['aphid']]
 sizes_bac.reverse()
 
-# colors = ['darkorange', 'steelblue']  # Sets up colors for pie charts
-# labels = ['Non-holobiont', 'Holobiont']       #  "   "  labels  "   "    "   
-
 colors = ['steelblue', 'darkorange']  # Sets up colors for pie charts
 labels = ['Holobiont', 'Non-hlobiont']
 
@@ -83,7 +80,9 @@ string_list = ['p_aphid_plot', 'p_buchnera_plot', 'p_ab_plot', 'p_plant_plot', '
                # Allows a dictionary to be created with these as the keys and then save 
                # bar chart characteristics under them for legend generation
 string_dict = {}
-color_list = ['maroon', 'red', 'salmon', 'darkgreen', 'goldenrod', 'gold', 'mediumturquoise', 'orchid']
+color_list = ['maroon', 'red', 'lightsalmon', 
+              'darkgreen', 'darkgoldenrod', 
+              'gold', 'c', 'mediumorchid']
 left = 0
 
 #####################
