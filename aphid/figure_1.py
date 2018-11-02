@@ -9,6 +9,10 @@ from matplotlib import pyplot as plt
 # Data Storage #
 ################
 
+gut_data = {'holobiont' : 1453832/26266.50, 'nonholobiont' : 1172818/26266.50}
+
+bac_data = {'holobiont' : 21342271/219608.73, 'nonholobiont' : 618602/219608.73}
+
 gut_data_plant = {'aphid' : 1153705/26266.50, 'buchnera' : 0/26266.50, 
                   'plant' : 863949/26266.50, 'ab': 0/26266.50, 
                   'ap' : 286498/26266.50, 'bp' : 0/26266.50, 
@@ -61,13 +65,13 @@ other_font = {'family': 'serif',
               'size': 14,
               }
               
-sizes_gut = [gut_data['unknown'], 
-             gut_data['both'] + gut_data['buchnera'] + gut_data['aphid']]
+sizes_gut = [gut_data['nonholobiont'], 
+             gut_data['holobiont']]
              # Sets up data for pie charts
 sizes_gut.reverse()  # To allow legend to be in the correct order
 
-sizes_bac = [bac_data['unknown'], 
-             bac_data['both'] + bac_data['buchnera'] + bac_data['aphid']]
+sizes_bac = [bac_data['nonholobiont'], 
+             bac_data['holobiont']]
 sizes_bac.reverse()
 
 colors = ['steelblue', 'darkorange']  # Sets up colors for pie charts
