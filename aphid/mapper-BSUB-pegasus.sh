@@ -4,6 +4,7 @@
 #BSUB -e /nethome/mct30/err/mapper.err
 #BSUB -o /nethome/mct30/out/mapper.out
 #BSUB -n 1
+#BSUB -P acypi
 #BSUB -q general
 #BSUB -W 24:00
 #BSUB -B
@@ -18,9 +19,9 @@
 cd /nethome/mct30/gitclones/mirdeep2/
 
 /nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
-/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fa -c \
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only.fasta -c \
 -p /nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus-index \
--q -t /nethome/mct30/bmds/G006_Gut_mapped.arf
+-t /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only_mapped.arf
 # Input FASTA file (-c) of reads
 # -p 'path to genome index'
 # -q with one mismatch

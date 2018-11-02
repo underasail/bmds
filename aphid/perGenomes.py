@@ -1,4 +1,4 @@
-#! /share/opt/python/3.3.1/bin/python
+#! /share/opt/python/3.6.5/bin/python
 
 # USAGE = ./perGenomes.py [SAM FILE] [/root/path/to/percentage_output.tsv]
 
@@ -76,7 +76,7 @@ for (record, genbank_accession_number) in zip(efetch_records, genbank_accession_
         print('Records not aligned')
     # Pulls the organism name from the annotations of the SeqRecord 
     # object to identify the genome later on in output files
-    genomes_dict[organism_name].append(record.description)
+    ##genomes_dict[organism_name].append(record.description)
     # Added description to end of readnums list because it contains strain and genome info
     print(organism_name)
 

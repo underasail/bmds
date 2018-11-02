@@ -1,8 +1,8 @@
 #! /bin/bash
 
-#BSUB -J miRDeep2
-#BSUB -e /nethome/mct30/err/miRDeep2_9.err
-#BSUB -o /nethome/mct30/out/miRDeep2_9.out
+#BSUB -J miRDeep2_plant-Myzus
+#BSUB -e /nethome/mct30/err/miRDeep2_plant-Myzus.err
+#BSUB -o /nethome/mct30/out/miRDeep2_plant-Myzus.out
 #BSUB -n 1
 #BSUB -P acypi
 #BSUB -q general
@@ -25,20 +25,20 @@ mkdir -p /nethome/mct30/bmds/index/bt1-plant
 cd /nethome/mct30/bmds/miRDeep2/
 
 # /nethome/mct30/gitclones/mirdeep2/essentials/bowtie-1.1.1/bowtie-build \
-# -f /nethome/mct30/bmds/ref_genomes/plants/GCF_000695525.1_BOL_genomic.fasta \
-# /nethome/mct30/bmds/index/bt1-plant/bt1-plant-index
+# -f /nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref.fasta \
+# /nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus_index
 # # Builds bowtie1 index for noheader fasta
 
 # /nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
-# /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plants.fasta -c \
+# /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only.fasta -c \
 # -i -j -m \
-# -s /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plants_collapsed_2.fasta
+# -s /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only_collapsed.fasta
 # # Takes Myzus only filtered reads and collapses redundancy while renaming reads
 
 # /nethome/mct30/gitclones/mirdeep2/bin/mapper.pl \
-# /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plants_collapsed_2.fasta -c \
-# -i -j -p /nethome/mct30/bmds/index/bt1-plant/bt1-plant-index \
-# -t /nethome/mct30/bmds/plant/G006_Gut_F_trimmed_17-35_plant_collapsed_2_vs_genome.arf
+# /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only_collapsed.fasta -c \
+# -i -j -p /nethome/mct30/bmds/index/bt1-G006-Myzus/bt1-G006-Myzus_index \
+# -t /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only_collapsed_vs_genome.arf
 # # produces arf mapped output with no mismatches from collapsed reads
 
 # # There is an error produced when using these two together. count2 isn't set well
@@ -46,12 +46,12 @@ cd /nethome/mct30/bmds/miRDeep2/
 # # the arf file
 
 /nethome/mct30/gitclones/mirdeep2/bin/miRDeep2.pl \
-/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plants_collapsed_2.fasta \
-/nethome/mct30/bmds/ref_genomes/plants/GCF_000695525.1_BOL_genomic.fasta \
-/nethome/mct30/bmds/plant/G006_Gut_F_trimmed_17-35_plant_collapsed_2_vs_genome.arf \
-/nethome/mct30/bmds/plant/bol_miRNAs.fa \
-none \
-none
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only_collapsed.fasta \
+/nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref.fasta \
+/nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_plant-Myzus-only_collapsed_vs_genome.arf \
+/nethome/mct30/bmds/Myzus-miRDeep2/Mpe_miRNAs_mature.fa \
+/nethome/mct30/bmds/Myzus-miRDeep2/api_miRNAs.fa \
+/nethome/mct30/bmds/Myzus-miRDeep2/Mpe_miRNAs_precursors.fa
 # Path to program
 # Input miRDeep2 collapsed FASTA reads file
 # Input genome FASTA with no whitespaces in header
