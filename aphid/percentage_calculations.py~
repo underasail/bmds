@@ -88,28 +88,12 @@ with open(argv[3], newline='') as f:
         else:
             pass
 
-plant_total_set = set(plant)
-plant_only_set = set(plant - aphid - buchnera)
-plant_Myzus_set = set(plant & aphid)
+print('Total: ', len(aphid) + len(buchnera) + len(plant))
+print('All: ', len(aphid & buchnera & plant))
+print('Aphid and plant: ', len((aphid & plant) - buchnera))
+print('Aphid and Buchnera: ', len((aphid & buchnera) - plant))
+print('Buchnera and Plant: ', len((buchnera & plant) - aphid))
+print('Aphid: ', len(aphid - buchnera - plant))
+print('Buchnera: ', len(buchnera - aphid - plant))
+print('Plant: ', len(plant - aphid - buchnera))
 
-reads_in = open(argv[4], 'r')
-# Full reads file
-reads_out = open(argv[5], 'w')
-# File that will contain only unmatched reads
-for header_line in reads_in:
-    # each header_line should be a FASTA header with format '>#'
-    seq_line = next(reads_in)
-    # seq_line should be FASTA seq
-    readnum = header_line[1:-1]
-    # removes '>' from begining of header line leaving read number
-
-    if readnum in plant_Myzus_set:
-        reads_out.write(header_line)
-        reads_out.write(seq_line)
-        # writes to reads_out in FASTA format for unmatched entries in reads_in
-    else:
-        pass
-
-reads_in.close()
-reads_out.close()
-    

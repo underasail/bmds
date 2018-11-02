@@ -18,9 +18,11 @@
 # send email with stats when job finished, email,
 # default RAM per core is 1500MB
 
-module load python/2.7.3
+module switch python/2.7.3
 
 /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR_PREFeR.py \
 -L -k \
 pipeline \
 /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR-PREFeR.config
+# /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR-PREFeR.config
+# /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR-PREFeR_SRA.config

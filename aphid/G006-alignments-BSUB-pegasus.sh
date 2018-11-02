@@ -27,6 +27,7 @@ module load bowtie2
 
 parallel --link -j 6 \
 'bowtie2 -L 10 -f -p 8 --no-unal --no-hd \
+-D 20 -R 3 -N 0 -L 20 -i S,1,0.50 -a \
 -x /nethome/mct30/bmds/index/{1}/{1}_index \
 -U /nethome/mct30/bmds/reads/{2} \
 -S /nethome/mct30/bmds/SAM_out/{3}' \
@@ -34,14 +35,15 @@ parallel --link -j 6 \
 ::: G006_Bac_F_trimmed_17-35.fa G006_Gut_F_trimmed_17-35.fa \
 G006_Bac_F_trimmed_17-35.fa G006_Gut_F_trimmed_17-35.fa \
 G006_Bac_F_trimmed_17-35.fa G006_Gut_F_trimmed_17-35.fa \
-::: G006_Bac_Myzus-only.map G006_Gut_Myzus-only.map \
-G006_Bac_Buchnera-only.map G006_Gut_Buchnera-only.map \
-G006_Bac_plants-only.map G006_Gut_plants-only.map
+::: G006_Bac_Myzus-only_sensitive_all.map G006_Gut_Myzus-only_sensitive_all.map \
+G006_Bac_Buchnera-only_sensitive_all.map G006_Gut_Buchnera-only_sensitive_all.map \
+G006_Bac_plants-only_sensitive_all.map G006_Gut_plants-only_sensitive_all.map
 
 parallel --link -j 2 \
 'bowtie2 -L 10 -f -p 8 --no-unal --no-hd \
+-D 20 -R 3 -N 0 -L 20 -i S,1,0.50 -a \
 -x /nethome/mct30/bmds/index/G006/G006_Buchnera_Myzus_plant_index \
 -U /nethome/mct30/bmds/reads/{1} \
 -S /nethome/mct30/bmds/SAM_out/{2}' \
 ::: G006_Bac_F_trimmed_17-35.fa G006_Gut_F_trimmed_17-35.fa \
-::: G006_Bac_Buchnera_Myzus_plant.map G006_Gut_Buchnera_Myzus_plant.map
+::: G006_Bac_Buchnera_Myzus_plant_sensitive_all.map G006_Gut_Buchnera_Myzus_plant_sensitive_all.map
