@@ -85,13 +85,12 @@ for entry in total_set:
             if (1 + seed[-1] - seed[0]) > 8:
                 print('ERROR: Fix it manually')
                 print(seed)
-                print(entry+'\t'+str(seed[0])+'\t'+str(seed[-1]))
+                print(entry+'\t'+str(seed[0])+'\t'+str(seed[-1])+'\t'+strand_dict[entry][0])
             else:
-                print(entry+'\t'+str(seed[0])+'\t'+str(seed[-1]))
+                print(entry+'\t'+str(seed[0])+'\t'+str(seed[-1])+'\t'+strand_dict[entry][0])
     else:
         if len(set(m_dict[entry][0] & p_dict[entry][0] & h_dict[entry][0])) > 0:
             seed = sorted(set(m_dict[entry][0] & p_dict[entry][0] & h_dict[entry][0]))
             print(entry+'\t'+str(seed[0])+'\t'+str(seed[-1])+'\t'+strand_dict[entry][0])
-
 
 
