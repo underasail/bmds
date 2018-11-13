@@ -135,16 +135,16 @@ ax = plt.subplot(1,1,1)
 barlist = plt.barh(ind, cogs_per_final, height = 0.5, align = 'edge')
 for i, color in zip(range(0, len(barlist)-1), colors_final):
     barlist[i].set_color(color)
-plt.yticks(ind - 0.25, labels_final, rotation = "horizontal")
+plt.yticks(ind - 0.25, labels_final, rotation = "horizontal", fontsize = 12)
 plt.ylim([0, ind.size])  # Removes whitespace to right side
-plt.xlabel('Percent')
+plt.xlabel('Percent', fontsize = 12)
+plt.xticks(fontsize = 12)
 ax.spines['right'].set_visible(False)  # Removes right axis
 ax.spines['top'].set_visible(False)  # Removes top axis
 ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
 ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
+plt.text(25, 40, '   Target\nGenome', fontsize = 12, family = 'sansserif')
 
 plt.savefig('C:\\Users\Thompson\Documents\Figure_COG.svg', 
             bbox_inches = 'tight', format = 'svg', dpi = 500)
 plt.show()
-
-
