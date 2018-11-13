@@ -31,14 +31,17 @@ for file in filelist:
         for row in csvreader:
             cog = row[11]
             name = row[0]
-            if len(cog) > 1:
-                cogs_list_g = cog.split(', ')
-                for entry in cogs_list_g:
-                    cogs_g.append(entry)
-                    cogs_dict_g.setdefault(entry, []).append(name)
+            if cog == "S":
+                next(csvreader)
             else:
-                cogs_g.append(cog)
-                cogs_dict_g.setdefault(cog, []).append(name)
+                if len(cog) > 1:
+                    cogs_list_g = cog.split(', ')
+                    for entry in cogs_list_g:
+                        cogs_g.append(entry)
+                        cogs_dict_g.setdefault(entry, []).append(name)
+                else:
+                    cogs_g.append(cog)
+                    cogs_dict_g.setdefault(cog, []).append(name)
 
 with open('Myzus_persicae_Clone_G006b_scaffolds.gff.pep_targets.fa.emapper.annotations') as f:
     csvreader = csv.reader(f, delimiter = '\t')
@@ -46,14 +49,17 @@ with open('Myzus_persicae_Clone_G006b_scaffolds.gff.pep_targets.fa.emapper.annot
     for row in csvreader:
         cog = row[11]
         name = row[0]
-        if len(cog) > 1:
-            cogs_list = cog.split(', ')
-            for entry in cogs_list:
-                cogs.append(entry)
-                cogs_dict.setdefault(entry, []).append(name)
+        if cog == 'S':
+            next(csvreader)
         else:
-            cogs.append(cog)
-            cogs_dict.setdefault(cog, []).append(name)
+            if len(cog) > 1:
+                cogs_list = cog.split(', ')
+                for entry in cogs_list:
+                    cogs.append(entry)
+                    cogs_dict.setdefault(entry, []).append(name)
+            else:
+                cogs.append(cog)
+                cogs_dict.setdefault(cog, []).append(name)
             
 colors = ["#E50000", "#E32600", "#E14C00", "#E07100", "#DE9500", "#DCB900", 
           "#D8DB00", "#B2D900", "#8CD700", "#67D600", "#43D400", "#1FD200", 
@@ -72,12 +78,12 @@ labels = ["RNA processing and modification", "Chromatin structure and dynamics",
           "Translation, ribosomal structure and biogenesis", "Transcription", 
           "Replication, recombination and repair", "Cell wall/membrane/envelope biogenesis", "Cell motility", 
           "Posttranslational modification, protein turnover, chaperones", "Inorganic ion transport and metabolism", 
-          "Secondary metabolites biosynthesis, transport and catabolism", "Function unknown", 
+          "Secondary metabolites biosynthesis, transport and catabolism", 
           "Signal transduction mechanisms", "Intracellular trafficking, secretion, and vesicular transport", 
           "Defense mechanisms", "Extracellular structures", 
           "Nuclear structure", "Cytoskeleton"]
 labels_letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", 
-                  "K", "L", "M", "N", "O", "P", "Q", "S", "T", "U", 
+                  "K", "L", "M", "N", "O", "P", "Q", "T", "U", 
                   "V", "W", "Y", "Z"]
 total = 0
 for key in cogs_dict.keys():
@@ -130,11 +136,18 @@ for entry in colors_2:
     colors_final.append(entry)
 
 ind = np.arange(len(labels_final))
-plt.figure(figsize = (7, 10))
+fig = plt.figure(figsize = (6, 10))
 ax = plt.subplot(1,1,1)
 barlist = plt.barh(ind, cogs_per_final, height = 0.5, align = 'edge')
 for i, color in zip(range(0, len(barlist)-1), colors_final):
-    barlist[i].set_color(color)
+    if i%2 == 0:
+        barlist[i].set_edgecolor('black')
+        barlist[i].set_facecolor(color)
+        barlist[i].set_hatch("/")
+    else:
+        # barlist[i].set_color(color)
+        barlist[i].set_edgecolor('black')
+        barlist[i].set_facecolor(color)
 plt.yticks(ind - 0.25, labels_final, rotation = "horizontal", fontsize = 12)
 plt.ylim([0, ind.size])  # Removes whitespace to right side
 plt.xlabel('Percent', fontsize = 12)
@@ -143,8 +156,32 @@ ax.spines['right'].set_visible(False)  # Removes right axis
 ax.spines['top'].set_visible(False)  # Removes top axis
 ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
 ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
-plt.text(25, 40, '   Target\nGenome', fontsize = 12, family = 'sansserif')
+plt.text(-2.25, 48, 'COGs', fontsize = 12, family = 'sansserif', weight = 'bold')
+
+ind = np.arange(2)
+ax = fig.add_subplot(4,5,4)
+barlist = plt.barh([0.01, 0.11], (2, 2.3), height = 0.05, align = 'edge')
+for i, color in zip(range(0, len(barlist)), ["darkgrey", "lightgrey"]):
+    if i%2 == 0:
+        barlist[i].set_edgecolor('black')
+        barlist[i].set_facecolor(color)
+        barlist[i].set_hatch("/")
+    else:
+        # barlist[i].set_color(color)
+        barlist[i].set_edgecolor('black')
+        barlist[i].set_facecolor(color)
+plt.ylim(0, 0.9)
+plt.yticks([0.033, 0.133], ["Genome", "Targets"], rotation = "horizontal", fontsize = 12)
+plt.xticks(ind, '')
+ax.spines['right'].set_visible(False)  # Removes right axis
+ax.spines['top'].set_visible(False)  # Removes top axis
+ax.spines['left'].set_visible(False)  # Removes right axis
+ax.spines['bottom'].set_visible(False)  # Removes top axis
+ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
+ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
+
 
 plt.savefig('C:\\Users\Thompson\Documents\Figure_COG.svg', 
             bbox_inches = 'tight', format = 'svg', dpi = 500)
 plt.show()
+
