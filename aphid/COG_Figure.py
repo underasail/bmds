@@ -152,10 +152,11 @@ plt.yticks(ind - 0.25, labels_final, rotation = "horizontal", fontsize = 12)
 plt.ylim([0, ind.size])  # Removes whitespace to right side
 plt.xlabel('Percent', fontsize = 12)
 plt.xticks(fontsize = 12)
+ax.tick_params(direction = 'out')
 ax.spines['right'].set_visible(False)  # Removes right axis
 ax.spines['top'].set_visible(False)  # Removes top axis
 ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
-ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
+# ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
 plt.text(-2.25, 48, 'COGs', fontsize = 12, family = 'sansserif', weight = 'bold')
 
 ind = np.arange(2)
@@ -184,4 +185,7 @@ ax.xaxis.set_ticks_position('none')  # Keeps horizontal ticks hidden
 plt.savefig('C:\\Users\Thompson\Documents\Figure_COG.svg', 
             bbox_inches = 'tight', format = 'svg', dpi = 500)
 plt.show()
+
+
+
 
