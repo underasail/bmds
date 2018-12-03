@@ -168,37 +168,29 @@ for i in range(1, 1000001):  # takes just under seven minutes to run with 1,000,
     # uses the probabilities from above to simulate 1 million random samplings from the 
     # genome that are 173 proteins like the miRNA target set
 # 1,000,000 p-values:
-# Signal transduction mechanisms (p-value): 0.03294122731208643
-# Amino acid transport and metabolism (p-value): 2.4123473847782006e-06
-# Carbohydrate transport and metabolism (p-value): 0.0402512989646721
-# RNA processing and modification (p-value): 0.01522070829368093
-# Intracellular trafficking, secretion, and vesicular transport (p-value): 0.005247454903638627
-
-# Signal transduction mechanisms (p-value): 0.03294122731208643
-# Posttranslational modification, protein turnover, chaperones (p-value): 0.07370508050581537
-# Amino acid transport and metabolism (p-value): 2.4123473847782006e-06
-# Carbohydrate transport and metabolism (p-value): 0.0402512989646721
-# RNA processing and modification (p-value): 0.01522070829368093
-# Transcription (p-value): 0.05479954106155616
-# Lipid transport and metabolism (p-value): 0.12288196378923492
-# Cell cycle control, cell division, chromosome partitioning (p-value): 0.05026876279402156
-# Cytoskeleton (p-value): 0.46693510699027807
-# Replication, recombination, and repair (p-value): 0.1873884785851725
-# Translation, ribosomal structure,
-# and biogenesis (p-value): 0.5524897554282329
-# Secondary metabolites biosynthesis,
-# transport, and catabolism (p-value): 0.9475845669904905
-# Intracellular trafficking, secretion, and vesicular transport (p-value): 0.005247454903638627
-# Inorganic ion transport and metabolism (p-value): 0.1560569980940763
-# Energy production and conversion (p-value): 0.2353906471796997
-# Nucleotide transport and metabolism (p-value): 0.9123093803043728
-# Chromatin structure and dynamics (p-value): 0.17054785203387013
-# Extracellular structures (p-value): 0.8826030110251176
-# Cell wall/membrane/envelope biogenesis (p-value): 0.7566631778576405
-# Nuclear structure (p-value): 0.8549859894525582
-# Coenzyme transport and metabolism (p-value): 0.16238095373521289
-# Defense mechanisms (p-value): 0.22621429518415304
-# Cell motility (p-value): 0.7178666117499926
+# Signal transduction mechanisms (p-value > 0.05): 0.03293758091970097
+# Posttranslational modification, protein turnover, chaperones (p-value): 0.07368593963510593
+# Amino acid transport and metabolism (p-value > 0.05): 2.5268879400231848e-06
+# Carbohydrate transport and metabolism (p-value > 0.05): 0.04019199160842755
+# RNA processing and modification (p-value > 0.05): 0.01526979663756135
+# Transcription (p-value): 0.054944800785298994
+# Lipid transport and metabolism (p-value): 0.12423897558882954
+# Cell cycle control, cell division, chromosome partitioning (p-value): 0.050544650217831215
+# Cytoskeleton (p-value): 0.4669483073770012
+# Replication, recombination, and repair (p-value): 0.18728385329533603
+# Translation, ribosomal structure, and biogenesis (p-value): 0.55195171814389
+# Secondary metabolites biosynthesis, transport, and catabolism (p-value): 0.945999757118797
+# Intracellular trafficking, secretion, and vesicular transport (p-value > 0.05): 0.005333083079294359
+# Inorganic ion transport and metabolism (p-value): 0.1565130369911643
+# Energy production and conversion (p-value): 0.23539561249033358
+# Nucleotide transport and metabolism (p-value): 0.9124213174582135
+# Chromatin structure and dynamics (p-value): 0.17090146203621248
+# Extracellular structures (p-value): 0.881388981017351
+# Cell wall/membrane/envelope biogenesis (p-value): 0.7564148563892747
+# Nuclear structure (p-value): 0.8538281010481572
+# Coenzyme transport and metabolism (p-value): 0.16247583628750628
+# Defense mechanisms (p-value): 0.22659530148904683
+# Cell motility (p-value): 0.7161488237573674
 
 
 # import seaborn as sns
@@ -222,8 +214,13 @@ for label in labels_final:  # or labels_norm
     Z = (cogs_dict[label] - sum(probs_dict[label])/len(probs_dict[label]))/statistics.stdev(probs_dict[label])
     p = scipy.stats.norm.sf(abs(Z))*2
     if p <= 0.05:
+        print('%s (p-value > 0.05): %s' % (label, p))
+    else:
         print('%s (p-value): %s' % (label, p))
-    ci.append(sum(probs_dict[label])/len(probs_dict[label]) + stats.norm.ppf(.975)*statistics.stdev(probs_dict[label]))
+    if Z > 0:
+        ci.append(sum(probs_dict[label])/len(probs_dict[label]) + stats.norm.ppf(.975)*statistics.stdev(probs_dict[label]))
+    else:
+        ci.append(sum(probs_dict[label])/len(probs_dict[label]) + stats.norm.ppf(.025)*statistics.stdev(probs_dict[label]))
 
 
 #####################
@@ -236,7 +233,7 @@ ax = plt.subplot(1, 10, (5, 10))
 barlist = plt.barh(ind + 0.03, cogs_per, height = 0.96, align = 'edge')
 for i, color in zip(range(0, len(barlist)), colors_2):
     barlist[i].set_color(color)
-    ax.axhspan(0.03 + i, 0.99 + i, color = color, alpha = 0.20)
+    ax.axhspan(0.03 + i, 0.99 + i, color = color, alpha = 0.30)
 ax.axvspan(0, -0.25, color = 'white')
 ax.axvspan(-29.7, -29.95, color = 'white')
 plt.yticks(ind, '')
@@ -256,13 +253,9 @@ ax = plt.subplot(1, 10, (1, 4))
 barlist = plt.barh(ind + 0.03, cogs_per_final, height = 0.96, align = 'edge')
 for i, color, entry, label in zip(range(0, len(barlist)), colors_2, ci, labels_final):
     barlist[i].set_color(color)
-    ax.axhspan(0.03 + i, 0.99 + i, color = color, alpha = 0.20)
-    if cogs_per_final[i] > 0:
-        ax.axvline(entry - cogs_dict_g[label], color = 'black', 
-                   ymin = (0.03 + i)/23, ymax = (0.99 + i)/23)
-    else:
-        ax.axvline(-(entry - cogs_dict_g[label]), color = 'black', 
-                   ymin = (0.03 + i)/23, ymax = (0.99 + i)/23)
+    ax.axhspan(0.03 + i, 0.99 + i, color = color, alpha = 0.30)
+    ax.axvline(entry - cogs_dict_g[label], color = 'white', 
+               ymin = (0.03 + i)/23, ymax = (0.99 + i)/23, linewidth = 2.0)
 plt.yticks(ind + 0.5, labels_final, rotation = "horizontal", fontsize = 12, multialignment = 'center')
 plt.ylim([0, ind.size])  # Removes whitespace to right side
 plt.xlim([-8, 8])
@@ -278,6 +271,10 @@ ax.xaxis.set_ticks_position('bottom')  # Keeps horizontal ticks hidden on top
 
 
 plt.subplots_adjust(wspace = 0.00)
-plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Center_Legend.svg', 
-            bbox_inches = 'tight', format = 'svg', dpi = 500)
+if len(probs_dict[label]) == 1000000:
+    plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Center_Legend_1Mil.svg', 
+                bbox_inches = 'tight', format = 'svg', dpi = 500)
+else:
+    plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Center_Legend.svg', 
+                bbox_inches = 'tight', format = 'svg', dpi = 500)
 plt.show()
