@@ -118,6 +118,7 @@ for (long_form, short_form) in zip(labels, labels_letters):
     try:
         cogs_dict[long_form] = cogs_dict.pop(short_form)  # exchanges letter COG for label
         cogs_dict[long_form] = len(cogs_dict[long_form])/(total_t/100)
+        # creates percentage from number of values (proteins) over the total
     except KeyError:
         pass
 not_in_targets = ["Defense mechanisms", "Coenzyme transport and metabolism", "Cell motility"]
@@ -140,11 +141,10 @@ for (long_form, short_form) in zip(labels, labels_letters):
     except KeyError:
         pass
 
-sorted_dict_list = sorted(cogs_dict.items(), key=lambda x: (abs(x[1]), len(x[0])), reverse = True)
+sorted_dict_list = sorted(cogs_dict.items(), key=lambda x: (abs(x[1]), abs(cogs_dict_final[x[0]])), reverse = True)
 # sorts the dictionary into a list to keep a consistent order
-# second sorting key goes by length of label to sort upper three 
-# (and all others with the same percent composition)
-
+# second sorting key goes by magnitude of percent difference
+# secondary sorting also assures the same order each time
 for entry in sorted_dict_list:
     label = entry[0]
     percent = entry[1]
@@ -168,11 +168,38 @@ for i in range(1, 1000001):  # takes just under seven minutes to run with 1,000,
     # uses the probabilities from above to simulate 1 million random samplings from the 
     # genome that are 173 proteins like the miRNA target set
 # 1,000,000 p-values:
-# Signal transduction mechanisms (p-value): 0.0332617619909262
-# Amino acid transport and metabolism (p-value): 2.373465927931561e-06
-# Carbohydrate transport and metabolism (p-value): 0.040418554927025896
-# RNA processing and modification (p-value): 0.015324280023618563
-# Intracellular trafficking, secretion, and vesicular transport (p-value): 0.005366584953262637
+# Signal transduction mechanisms (p-value): 0.03294122731208643
+# Amino acid transport and metabolism (p-value): 2.4123473847782006e-06
+# Carbohydrate transport and metabolism (p-value): 0.0402512989646721
+# RNA processing and modification (p-value): 0.01522070829368093
+# Intracellular trafficking, secretion, and vesicular transport (p-value): 0.005247454903638627
+
+# Signal transduction mechanisms (p-value): 0.03294122731208643
+# Posttranslational modification, protein turnover, chaperones (p-value): 0.07370508050581537
+# Amino acid transport and metabolism (p-value): 2.4123473847782006e-06
+# Carbohydrate transport and metabolism (p-value): 0.0402512989646721
+# RNA processing and modification (p-value): 0.01522070829368093
+# Transcription (p-value): 0.05479954106155616
+# Lipid transport and metabolism (p-value): 0.12288196378923492
+# Cell cycle control, cell division, chromosome partitioning (p-value): 0.05026876279402156
+# Cytoskeleton (p-value): 0.46693510699027807
+# Replication, recombination, and repair (p-value): 0.1873884785851725
+# Translation, ribosomal structure,
+# and biogenesis (p-value): 0.5524897554282329
+# Secondary metabolites biosynthesis,
+# transport, and catabolism (p-value): 0.9475845669904905
+# Intracellular trafficking, secretion, and vesicular transport (p-value): 0.005247454903638627
+# Inorganic ion transport and metabolism (p-value): 0.1560569980940763
+# Energy production and conversion (p-value): 0.2353906471796997
+# Nucleotide transport and metabolism (p-value): 0.9123093803043728
+# Chromatin structure and dynamics (p-value): 0.17054785203387013
+# Extracellular structures (p-value): 0.8826030110251176
+# Cell wall/membrane/envelope biogenesis (p-value): 0.7566631778576405
+# Nuclear structure (p-value): 0.8549859894525582
+# Coenzyme transport and metabolism (p-value): 0.16238095373521289
+# Defense mechanisms (p-value): 0.22621429518415304
+# Cell motility (p-value): 0.7178666117499926
+
 
 # import seaborn as sns
 # sns.set(color_codes=True)
@@ -210,11 +237,13 @@ barlist = plt.barh(ind + 0.03, cogs_per, height = 0.96, align = 'edge')
 for i, color in zip(range(0, len(barlist)), colors_2):
     barlist[i].set_color(color)
     ax.axhspan(0.03 + i, 0.99 + i, color = color, alpha = 0.20)
+ax.axvspan(0, -0.25, color = 'white')
+ax.axvspan(-29.7, -29.95, color = 'white')
 plt.yticks(ind, '')
 plt.ylim([0, ind.size])  # Removes whitespace to right side
 plt.xlim([-30, 25])
 plt.xlabel('Percent Composition\n(Targets)', x = 0.77, fontsize = 12)
-plt.xticks((0, 10, 20), (0, 10, 20), fontsize = 12)
+plt.xticks((0, 5, 10, 15, 20, 25), (0, 5, 10, 15, 20, 25), fontsize = 12)
 ax.tick_params(direction = 'out')
 ax.spines['right'].set_visible(False)  # Removes right axis
 ax.spines['left'].set_visible(False)
@@ -236,7 +265,7 @@ for i, color, entry, label in zip(range(0, len(barlist)), colors_2, ci, labels_f
                    ymin = (0.03 + i)/23, ymax = (0.99 + i)/23)
 plt.yticks(ind + 0.5, labels_final, rotation = "horizontal", fontsize = 12, multialignment = 'center')
 plt.ylim([0, ind.size])  # Removes whitespace to right side
-plt.xlim([-7, 7])
+plt.xlim([-8, 8])
 plt.xlabel('Percent Difference\n(Targets - Genome)', fontsize = 12)
 plt.xticks(fontsize = 12)
 ax.yaxis.tick_right()
