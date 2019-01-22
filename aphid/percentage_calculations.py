@@ -21,7 +21,7 @@ with open(argv[1], newline='') as f:
             refgen = row[2]
             seq = row[9]
             # http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output
-            if '__len__' in refgen:
+            if '__len__' in refgen or 'NZ_CP002' in refgen:
                 refgen = 'buchnera'
                 buchnera.add(readnum)
             elif 'scaffold_' in refgen:
@@ -47,7 +47,7 @@ with open(argv[2], newline='') as f:
             refgen = row[2]
             seq = row[9]
             # http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output
-            if '__len__' in refgen:
+            if '__len__' in refgen or 'NZ_CP002' in refgen:
                 refgen = 'buchnera'
                 buchnera.add(readnum)
             elif 'scaffold_' in refgen:
@@ -73,7 +73,7 @@ with open(argv[3], newline='') as f:
             refgen = row[2]
             seq = row[9]
             # http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output
-            if '__len__' in refgen:
+            if '__len__' in refgen or 'NZ_CP002' in refgen:
                 refgen = 'buchnera'
                 buchnera.add(readnum)
             elif 'scaffold_' in refgen:

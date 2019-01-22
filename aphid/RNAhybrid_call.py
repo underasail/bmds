@@ -27,12 +27,16 @@ with open(argv[2]) as f:
             seq_dict[name].append(scale)
 
 for key, value in seq_dict.items():
-    key = name
+    name = key
     seq = value[0]
     location = value[1]
     scale = value[2]
-    call(['RNAhybrid', '-d', '%s,%s' % (location, scale), '-e', '0', '-p', '0.05', '-f', '2,8', '-m', '10000', \
-          '-t', '/nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref_three_prime_utr.fasta', 
-          seq, '>', 
-          '/nethome/mct30/bmds/miR-PREFeR_predictions_10X_20-24_300_2/target_prediction/hybrid/\
-          %s_targets.RNAhybrid' % (name)])
+    # call(['RNAhybrid', '-d', '%s,%s' % (location, scale), '-e', '0', '-p', '0.05', '-f', '2,8', '-m', '10000', \
+    #       '-t', '/nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref_three_prime_utr.fasta', 
+    #       seq, '>', 
+    #       '/nethome/mct30/bmds/miR-PREFeR_predictions_10X_20-24_300_2/target_prediction/hybrid/\
+    #       %s_targets.RNAhybrid' % (name)], shell=True)
+    print('RNAhybrid -d', '%s,%s' % (location, scale), '-e', '0', '-p', '0.05', '-f', '2,8', '-m', '10000', 
+          '-t', '/nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref_three_prime_utr.fasta',
+          seq, '>',
+          '/nethome/mct30/bmds/miR-PREFeR_predictions_10X_20-24_300_2/target_prediction/hybrid/%s_targets.RNAhybrid' % (name))
