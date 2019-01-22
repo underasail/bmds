@@ -13,58 +13,8 @@ import statsmodels.stats.multitest as smm
 import scipy
 import seaborn as sns
 from mpl_toolkits.axes_grid1 import AxesGrid
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
-# to center colormap closer to zero
-def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
-    '''
-    Function to offset the "center" of a colormap. Useful for
-    data with a negative min and positive max and you want the
-    middle of the colormap's dynamic range to be at zero.
-
-    Input
-    -----
-      cmap : The matplotlib colormap to be altered
-      start : Offset from lowest point in the colormap's range.
-          Defaults to 0.0 (no lower offset). Should be between
-          0.0 and `midpoint`.
-      midpoint : The new center of the colormap. Defaults to 
-          0.5 (no shift). Should be between 0.0 and 1.0. In
-          general, this should be  1 - vmax / (vmax + abs(vmin))
-          For example if your data range from -15.0 to +5.0 and
-          you want the center of the colormap at 0.0, `midpoint`
-          should be set to  1 - 5/(5 + 15)) or 0.75
-      stop : Offset from highest point in the colormap's range.
-          Defaults to 1.0 (no upper offset). Should be between
-          `midpoint` and 1.0.
-    '''
-    cdict = {
-        'red': [],
-        'green': [],
-        'blue': [],
-        'alpha': []
-    }
-
-    # regular index to compute the colors
-    reg_index = np.linspace(start, stop, 257)
-
-    # shifted index to match the data
-    shift_index = np.hstack([
-        np.linspace(0.0, midpoint, 128, endpoint=False), 
-        np.linspace(midpoint, 1.0, 129, endpoint=True)
-    ])
-
-    for ri, si in zip(reg_index, shift_index):
-        r, g, b, a = cmap(ri)
-
-        cdict['red'].append((si, r, r))
-        cdict['green'].append((si, g, g))
-        cdict['blue'].append((si, b, b))
-        cdict['alpha'].append((si, a, a))
-
-    newcmap = mpl.colors.LinearSegmentedColormap(name, cdict)
-    plt.register_cmap(cmap=newcmap)
-
-    return newcmap
 
 cogs_dict_g = {}  # holds genome COGs; turns to percentages
 
@@ -129,6 +79,7 @@ with open('Myzus_persicae_Clone_G006b_scaffolds.gff.pep_targets.fa.emapper.annot
 #           "#00D104", "#00CF27", "#00CD49", "#00CC6B", "#00CA8C", "#00C8AD", 
 #           "#00C0C7", "#009DC5", "#007BC3", "#0059C2", "#0038C0", "#0018BF"]
 #           # colors is from a color gradient producer
+#           # http://www.perbang.dk/rgbgradient/
 # colors_2 = []  # colors_2 creates new pattern
 # for i in range(0, 6):
 #     for j in range(0, 4):
@@ -221,6 +172,11 @@ for label in labels_final:
     # total percent is >100 but this needs a ratio, so it's divided by the total percent
     # this generates probabilities for the MC simulation
 
+
+########################
+# Significance Testing #
+########################
+
 for i in range(1, 1001):  # takes just under seven minutes to run with 1,000,001
     choice_out = list(choice(labels_final, 173, p = probs))
     for label in probs_dict.keys():
@@ -247,6 +203,7 @@ for i in range(1, 1001):  # takes just under seven minutes to run with 1,000,001
 #     plt.show()
 # Creates QQ and histogram plots for each COG based on the MC simulated distributions
 
+
 for label in labels_final:  # or labels_norm
     Z = (cogs_dict[label] - sum(probs_dict[label])/len(probs_dict[label]))/statistics.stdev(probs_dict[label])
     pvals_raw.append(scipy.stats.norm.sf(abs(Z))*2)
@@ -264,83 +221,82 @@ with open('p-values.txt', 'w') as f:
             f.write('%s (p-value): %s (raw: %s)\n' % (label, p_cor, p_raw))
 
 
+################
+# Color Set-up #
+################
+
 sns.set_style('white')  # sets sns background styling to white
 vmax = max(cogs_per_final)
 vmin = min(cogs_per_final)
 mid = 1 - vmax / (vmax + abs(vmin))
-centered_cm = shiftedColorMap(sns.diverging_palette(250, 15, s=99, l=50, center="light", as_cmap = True), 
-                              start = 0, midpoint = mid, stop = 1, name = 'centered_cm')
+# centered_cm = shiftedColorMap(sns.diverging_palette(250, 15, s = 99, l = 45, sep = 1, 
+#                                                     center="light", as_cmap = True), 
+#                               start = 0, midpoint = mid, stop = 1, name = 'centered_cm')
 # makes a matplotlib colormap (cm) object (https://seaborn.pydata.org/tutorial/color_palettes.html)
 # range is from ~-5 to ~7, so just adding 5 to all numbers doesn't center the cm
+
+# cm_colors = [(0, (0.0125, 0.0125, 0.875)), ((mid, 0.5), (0.85, 0.85, 0.85)), (1, (0.875, 0.0125, 0.0125))]
+# centered_cm = LinearSegmentedColormap.from_list('rgb_cm', cm_colors)
+
+top = cm.get_cmap('Blues_r', 227*100)
+middle_blue = cm.get_cmap('Blues_r', 5*100)
+middle_red = cm.get_cmap('Reds', 5*100)
+bottom = cm.get_cmap('Reds', 275*100)
+
+newcolors = np.vstack((top(np.linspace(0.1, 0.85, 227*100)),
+                       middle_blue(np.linspace(0.85, 0.9, 5*100)),
+                       middle_red(np.linspace(0.05, 0.15, 5*100)),
+                       bottom(np.linspace(0.15, 0.9, 275*100))))
+centered_cm = ListedColormap(newcolors, name='Blue_Red')
+# https://matplotlib.org/tutorials/colors/colormap-manipulation.html#creating-listed-colormaps
+
 colors_2 = []
 for entry in cogs_per_final:
-    colors_2.append(centered_cm((entry - min(cogs_per_final))
-                                / (float(max(cogs_per_final)) 
+    colors_2.append(centered_cm((entry - min(cogs_per_final)) / (float(max(cogs_per_final)) 
                                 - min(cogs_per_final))))
 
-# plot = plt.scatter(cogs_per_final, cogs_per_final, c = cogs_per_final, cmap = 'centered_cm')  # establishes colorbar in scatterplot
-# plt.clf()  # clears scatterplot
+plot = plt.scatter(cogs_per_final, cogs_per_final, 
+                   c = cogs_per_final, cmap = centered_cm)
+# establishes colorbar in scatterplot
+plt.clf()  # clears scatterplot
  
 
 #####################
 # Figure Production #
 #####################
 
-fig = plt.figure(figsize = (15, 15))
+fig = plt.figure(figsize = (7, 15))
 ind = np.arange(len(labels_final))
-ax = plt.subplot(1, 10, (5, 10))
-barlist = plt.barh(ind, cogs_per, height = 1, align = 'edge')
+ax = plt.subplot(1, 1, 1)
+barlist = plt.barh(ind, cogs_per, height = 1, align = 'edge', zorder = 24)
+# zorder sets overlay of different parts (higher means further in front)
 for i, color in zip(range(0, len(barlist)), colors_2):
-    barlist[i].set_color(color)
+    barlist[i].set_facecolor(color)
+    barlist[i].set_edgecolor('black')
     if i%2 == 0:
-        ax.axhspan(i, 1 + i, color = 'white', alpha = 0.15)
+        l = ax.axhspan(i, 1 + i, color = color, alpha = 0.50)
+        l.set_zorder(i)
     else:
-        ax.axhspan(i, 1 + i, color = 'lightgrey', alpha = 0.15)
-ax.axvspan(0, -0.25, color = 'white')
-ax.axvspan(-29.7, -29.95, color = 'white')
-plt.yticks(ind, '')
+        l = ax.axhspan(i, 1 + i, color = color, alpha = 0.50)
+        l.set_zorder(i)
+plt.yticks(ind + 0.5, labels_final, rotation = "horizontal", fontsize = 12, multialignment = 'right')
 plt.ylim([0, ind.size])  # Removes whitespace to right side
-plt.xlim([-30, 25])
-plt.xlabel('Percent Composition\n(Targets)', x = 0.77, fontsize = 12)
+plt.xlim([0, 25])
+plt.xlabel('Target Composition (%)', x = 0.5, fontsize = 12)
 plt.xticks((0, 5, 10, 15, 20, 25), (0, 5, 10, 15, 20, 25), fontsize = 12)
-ax.tick_params(direction = 'out')
+ax.tick_params(direction = 'out')  # Rotates ticks outward
 ax.spines['right'].set_visible(False)  # Removes right axis
-ax.spines['left'].set_visible(False)
+# ax.spines['left'].set_visible(False)  # Removes left axis
 ax.spines['top'].set_visible(False)  # Removes top axis
-ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
 ax.xaxis.set_ticks_position('bottom')  # Keeps horizontal ticks hidden on top
-# plt.colorbar(plot)  # plots colorbar from earlier scatterplot
-
-ind = np.arange(len(labels_final))
-ax = plt.subplot(1, 10, (1, 4))
-barlist = plt.barh(ind, cogs_per_final, height = 1, align = 'edge')
-for i, color, label in zip(range(0, len(barlist)), colors_2, labels_final): # entry and ci missing now
-    barlist[i].set_color(color)
-    if i%2 == 0:
-        ax.axhspan(i, 1 + i, color = 'white', alpha = 0.15)
-    else:
-        ax.axhspan(i, 1 + i, color = 'lightgrey', alpha = 0.15)
-    # ax.axvline(entry - cogs_dict_g[label], color = 'darkgrey', 
-    #           ymin = (i)/23, ymax = (1 + i)/23, linewidth = 1.5)
-plt.yticks(ind + 0.5, labels_final, rotation = "horizontal", fontsize = 12, multialignment = 'center')
-plt.ylim([0, ind.size])  # Removes whitespace to right side
-plt.xlim([-8, 8])
-plt.xlabel('Enrichment Over Genome (%)', fontsize = 12)
-plt.xticks(fontsize = 12)
-ax.yaxis.tick_right()
-ax.tick_params(direction = 'out')
-ax.spines['right'].set_visible(False)  # Removes right axis
-ax.spines['left'].set_visible(False)
-ax.spines['top'].set_visible(False)  # Removes top axis
-ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
-ax.xaxis.set_ticks_position('bottom')  # Keeps horizontal ticks hidden on top
-
+cbar = plt.colorbar(plot)  # plots colorbar from earlier scatterplot
+cbar.ax.set_ylabel('Enrichment Over Genome (%)', fontsize = 12)
 
 plt.subplots_adjust(wspace = 0.00)
 if len(probs_dict[label]) == 1000000:
-    plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Center_Legend_1Mil.svg', 
+    plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Colorbar_1Mil.svg', 
                 bbox_inches = 'tight', format = 'svg', dpi = 500)
 else:
-    plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Center_Legend.svg', 
+    plt.savefig('C:\\Users\Thompson\Documents\Figure_COG_Colorbar.svg', 
                 bbox_inches = 'tight', format = 'svg', dpi = 500)
 plt.show()

@@ -9,19 +9,38 @@ from matplotlib import pyplot as plt
 # Data Storage #
 ################
 
-gut_data = {'holobiont' : 1453832/26266.50, 'nonholobiont' : 1172818/26266.50}
+# gut_data = {'holobiont' : 1453832/90321.98, 'nonholobiont' : 1172818/90321.98}
 
-bac_data = {'holobiont' : 21342271/219608.73, 'nonholobiont' : 618602/219608.73}
+# bac_data = {'holobiont' : 21342271/120857.42, 'nonholobiont' : 618602/120857.42}
 
-gut_data_plant = {'aphid' : 1153705/26266.50, 'buchnera' : 0/26266.50, 
-                  'plant' : 863949/26266.50, 'ab': 0/26266.50, 
-                  'ap' : 286498/26266.50, 'bp' : 0/26266.50, 
-                  'abp' : 0/26266.50, 'unknown' : (2626650-2317781)/26266.50}
+gut_data_plant = {'aphid' : 3751506/90321.98, 'buchnera' : 0/90321.98, 
+                  'plant' : 2217290/90321.98, 'ab': 0/90321.98, 
+                  'ap' : 1294162/90321.98, 'bp' : 0/90321.98, 
+                  'abp' : 0/90321.98, 'unknown' : (9032198-7318757)/90321.98}
 
-bac_data_plant = {'aphid' : 1775626/219608.73, 'buchnera' : 13523886/219608.73, 
-                  'plant' : 0/219608.73, 'ab': 1422774/219608.73, 
-                  'ap' : 0/219608.73, 'bp' : 1850387/219608.73, 
-                  'abp' : 2553368/219608.73, 'unknown' : (21960873-21391121)/219608.73}
+bac_data_plant = {'aphid' : 545170/120857.42, 'buchnera' : 8336243/120857.42, 
+                  'plant' : 0/120857.42, 'ab': 724246/120857.42, 
+                  'ap' : 174344/120857.42, 'bp' : 1200778/120857.42, 
+                  'abp' : 796283/120857.42, 'unknown' : (12085742-11804282)/120857.42}
+
+#gut_data_plant = {'aphid' : 3751506/90321.98, 'buchnera' : 25313/90321.98, 
+#                  'plant' : 2217290/90321.98, 'ab': 5364/90321.98, 
+#                  'ap' : 1294162/90321.98, 'bp' : 7311/90321.98, 
+#                  'abp' : 17811/90321.98, 'unknown' : (9032198-7318757)/90321.98}
+#
+#bac_data_plant = {'aphid' : 545170/120857.42, 'buchnera' : 8336243/120857.42, 
+#                  'plant' : 27218/120857.42, 'ab': 724246/120857.42, 
+#                  'ap' : 174344/120857.42, 'bp' : 1200778/120857.42, 
+#                  'abp' : 796283/120857.42, 'unknown' : (12085742-11804282)/120857.42}
+
+gut_data = {}
+gut_data['nonholobiont'] = (gut_data_plant['unknown'] + gut_data_plant['plant'])
+gut_data['holobiont'] = 100 - gut_data['nonholobiont']
+
+bac_data = {}
+bac_data['nonholobiont'] = (bac_data_plant['unknown'] + bac_data_plant['plant'])
+bac_data['holobiont'] = 100 - bac_data['nonholobiont']
+
 
 
 ###################
@@ -164,6 +183,7 @@ ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
 ax.xaxis.set_ticks_position('both')  # Shows x-axis ticks
 ax.tick_params(axis = 'x', direction = 'in')  # Directs the x-axis ticks inward
 
+
 ######################
 # Figure Adjustments #
 ######################
@@ -171,6 +191,6 @@ ax.tick_params(axis = 'x', direction = 'in')  # Directs the x-axis ticks inward
 plt.subplots_adjust(top = 0.75, wspace = 0.5)
 # plt.suptitle('Reads Aligned per Genome', fontsize = 18, family = 'sansserif', 
 #              fontweight = 'bold')
-plt.savefig('C:\\Users\Thompson\Documents\Figure_1_G006.svg', 
+plt.savefig('C:\\Users\Thompson\Documents\Figure_1_G002.svg', 
             bbox_inches = 'tight', format = 'svg', dpi = 500)
 plt.show()
