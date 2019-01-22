@@ -35,7 +35,7 @@
 pita_prediction.pl \
 -utr /nethome/mct30/bmds/ref_genomes/G006-Myzus/G006_Myzus_genome_ref_three_prime_utr.fasta \
 -mir /nethome/mct30/bmds/miR-PREFeR_predictions_10X_20-24_300_2/G006_Gut_F_trimmed_17-35_plants_miRNA.mature_good_unique.fa \
--gxp -gu "6;0,7;0,8;0" -m "6;0,7;0,8;0" \
+-gxp -l 7-8 -gu "7;0,8;0" -m "7;0,8;0" \
 -prefix /nethome/mct30/bmds/miR-PREFeR_predictions_10X_20-24_300_2/target_prediction/pita/G006_Gut_F_trimmed_17-35_plants_miRNA.mature_good_unique_targets
 
 # gu: no G:U wobble in 6nt seeds or 7nt seecs or 8nt seeds
