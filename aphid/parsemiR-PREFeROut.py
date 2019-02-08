@@ -10,10 +10,11 @@ title_dict = {}
 with open(argv[1]) as f:
     csvreader = csv.reader(f, delimiter = ' ')
     for row in csvreader:
-        if row[2] == row[4]:
-            title = row[2]
-        else:
-            title = '-'.join(row[2:])
+#        if row[2] == row[4]:
+#            title = row[2]
+#        else:
+#            title = '-'.join(row[2:])
+        title = '-'.join(row[2:])
         print(title)
         title = title.lstrip('miRNA-')
         seq = next(csvreader)[0]
@@ -23,11 +24,15 @@ with open(argv[1]) as f:
             if char == 'M' and mirstrand[i-1] == '.':
                 M_start = i+1
                 # plus one positions correctly for VARNA but is ahead on in normal
+            elif char == 'M' and i + 1 == len(mirstrand):
+                # allows the mature strand to end without a tail
+                M_end = i+1
             elif char == 'M' and mirstrand[i+1] == '.':
                 M_end = i+1
             elif char == 'S' and mirstrand[i-1] == '.':
                 S_start = i+1
             elif char == 'S' and i + 1 == len(mirstrand):
+                # allows the star strand to end without a tail
                 S_end = i+1
             elif char == 'S' and mirstrand[i+1] == '.':
                 S_end = i+1
