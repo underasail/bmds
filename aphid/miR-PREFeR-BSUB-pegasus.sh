@@ -1,13 +1,13 @@
 #! /bin/bash
 
-#BSUB -J miR-PREFeR_BTIRed
-#BSUB -e /nethome/mct30/err/miR-PREFeR_BTIRed.err
-#BSUB -o /nethome/mct30/out/miR-PREFeR_BTIRed.out
+#BSUB -J miR-PREFeR_SRA
+#BSUB -e /nethome/mct30/err/miR-PREFeR_SRA.err
+#BSUB -o /nethome/mct30/out/miR-PREFeR_SRA.out
 #BSUB -P acypi
-#BSUB -n 4
+#BSUB -n 8
 #BSUB -q bigmem
 #BSUB -R "span[ptile=16]"
-#BSUB -R "rusage[mem=10000]"
+#BSUB -R "rusage[mem=31200]"
 #BSUB -W 115:00
 #BSUB -B
 #BSUB -N
@@ -23,6 +23,6 @@ module switch python/2.7.3
 /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR_PREFeR.py \
 -L -k \
 pipeline \
-/nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR-PREFeR_BTIRed.config
+/nethome/mct30/acypi/sra/plants/miR-PREFeR_SRA_ca27.config
 # /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR-PREFeR.config
 # /nethome/mct30/local/miR-PREFeR/miR-PREFeR/miR-PREFeR_SRA.config
