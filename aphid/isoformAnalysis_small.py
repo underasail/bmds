@@ -3,75 +3,24 @@
 
 
 import time
-# import csv
-# from numpy.random import choice
-# import statistics
-# import statsmodels.stats.multitest as smm
-# import scipy
-# from scipy import stats
-# import pylab
-# from joblib import Parallel, delayed
-# import multiprocessing
+start_time = time.time()
+
+import csv
+from numpy.random import choice
+import statistics
+import statsmodels.stats.multitest as smm
+import scipy
+from scipy import stats
+import pylab
+from joblib import Parallel, delayed 
+import multiprocessing
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib import cm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import numpy as np
 import seaborn as sns
 import pickle
-
-
-start_time = time.time()
-
-# to center colormap closer to zero
-def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
-    '''
-    Function to offset the "center" of a colormap. Useful for
-    data with a negative min and positive max and you want the
-    middle of the colormap's dynamic range to be at zero.
-
-    Input
-    -----
-      cmap : The matplotlib colormap to be altered
-      start : Offset from lowest point in the colormap's range.
-          Defaults to 0.0 (no lower offset). Should be between
-          0.0 and `midpoint`.
-      midpoint : The new center of the colormap. Defaults to 
-          0.5 (no shift). Should be between 0.0 and 1.0. In
-          general, this should be  1 - vmax / (vmax + abs(vmin))
-          For example if your data range from -15.0 to +5.0 and
-          you want the center of the colormap at 0.0, `midpoint`
-          should be set to  1 - 5/(5 + 15)) or 0.75
-      stop : Offset from highest point in the colormap's range.
-          Defaults to 1.0 (no upper offset). Should be between
-          `midpoint` and 1.0.
-    '''
-    cdict = {
-        'red': [],
-        'green': [],
-        'blue': [],
-        'alpha': []
-    }
-
-    # regular index to compute the colors
-    reg_index = np.linspace(start, stop, 257)
-
-    # shifted index to match the data
-    shift_index = np.hstack([
-        np.linspace(0.0, midpoint, 128, endpoint=False), 
-        np.linspace(midpoint, 1.0, 129, endpoint=True)
-    ])
-
-    for ri, si in zip(reg_index, shift_index):
-        r, g, b, a = cmap(ri)
-
-        cdict['red'].append((si, r, r))
-        cdict['green'].append((si, g, g))
-        cdict['blue'].append((si, b, b))
-        cdict['alpha'].append((si, a, a))
-
-    newcmap = mpl.colors.LinearSegmentedColormap(name, cdict)
-    plt.register_cmap(cmap=newcmap)
-
-    return newcmap
 
 
 cogs_dict_g = {}  # holds genome COGs; turns to percentages
@@ -136,36 +85,36 @@ ci = {}  # holds confidence intervals
 ##    total_g = total_g + len(set(cogs_dict_g[key]))
 #    total_g = total_g + len(cogs_dict_g[key])
 ##total_t = 0
-#with open('Myzus_persicae_Clone_G006b_scaffolds.gff.pep_targets_2.fa.emapper.annotations') as f:
-#    csvreader = csv.reader(f, delimiter = '\t')
-#    header = next(csvreader)
-#    for row in csvreader:
-#        cog = row[11]
-##        name = row[0]
-#        name = '_'.join(row[0].split('_')[0:4])
-#        utr = '_'.join(row[0].split('_')[4:6])
-##        name = name.split('.')[1]
-#        if cog == 'S':
-#            pass
-#        else:
-##            total_t = total_t + 1
-#            if len(cog) > 1:
-#                cogs_list = cog.split(', ')
-#                for entry in cogs_list:
-#                    cogs_dict.setdefault(entry, []).append(name)
-#                    cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(entry, name))
-##                    cogs_dict.setdefault(entry, []).append(scaffold_name_list[parent_list.index(name)])
-##                    cogs_dict_utr.append([entry, name, utr])
-##                    cogs_dict_utr.setdefault('{0}_{1}'.format(entry, utr), []).append(name)
-#                    
-#            elif len(cog) == 1:
-#                cogs_dict.setdefault(cog, []).append(name)
-##                cogs_dict.setdefault(cog, []).append(scaffold_name_list[parent_list.index(name)])
-##                cogs_dict_utr.append([cog, name, utr])
-##                cogs_dict_utr.setdefault('{0}_{1}'.format(cog, utr), []).append(name)
-#                cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(cog, name))
-#            else:
-#                pass
+with open('Myzus_persicae_Clone_G006b_scaffolds.gff.pep_targets_2.fa.emapper.annotations') as f:
+    csvreader = csv.reader(f, delimiter = '\t')
+    header = next(csvreader)
+    for row in csvreader:
+        cog = row[11]
+#        name = row[0]
+        name = '_'.join(row[0].split('_')[0:4])
+        utr = '_'.join(row[0].split('_')[4:6])
+#        name = name.split('.')[1]
+        if cog == 'S':
+            pass
+        else:
+#            total_t = total_t + 1
+            if len(cog) > 1:
+                cogs_list = cog.split(', ')
+                for entry in cogs_list:
+                    cogs_dict.setdefault(entry, []).append(name)
+                    cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(entry, name))
+#                    cogs_dict.setdefault(entry, []).append(scaffold_name_list[parent_list.index(name)])
+#                    cogs_dict_utr.append([entry, name, utr])
+#                    cogs_dict_utr.setdefault('{0}_{1}'.format(entry, utr), []).append(name)
+                    
+            elif len(cog) == 1:
+                cogs_dict.setdefault(cog, []).append(name)
+#                cogs_dict.setdefault(cog, []).append(scaffold_name_list[parent_list.index(name)])
+#                cogs_dict_utr.append([cog, name, utr])
+#                cogs_dict_utr.setdefault('{0}_{1}'.format(cog, utr), []).append(name)
+                cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(cog, name))
+            else:
+                pass
 #total_t = 0
 #for key in cogs_dict:
 ##    cogs_dict[key] = set(cogs_dict[key])
@@ -173,44 +122,44 @@ ci = {}  # holds confidence intervals
 #    total_t = total_t + len(cogs_dict[key])
 ## these create dictionaries with the COG letters as keys and proteins as values
 #
-#labels = ["RNA processing and modification", 
-#          "Chromatin structure and dynamics", 
-#          "Energy production and conversion", 
-#          "Cell cycle control, cell division,\nchromosome partitioning", 
-#          "Amino acid transport and metabolism", 
-#          "Nucleotide transport and metabolism", 
-#          "Carbohydrate transport and metabolism", 
-#          "Coenzyme transport and metabolism", 
-#          "Lipid transport and metabolism", 
-#          "Translation, ribosomal structure,\nand biogenesis", 
-#          "Transcription", 
-#          "Replication, recombination, and repair", 
-#          "Cell wall/membrane/envelope biogenesis", 
-#          "Cell motility", 
-#          "Posttranslational modification,\nprotein turnover, chaperones", 
-#          "Inorganic ion transport\nand metabolism", 
-#          "Secondary metabolites biosynthesis,\ntransport, and catabolism", 
-#          "Signal transduction mechanisms", 
-#          "Intracellular trafficking, secretion,\nand vesicular transport", 
-#          "Defense mechanisms", 
-#          "Extracellular structures", 
-#          "Nuclear structure", 
-#          "Cytoskeleton"]
-#          # COG long form labels over letters
-#
-#labels_letters = ["A", "B", "C", "D", "E", "F", "G", "H", 
-#                  "I", "J", "K", "L", "M", "N", "O", "P", 
-#                  "Q", "T", "U", "V", "W", "Y", "Z"]
-#                  # COG short form letters in the same order as labels
-#
-#for (long_form, short_form) in zip(labels, labels_letters):
-#    try:
-#        cogs_dict[long_form] = cogs_dict.pop(short_form)  
-#        # exchanges letter COG for label
+labels = ["RNA processing and modification", 
+          "Chromatin structure and dynamics", 
+          "Energy production and conversion", 
+          "Cell cycle control, cell division,\nchromosome partitioning", 
+          "Amino acid transport and metabolism", 
+          "Nucleotide transport and metabolism", 
+          "Carbohydrate transport and metabolism", 
+          "Coenzyme transport and metabolism", 
+          "Lipid transport and metabolism", 
+          "Translation, ribosomal structure,\nand biogenesis", 
+          "Transcription", 
+          "Replication, recombination, and repair", 
+          "Cell wall/membrane/envelope biogenesis", 
+          "Cell motility", 
+          "Posttranslational modification,\nprotein turnover, chaperones", 
+          "Inorganic ion transport\nand metabolism", 
+          "Secondary metabolites biosynthesis,\ntransport, and catabolism", 
+          "Signal transduction mechanisms", 
+          "Intracellular trafficking, secretion,\nand vesicular transport", 
+          "Defense mechanisms", 
+          "Extracellular structures", 
+          "Nuclear structure", 
+          "Cytoskeleton"]
+          # COG long form labels over letters
+
+labels_letters = ["A", "B", "C", "D", "E", "F", "G", "H", 
+                  "I", "J", "K", "L", "M", "N", "O", "P", 
+                  "Q", "T", "U", "V", "W", "Y", "Z"]
+                  # COG short form letters in the same order as labels
+
+for (long_form, short_form) in zip(labels, labels_letters):
+    try:
+        cogs_dict[long_form] = cogs_dict.pop(short_form)  
+        # exchanges letter COG for label
 #        cogs_dict[long_form] = len(cogs_dict[long_form])/(total_t/100)
-#        # creates percentage from number of values (proteins) over the total
-#    except KeyError:
-#        pass
+        # creates percentage from number of values (proteins) over the total
+    except KeyError:
+        pass
 #not_in_targets = ["Defense mechanisms", 
 #                  "Coenzyme transport and metabolism", 
 #                  "Cell motility"]
@@ -286,7 +235,7 @@ ci = {}  # holds confidence intervals
 
 #time_3 = time.time()
 #
-#with open('probs_dict_300000.pkl', 'rb') as dict_file:
+#with open('probs_dict_1Mil.pkl', 'rb') as dict_file:
 #    probs_dict = pickle.load(dict_file)
 #
 #
@@ -318,16 +267,19 @@ ci = {}  # holds confidence intervals
 #    ax4.set_xlabel('COG Composition in Simulation Run (%)')
 #    ax4.set_ylabel('\n')
 #    fig.suptitle(label, fontsize = 18)
-#    plt.savefig('%s_prob_dist_boxcox_comp_300000.png' % label2, 
+#    plt.savefig('%s_prob_dist_boxcox_comp_1Mil.png' % label2, 
 #                bbox_inches = 'tight', format = 'png', dpi = 300)
 ##    plt.show()
 #    plt.close()
 #    # Plots the transformed version
 ## Creates QQ and histogram plots for each COG based on the MC simulated distributions
-#for label in probs_dict.keys():
-#    print('{0}: \nShapiro-Wilk (test-statistic, p-value): {1}\nNormaltest: {2}'.format(label, stats.shapiro(probs_dict[label]), stats.normaltest(probs_dict[label])))
-#for label in probs_dict_bc.keys():
-#    print('[Box Cox] - {0}: \nShapiro-Wilk (test-statistic, p-value): {1}\nNormaltest: {2}'.format(label, stats.shapiro(stats.boxcox(probs_dict_bc[label])[0]), stats.normaltest(stats.boxcox(probs_dict_bc[label])[0])))
+#with open('norm_dist_tests.txt', 'w') as f:
+#    for label in probs_dict.keys():
+#        f.write('{0}: \nShapiro-Wilk (test-statistic, p-value): {1}\nNormaltest: {2}\n\n'.format(label, stats.shapiro(probs_dict[label]), stats.normaltest(probs_dict[label])))
+#        if not stats.shapiro(probs_dict[label])[0] > 0.96:
+#            f.write('Shapiro-Wilk test statistic not greater than 0.96.\n\n')
+#    for label in probs_dict_bc.keys():
+#        f.write('[Box Cox] - {0}: \nShapiro-Wilk (test-statistic, p-value): {1}\nNormaltest: {2}\n\n'.format(label, stats.shapiro(stats.boxcox(probs_dict_bc[label])[0]), stats.normaltest(stats.boxcox(probs_dict_bc[label])[0])))
 ## Runs Shapiro-Wilk test to determine if the distrobutions are normal (p < 0.05 means not normal)
 #
 #time_4 = time.time()
@@ -360,26 +312,34 @@ with open('cogs_dict_g.pkl', 'rb') as dict_file:
 with open('cogs_dict_final.pkl', 'rb') as dict_file:
     cogs_dict_final = pickle.load(dict_file)
 
-with open('probs_dict_300000.pkl', 'rb') as dict_file:
+with open('probs_dict_1Mil.pkl', 'rb') as dict_file:
     probs_dict = pickle.load(dict_file)
 
 for label in probs_dict.keys():
     target_per = cogs_dict[label]
     total_sims = len(probs_dict[label])
-    if cogs_dict_final[label] < 0:
+    if cogs_dict_final[label] < 0 and cogs_dict_g[label] < 2:
+        greater_pval = len([i for i in probs_dict[label] if i > target_per])/total_sims
+        greater_ci = sorted(probs_dict[label])[int(0.975*total_sims)]
+        ci.setdefault(label, []).append(greater_ci)
+    elif cogs_dict_final[label] < 0:
         lesser_pval = len([i for i in probs_dict[label] if i < target_per])/total_sims
         lesser_ci = sorted(probs_dict[label])[int(0.025*total_sims)]
         ci.setdefault(label, []).append(lesser_ci)
+#        pvals_dict[label] = {'lesser', lesser_pval}
         if lesser_pval < 0.05 and lesser_pval != 0:
             print('{0} (Lesser): {1}\nConfidence interval: {2}\n'.format(label, lesser_pval, lesser_ci))
+            pvals_dict[label] = {'lesser', lesser_pval}
         else:
             pass
     elif cogs_dict_final[label] > 0:
         greater_pval = len([i for i in probs_dict[label] if i > target_per])/total_sims
         greater_ci = sorted(probs_dict[label])[int(0.975*total_sims)]
         ci.setdefault(label, []).append(greater_ci)
+#        pvals_dict[label] = {'greater', greater_pval}
         if greater_pval < 0.05 and lesser_pval != 0:
             print('{0} (Greater): {1}\nConfidence interval: {2}\n'.format(label, greater_pval, greater_ci))
+            pvals_dict[label] = {'greater', greater_pval}
         else:
             pass
     else:
@@ -409,27 +369,36 @@ sns.set_style('white')  # sets sns background styling to white
 vmax = max(cogs_per_final)
 vmin = min(cogs_per_final)
 mid = 1 - vmax / (vmax + abs(vmin))
-centered_cm = shiftedColorMap(sns.diverging_palette(250, 15, s=99, l=50, center="light", as_cmap = True), 
-                              start = 0, midpoint = mid, stop = 1, name = 'centered_cm')
-# makes a matplotlib colormap (cm) object (https://seaborn.pydata.org/tutorial/color_palettes.html)
-# range is from ~-5 to ~7, so just adding 5 to all numbers doesn't center the cm
+
+top = cm.get_cmap('Blues_r', 251000)
+middle_blue = cm.get_cmap('Blues_r', 5000)
+middle_red = cm.get_cmap('Reds', 5000)
+bottom = cm.get_cmap('Reds', 251000)
+
+newcolors = np.vstack((top(np.linspace(0.1, 0.85, 251000)),
+                       middle_blue(np.linspace(0.85, 0.9, 5000)),
+                       middle_red(np.linspace(0.05, 0.15, 5000)),
+                       bottom(np.linspace(0.15, 0.9, 251000))))
+centered_cm = ListedColormap(newcolors, name='Blue_Red')
+# https://matplotlib.org/tutorials/colors/colormap-manipulation.html#creating-listed-colormaps
+
 colors_2 = []
 for entry in cogs_per_final:
-    colors_2.append(centered_cm((entry - min(cogs_per_final))
-                                / (float(max(cogs_per_final)) 
-                                - min(cogs_per_final))))
+    colors_2.append(centered_cm((entry - -6.5)
+                                / (float(6.5) 
+                                - -6.5)))
 
-# plot = plt.scatter(cogs_per_final, cogs_per_final, c = cogs_per_final, cmap = 'centered_cm')  # establishes colorbar in scatterplot
-# plt.close()  # clears scatterplot
+plot = plt.scatter([-6.5, 6.5], [-6.5, 6.5], c = [-6.5, 6.5], cmap = centered_cm)  # establishes colorbar in scatterplot
+plt.close()  # clears scatterplot
  
 
 #####################
 # Figure Production #
 #####################
 
-fig = plt.figure(figsize = (14, 15))
+fig = plt.figure(figsize = (15, 15))
 ind = np.arange(len(labels_final))
-ax = plt.subplot(1, 10, (5, 10))
+ax = plt.subplot(1, 11, (5, 11))
 barlist = plt.barh(ind[:-3], cogs_per[:-3], height = 1, align = 'edge')
 for i, color in zip(range(0, len(barlist)), colors_2[:-3]):
     barlist[i].set_color(color)
@@ -442,7 +411,7 @@ ax.axvspan(-29.7, -29.95, color = 'white')
 plt.yticks(ind[:-3], '')
 plt.ylim([0, ind[:-3].size])  # Removes whitespace to right side
 plt.xlim([-30, 25])
-plt.xlabel('Percent Composition\n(Targets)', x = 0.77, fontsize = 12)
+plt.xlabel('Percent Composition of Targets', x = 0.77, fontsize = 12)
 plt.xticks((0, 5, 10, 15, 20, 25), (0, 5, 10, 15, 20, 25), fontsize = 12)
 ax.tick_params(direction = 'out')
 ax.spines['right'].set_visible(False)  # Removes right axis
@@ -450,10 +419,10 @@ ax.spines['left'].set_visible(False)
 ax.spines['top'].set_visible(False)  # Removes top axis
 ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
 ax.xaxis.set_ticks_position('bottom')  # Keeps horizontal ticks hidden on top
-# plt.colorbar(plot)  # plots colorbar from earlier scatterplot
+plt.colorbar(plot, extend = 'both', extendfrac = 0.025)  # plots colorbar from earlier scatterplot
 
 ind = np.arange(len(labels_final))
-ax = plt.subplot(1, 10, (1, 4))
+ax = plt.subplot(1, 11, (1, 4))
 barlist = plt.barh(ind[:-3], cogs_per_final[:-3], height = 1, align = 'edge')
 for i, color, label in zip(range(0, len(barlist)), colors_2[:-3], labels_final[:-3]): # entry and ci missing now
     barlist[i].set_color(color)
@@ -461,12 +430,16 @@ for i, color, label in zip(range(0, len(barlist)), colors_2[:-3], labels_final[:
         ax.axhspan(i, 1 + i, color = 'white', alpha = 0.15)
     else:
         ax.axhspan(i, 1 + i, color = 'lightgrey', alpha = 0.15)
-    ax.axvline(ci[label][0] - cogs_dict_g[label], color = 'darkgrey', 
+    if label in pvals_dict.keys():
+        ax.axvline(ci[label][0] - cogs_dict_g[label], color = 'gainsboro', 
+              ymin = (i)/20, ymax = (1 + i)/20, linewidth = 1.5)
+    else:
+        ax.axvline(ci[label][0] - cogs_dict_g[label], color = 'darkgrey', 
               ymin = (i)/20, ymax = (1 + i)/20, linewidth = 1.5)
 plt.yticks(ind[:-3] + 0.5, labels_final[:-3], rotation = "horizontal", fontsize = 12, multialignment = 'center')
 plt.ylim([0, ind[:-3].size])  # Removes whitespace to right side
 plt.xlim([-8, 8])
-plt.xlabel('Enrichment Over Genome (%)', fontsize = 12)
+plt.xlabel('Percent Enrichment Over Genome', fontsize = 12)
 plt.xticks(fontsize = 12)
 ax.yaxis.tick_right()
 ax.tick_params(direction = 'out')
@@ -488,5 +461,5 @@ else:
 plt.close()
 
 
-#end_time = time.time()
-#print(round(end_time - start_time, 2))
+end_time = time.time()
+print(round(end_time - start_time, 2))
