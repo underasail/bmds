@@ -58,5 +58,5 @@ for row in rows:
 
 m_s_per_mapped = round(m_s_readcount*100/total, 2)
 #print('Precursor: {0}\nPercent reads mapped to mature & star: {1}%\n'.format(argv[1].rstrip('.map.txt'), m_s_per_mapped))
-print('{0}\t{1}\n'.format(argv[1].rstrip('.map.txt'), m_s_per_mapped))
+print('{0}\t{1}'.format(argv[1].rstrip('.map.txt'), m_s_per_mapped))
 #%%
