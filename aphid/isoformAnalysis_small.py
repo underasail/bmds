@@ -3,23 +3,23 @@
 
 
 import time
-start_time = time.time()
-
-#import csv
-#from numpy.random import choice
-#import statistics
-#import statsmodels.stats.multitest as smm
-#import scipy
-#from scipy import stats
-#import pylab
-#from joblib import Parallel, delayed 
-#import multiprocessing
+# import csv
+# from numpy.random import choice
+# import statistics
+# import statsmodels.stats.multitest as smm
+# import scipy
+# from scipy import stats
+# import pylab
+# from joblib import Parallel, delayed
+# import multiprocessing
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import pickle
 
+
+start_time = time.time()
 
 # to center colormap closer to zero
 def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
