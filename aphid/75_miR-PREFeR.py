@@ -3,6 +3,12 @@
 from sys import argv
 import csv
 
+# USAGE: 
+#     cd ./miR-PREFeR_predictions/readmapping
+#     for file in miRNA-precursor_*; do 
+#         ../75_miR-PREFeR.py $file; 
+#         done > m-s-per_len.tsv
+
 rows = []
 mature_winone = []
 star_winone = []
@@ -59,4 +65,5 @@ for row in rows:
 m_s_per_mapped = round(m_s_readcount*100/total, 2)
 #print('Precursor: {0}\nPercent reads mapped to mature & star: {1}%\n'.format(argv[1].rstrip('.map.txt'), m_s_per_mapped))
 print('{0}\t{1}\t{2}'.format(argv[1].rstrip('.map.txt'), m_s_per_mapped, len(mature)))
+# print format: precursor name  percent of 1nt variants mapped to miRNA/miRNA*  length of mature miRNA
 #%%
