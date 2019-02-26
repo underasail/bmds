@@ -6,6 +6,8 @@ from subprocess import call
 
 title_dict = {}
 
+# argv[1]: ./miR-PREFeR_predictions/_miRNA.precursor.ss
+#     (should be filtered to include only >=75% 1nt variants
 with open(argv[1]) as f:
     csvreader = csv.reader(f, delimiter = ' ')
     for row in csvreader:
