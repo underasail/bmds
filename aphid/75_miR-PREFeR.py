@@ -13,7 +13,7 @@ rows = []
 mature_winone = []
 star_winone = []
 m_s_readcount = 0
-#argv = ['75_miR-PREFeR.py', 'miRNA-precursor_48.map.txt']
+#argv = ['75_miR-PREFeR.py', 'miRNA-precursor_154.map.txt']
 
 with open(argv[1], 'r') as f:
     csvreader = csv.reader(f, delimiter = '\t')
@@ -27,7 +27,7 @@ with open(argv[1], 'r') as f:
     sec_struct = next(csvreader)
     for row in csvreader:
         rows.append(row)
-        if row[0][0] == 'm':
+        if row[0][0] == 'm' or row[0][-1] == 'm':
             reads = int(row[1].split(', ')[0].lstrip('depth='))
             mature = row[0].strip('m')
 #            mature_winone.append([mature, reads])
@@ -35,7 +35,7 @@ with open(argv[1], 'r') as f:
             m_start = precursor.index(mature)
             m_end = m_start + len(mature)
 #            mature is precursor[m_start:m_end]
-        elif row[0][0] == 's':
+        elif row[0][0] == 's' or row[0][-1] == 's':
             reads = int(row[1].split(', ')[0].lstrip('depth='))
             star = row[0].strip('s')
 #            star_winone.append([star, reads])
@@ -61,6 +61,8 @@ for row in rows:
             m_s_readcount += reads
     except ValueError:
         pass
+    except NameError:
+        print('Unaccounted for error in: {}'.format(argv[1]))
 
 m_s_per_mapped = round(m_s_readcount*100/total, 2)
 #print('Precursor: {0}\nPercent reads mapped to mature & star: {1}%\n'.format(argv[1].rstrip('.map.txt'), m_s_per_mapped))
