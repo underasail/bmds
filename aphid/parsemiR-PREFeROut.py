@@ -6,7 +6,6 @@ from subprocess import call
 
 title_dict = {}
 
-# with open('C:\\Users\\Thompson\\Documents\\miR-PREFeR_predictions_10X_20-24_300_plants-only\\G006_Gut_F_trimmed_17-35_plants_miRNA.precursor.ss', 'r') as f:
 with open(argv[1]) as f:
     csvreader = csv.reader(f, delimiter = ' ')
     for row in csvreader:
