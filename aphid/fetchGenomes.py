@@ -170,7 +170,7 @@ for filename, genebank_id in zip(filenames, genebank_ids):
     # Fetches FASTA file for genome
     # filename = '%sGBID%s.fasta' % (argv[2], genebank_id)
     # ex: /root/path/to/ref_genomes_folder/GBID1234567.fasta
-    filename = "{0}{1}".format(argv[2], filename)
+    filename = "{0}{1}.fasta".format(argv[2], filename)
     with open(filename, 'w') as f:
         f.write(efetch_handle.read())
         # Writes FASTA file under specified directory
