@@ -3,7 +3,7 @@
 # USAGE = ./fetchGenomes.py [CSV FILE WITH ORGANISMS] [/root/path/to/ref_genomes_folder/] [/path/to/genomes_downloaded.tsv]
 # with closing '/' at end of path
 
-#from sys import argv
+from sys import argv
 import csv
 from Bio import Entrez
 from Bio import SeqIO
@@ -12,9 +12,9 @@ from time import sleep
 organisms = []
 biosample_accession_numbers = []
 genebank_ids = []
-argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
-        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
-        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
+#argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
+#        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
+#        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
 
 Entrez.email = 'Thompson.Max.C@miami.edu'
 with open(argv[1], newline='') as f:
@@ -134,7 +134,8 @@ efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids_list,
 efetch_records = SeqIO.parse(efetch_handle, 'gb')
 filenames = []
 for record in efetch_records:
-    organism_name = record.annotations['organism'].replace(' ', '_')
+    organism_name = \
+    record.annotations['organism'].replace(' ', '_').replace('.', '')
     refseq_acc = record.annotations['accessions'][0]
     filenames.append('_'.join([refseq_acc, organism_name]))
 #%%
