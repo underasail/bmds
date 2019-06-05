@@ -37,6 +37,7 @@ for organism in organisms:
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
     if esearch_result['Count'] == '0':
+        sleep(0.5)
         # Ensure there is at least one genome for the organism
         search_term = '"%s"[Organism] AND "representative genome"[RefSeq Category] \
         AND ("full genome representation"[filter]) \
@@ -45,6 +46,7 @@ for organism in organisms:
         esearch_result = Entrez.read(esearch_handle)
         esearch_handle.close()
         if esearch_result['Count'] == '0':
+            sleep(0.5)
             search_term = '"%s"[Organism] AND \
             ("full genome representation"[filter]) \
             AND (all[filter] NOT anomalous[filter])' % str(organism)
@@ -56,6 +58,7 @@ for organism in organisms:
                 genome_tsv.write("{0}\tN/A\tNot Included\n".format(organism))
             elif 'virus' not in str(organism):
                 for ID in esearch_result['IdList']:
+                    sleep(0.5)
                     esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                     esummary_result = Entrez.read(esummary_handle)
                     biosample_accession_numbers.append(\
@@ -71,6 +74,7 @@ for organism in organisms:
                     genome_tsv.write("{0}\tFull Genome\tIncluded\n".format(organism))
             else:
                 for ID in esearch_result['IdList']:
+                    sleep(0.5)
                     esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                     esummary_result = Entrez.read(esummary_handle)
                     genebank_ids.append(\
@@ -87,6 +91,7 @@ for organism in organisms:
                     genome_tsv.write("{0}\tFull Genome\tIncluded\n".format(organism))
         else:
             for ID in esearch_result['IdList']:
+                sleep(0.5)
                 esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
                 esummary_result = Entrez.read(esummary_handle)
                 biosample_accession_numbers.append(\
@@ -105,6 +110,7 @@ for organism in organisms:
     # This limits number of results and insures better quality genomes if available
     else:
         for ID in esearch_result['IdList']:
+            sleep(0.5)
             esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
             # Utilize esummary to fetch BioProject Accession number from Assembly IDs
             # https://www.biostars.org/p/141581/
@@ -131,8 +137,8 @@ for organism in organisms:
             print('%s   Reference Genome    Included' % str(organism))
             genome_tsv.write("{0}\tReference Genome\tIncluded\n".format(organism))
 if len(biosample_accession_numbers) > 0:
-    sleep(0.5)
     for biosample_accession_number in biosample_accession_numbers:
+        sleep(0.5)
         esearch_handle = Entrez.esearch(db = 'nuccore', \
         term = '%s[BioSample] AND biomol_genomic[PROP] \
         NOT "sequencing project"' % biosample_accession_number)
@@ -152,6 +158,7 @@ genome_tsv.close()
 genebank_ids = list(set(genebank_ids))
 #%%
 genebank_ids_string = ','.join(genebank_ids)
+sleep(0.5)
 efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids_string,
                               rettype = 'gb', retmode = 'text')
 efetch_records = SeqIO.parse(efetch_handle, 'gb')
