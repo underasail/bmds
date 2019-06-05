@@ -62,6 +62,12 @@ for organism in organisms:
                     biosample_accession_numbers.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
                     organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
+                    try:
+                        sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
+                        sub_value = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_value']
+                        organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
+                    except:
+                        pass
                     print('%s   Full Genome Included' % str(organism))
                     genome_tsv.write("{0}\tFull Genome\tIncluded\n".format(organism))
             else:
@@ -72,6 +78,12 @@ for organism in organisms:
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['GbUid'])
                     # GenBank ID Location
                     organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
+                    try:
+                        sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
+                        sub_value = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_value']
+                        organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
+                    except:
+                        pass
                     print('%s   Full Genome Included' % str(organism))
                     genome_tsv.write("{0}\tFull Genome\tIncluded\n".format(organism))
         else:
@@ -81,6 +93,12 @@ for organism in organisms:
                 biosample_accession_numbers.append(\
                 esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
                 organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
+                try:
+                    sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
+                    sub_value = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_value']
+                    organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
+                except:
+                    pass
                 print('%s   Representative Genome   Included' % str(organism))
                 genome_tsv.write("{0}\tRepresentative Genome\tIncluded\n".format(organism))
     # Nested ifs above serve to search for reference genomes first, then representative
@@ -105,6 +123,12 @@ for organism in organisms:
             # esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
                 # Location of organism name
             organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
+            try:
+                sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
+                sub_value = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_value']
+                organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
+            except:
+                pass
             print('%s   Reference Genome    Included' % str(organism))
             genome_tsv.write("{0}\tReference Genome\tIncluded\n".format(organism))
 if len(biosample_accession_numbers) > 0:
@@ -125,12 +149,12 @@ else:
     # Viruses should be only thing to pass, and they already have GBIDs
 
 genome_tsv.close()
+
+genebank_ids = list(set(genebank_ids))
 #%%
-genebank_ids_list = ','.join(genebank_ids)
-efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids_list,
+genebank_ids_string = ','.join(genebank_ids)
+efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids_string,
                               rettype = 'gb', retmode = 'text')
-#efetch_out = efetch_handle.read()
-#print(efetch_out)
 efetch_records = SeqIO.parse(efetch_handle, 'gb')
 filenames = []
 for record in efetch_records:
