@@ -89,24 +89,35 @@ module load bowtie2
 # #
 
 export filelist=''
-for filename in /nethome/mct30/bmds/ref_genomes/other_bacteria_gut/*.fasta; do
+for filename in /nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/*.fasta; do
     filelist+=$filename;
     filelist+=',';
 done
 
 /share/apps/bowtie2/2.2.6/bowtie2-build -f \
 $filelist \
-/nethome/mct30/bmds/index/other_bacteria_gut/other_bacteria_gut_index
+/nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index
+# Building an index for the other bacteria
+
+export filelist=''
+for filename in /nethome/mct30/bmds/ref_genomes/CRi-5.15/*.fasta; do
+    filelist+=$filename;
+    filelist+=',';
+done
+
+/share/apps/bowtie2/2.2.6/bowtie2-build -f \
+$filelist \
+/nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index
 # Building an index for the other bacteria
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-x /nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index \
 -U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35_unmatched.fasta \
 -S /nethome/mct30/bmds/SAM_out/G002_Bac_other_bacteria.map
 # G002 bacteriocyte reads aligned against the other_bacteria
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-x /nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index \
 -U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35_unmatched.fasta \
 -S /nethome/mct30/bmds/SAM_out/G002_Gut_other_bacteria.map
 # G002 gut reads aligned against the other_bacteria
@@ -117,13 +128,13 @@ $filelist \
 #
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/other_bacteria_gut/other_bacteria_gut_index \
+-x /nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index \
 -U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35_unmatched.fasta \
 -S /nethome/mct30/bmds/SAM_out/G006_Bac_other_bacteria_gut.map
 # G006 bacteriocyte reads aligned against the other_bacteria
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-x /nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index \
 -U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35_unmatched.fasta \
 -S /nethome/mct30/bmds/SAM_out/G006_Gut_other_bacteria.map
 # G006 gut reads aligned against the other_bacteria
@@ -134,16 +145,47 @@ $filelist \
 #
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-x /nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index \
 -U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35_unmatched.fasta \
 -S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_other_bacteria.map
 # BTIRed bacteriocyte reads aligned against the other_bacteria
 
 /share/apps/bowtie2/2.2.6/bowtie2 -L 10 -f -p 8 --no-unal \
--x /nethome/mct30/bmds/index/other_bacteria/other_bacteria_index \
+-x /nethome/mct30/bmds/index/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper_index \
 -U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35_unmatched.fasta \
 -S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_other_bacteria.map
 # BTIRed gut reads aligned against the other_bacteria
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L10 -f -p8 --no-unal \
+-x /nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index \
+-U /nethome/mct30/bmds/reads/G006_Bac_F_trimmed_17-35.fasta \
+-S /nethome/mct30/bmds/SAM_out/G006_Bac_CRi.map
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L10 -f -p8 --no-unal \
+-x /nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index \
+-U /nethome/mct30/bmds/reads/G006_Gut_F_trimmed_17-35.fasta \
+-S /nethome/mct30/bmds/SAM_out/G006_Gut_CRi.map
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L10 -f -p8 --no-unal \
+-x /nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index \
+-U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fasta \
+-S /nethome/mct30/bmds/SAM_out/G002_Bac_CRi.map
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L10 -f -p8 --no-unal \
+-x /nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index \
+-U /nethome/mct30/bmds/reads/G002_Gut_trimmed_17-35.fasta \
+-S /nethome/mct30/bmds/SAM_out/G002_Gut_CRi.map
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L10 -f -p8 --no-unal \
+-x /nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Bac_trimmed_17-35.fasta \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Bac_CRi.map
+
+/share/apps/bowtie2/2.2.6/bowtie2 -L10 -f -p8 --no-unal \
+-x /nethome/mct30/bmds/index/CRi-5.15/CRi-5.15_index \
+-U /nethome/mct30/bmds/reads/BTIRed_Gut_trimmed_17-35.fasta \
+-S /nethome/mct30/bmds/SAM_out/BTIRed_Gut_CRi.map
+
 
 
 # #
