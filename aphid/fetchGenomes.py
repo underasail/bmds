@@ -2,7 +2,7 @@
 # USAGE = ./fetchGenomes.py [CSV FILE WITH ORGANISMS] [/root/path/to/ref_genomes_folder/] [/path/to/genomes_downloaded.tsv]
 # with closing '/' at end of path
 
-from sys import argv
+#from sys import argv
 import csv
 from Bio import Entrez
 from Bio import SeqIO
@@ -11,9 +11,9 @@ from time import sleep
 organisms = []
 biosample_accession_numbers = []
 genebank_ids = []
-#argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
-#        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
-#        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
+argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
+        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
+        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
 
 Entrez.email = 'Thompson.Max.C@miami.edu'
 with open(argv[1], newline='') as f:
@@ -55,7 +55,7 @@ for organism in organisms:
             esearch_handle.close()
             if esearch_result['Count'] == '0':
                 print('%s   N/A Not Included' % str(organism))
-                genome_tsv.write("{0}\tN/A\tNot Included\n".format(organism))
+                genome_tsv.write("{0}\tN/A\tN/A\tNot Included\n".format(organism))
             elif 'virus' not in str(organism):
                 for ID in esearch_result['IdList']:
                     sleep(0.5)
@@ -63,6 +63,7 @@ for organism in organisms:
                     esummary_result = Entrez.read(esummary_handle)
                     biosample_accession_numbers.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
+                    refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
                     organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
                     try:
                         sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
@@ -71,7 +72,7 @@ for organism in organisms:
                     except:
                         pass
                     print('%s   Full Genome Included' % str(organism))
-                    genome_tsv.write("{0}\tFull Genome\tIncluded\n".format(organism))
+                    genome_tsv.write("{0}\tFull Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
             else:
                 for ID in esearch_result['IdList']:
                     sleep(0.5)
@@ -80,6 +81,7 @@ for organism in organisms:
                     genebank_ids.append(\
                     esummary_result['DocumentSummarySet']['DocumentSummary'][0]['GbUid'])
                     # GenBank ID Location
+                    refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
                     organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
                     try:
                         sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
@@ -88,7 +90,7 @@ for organism in organisms:
                     except:
                         pass
                     print('%s   Full Genome Included' % str(organism))
-                    genome_tsv.write("{0}\tFull Genome\tIncluded\n".format(organism))
+                    genome_tsv.write("{0}\tFull Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
         else:
             for ID in esearch_result['IdList']:
                 sleep(0.5)
@@ -96,6 +98,7 @@ for organism in organisms:
                 esummary_result = Entrez.read(esummary_handle)
                 biosample_accession_numbers.append(\
                 esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
+                refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
                 organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
                 try:
                     sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
@@ -104,7 +107,7 @@ for organism in organisms:
                 except:
                     pass
                 print('%s   Representative Genome   Included' % str(organism))
-                genome_tsv.write("{0}\tRepresentative Genome\tIncluded\n".format(organism))
+                genome_tsv.write("{0}\tRepresentative Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
     # Nested ifs above serve to search for reference genomes first, then representative
     # if there are no reference, then just complete if there are no representative
     # This limits number of results and insures better quality genomes if available
@@ -127,6 +130,7 @@ for organism in organisms:
                 # Location of BioProject ID
             # esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
                 # Location of organism name
+            refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
             organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
             try:
                 sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
@@ -135,7 +139,7 @@ for organism in organisms:
             except:
                 pass
             print('%s   Reference Genome    Included' % str(organism))
-            genome_tsv.write("{0}\tReference Genome\tIncluded\n".format(organism))
+            genome_tsv.write("{0}\tReference Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
 if len(biosample_accession_numbers) > 0:
     for biosample_accession_number in biosample_accession_numbers:
         sleep(0.5)
