@@ -1,8 +1,8 @@
 #! /bin/bash
 
 #BSUB -J fetchGenomes
-#BSUB -e /nethome/mct30/err/fetchGenomes_3.err
-#BSUB -o /nethome/mct30/out/fetchGenomes_3.out
+#BSUB -e /nethome/mct30/err/fetchGenomes_4.err
+#BSUB -o /nethome/mct30/out/fetchGenomes_4.out
 #BSUB -P acypi
 #BSUB -n 1
 #BSUB -q general
@@ -24,9 +24,10 @@ module switch python/3.6.5 > /dev/null 2>&1
 # Other Bacteria #
 ##################
 
-/nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
-/nethome/mct30/bmds/associated/aphid_gut_bacteria_set.txt \
-/nethome/mct30/bmds/ref_genomes/other_bacteria_gut/
+python /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
+/nethome/mct30/bmds/associated/HF-lit-search_and_2018-aphid-gut-paper.txt \
+/nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/ \
+/nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/genomes_included.tsv
 # Uses BioPython to fetch genomes of aphid associated other bacteria
 # and download them in FASTA format
 
