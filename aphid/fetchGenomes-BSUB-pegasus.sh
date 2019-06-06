@@ -1,8 +1,8 @@
 #! /bin/bash
 
 #BSUB -J fetchGenomes
-#BSUB -e /nethome/mct30/err/fetchGenomes_4.err
-#BSUB -o /nethome/mct30/out/fetchGenomes_4.out
+#BSUB -e /nethome/mct30/err/fetchGenomes_5.err
+#BSUB -o /nethome/mct30/out/fetchGenomes_5.out
 #BSUB -P acypi
 #BSUB -n 1
 #BSUB -q general

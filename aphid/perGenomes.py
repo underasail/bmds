@@ -1,4 +1,3 @@
-#! /share/opt/python/3.6.5/bin/python
 
 # USAGE = ./perGenomes.py [SAM FILE] [/root/path/to/percentage_output.tsv]
 
