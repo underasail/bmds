@@ -7,6 +7,7 @@
 #BSUB -P acypi
 #BSUB -q bigmem
 #BSUB -W 24:00
+#BSUB -R span[ptile=16]
 #BSUB -B
 #BSUB -N
 #BSUB -u mct30@miami.edu
@@ -25,7 +26,7 @@ parallel --link --eta \
 $SAM_dir/{1}_Myzus-only.map \
 $SAM_dir/{1}_Buchnera-only.map \
 $SAM_dir/{1}_plants-only.map \
-$SAM_dir/{1}_other-bacteria_full-alignment.map \
-$output_dir/{1}_other_bacteria_percentages.txt" \
+$SAM_dir/{1}_other_bacteria_HF_2018.map \
+$output_dir/{1}_other_bacteria_percentages_HF_2018.txt" \
 ::: G006_Gut G002_Gut BTIRed_Gut \
 G006_Bac G002_Bac BTIRed_Bac
