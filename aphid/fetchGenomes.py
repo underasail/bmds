@@ -2,7 +2,7 @@
 # USAGE = ./fetchGenomes.py [CSV FILE WITH ORGANISMS] [/root/path/to/ref_genomes_folder/] [/path/to/genomes_downloaded.tsv]
 # with closing '/' at end of path
 
-from sys import argv
+#from sys import argv
 import csv
 from Bio import Entrez
 from Bio import SeqIO
@@ -12,9 +12,9 @@ organisms = []
 biosample_accession_numbers = []
 refseq_accs = []
 genebank_ids = []
-#argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
-#        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
-#        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
+argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
+        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
+        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
 
 Entrez.email = 'mct30@miami.edu'
 
@@ -32,8 +32,8 @@ def assembly_esummary(ID):
     # Utilize esummary to fetch BioProject Accession number from Assembly IDs
     # https://www.biostars.org/p/141581/
     esummary_result = Entrez.read(esummary_handle)
-#    biosample_accession_numbers.append(\
-#    esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
+    biosample_accession_numbers.append(\
+    esummary_result['DocumentSummarySet']['DocumentSummary'][0]['BioSampleAccn'])
     # Location of BioProject Assembly Number in resulting dictionary structure
     # BioProject Id allows access to all genomes associated with that Assembly ID, and
     # only those genomes when searching below (RefSeq brought up all for organism)
@@ -68,10 +68,10 @@ genome_tsv = open(argv[3], 'w')
 
 
 """esearch in assembly to check genome completeness and RefSeq status from 
-name string, then esummary for each Assembly Uid found to  pull down Assembly
-Report and get RefSeq Accession number (for next search) and organism name, 
-then use RefSeq Accession number to esearch Nucleotide database and retrieve
-GI number for the genome
+name string, then esummary for each Assembly Uid found to pull down Assembly
+Report and get RefSeq Accession number, BioSample Accession number (for next 
+search), and organism name, then use RefSeq Accession number to esearch 
+Nucleotide database and retrieve GI number for the genome
 """
 
 for organism in organisms:
@@ -134,18 +134,19 @@ for organism in organisms:
             refseq_accs.append(refseq_acc)
             print('%s   Reference Genome    Included' % str(organism))
             genome_tsv.write("{0}\tReference Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
+
 #if len(biosample_accession_numbers) > 0:
-#    for biosample_accession_number in biosample_accession_numbers:
-for refseq_acc in refseq_accs:
+for biosample_accession_number in biosample_accession_numbers:
+#for refseq_acc in refseq_accs:
     sleep(0.4)
-#        esearch_handle = Entrez.esearch(db = 'nuccore', \
-#        term = '%s[BioSample] AND biomol_genomic[PROP] \
-#        NOT "sequencing project"' % biosample_accession_number)
+    esearch_handle = Entrez.esearch(db = 'nuccore', \
+        term = '%s[BioSample] AND biomol_genomic[PROP] \
+        NOT "sequencing project"' % biosample_accession_number)
     # Searching BioSample Accession number to get GeneBank IDs for FASTA download
     # Sorted by decreasing sequence length
     # NOT is to avoid WGS projects
-    esearch_handle = Entrez.esearch(db = 'nuccore', \
-                                    term = "{}".format(refseq_acc))
+#    esearch_handle = Entrez.esearch(db = 'nuccore', \
+#                                    term = '"{}"[RefSeq]'.format(refseq_acc))
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
     genebank_ids.append(esearch_result['IdList'][0])
@@ -159,8 +160,8 @@ genome_tsv.close()
 genebank_ids = list(set(genebank_ids))
 
 #%%
-"""Uses GIs to find Genebank files used to build organism names/RefSeq Accession
-numbers into filenames. This could be done in each step above.
+"""Uses GIs to find Genebank files used to build organism names/RefSeq 
+Accession numbers into filenames. This could be done in each step above.
 """
 sleep(0.4)
 efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids,
