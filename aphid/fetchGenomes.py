@@ -2,24 +2,26 @@
 # USAGE = ./fetchGenomes.py [CSV FILE WITH ORGANISMS] [/root/path/to/ref_genomes_folder/] [/path/to/genomes_downloaded.tsv]
 # with closing '/' at end of path
 
-#from sys import argv
+from sys import argv
 import csv
 from Bio import Entrez
 from Bio import SeqIO
 from time import sleep
+import urllib.request
+import gzip
 
 organisms = []
 biosample_accession_numbers = []
 refseq_accs = []
 genebank_ids = []
-argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
-        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
-        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
+#argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
+#        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
+#        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
 
 Entrez.email = 'mct30@miami.edu'
 
 def assembly_esearch(search_term):
-    sleep(0.4)
+    sleep(0.4)  # necessary for Entrez 3/s requests limit
     esearch_handle = Entrez.esearch(db = 'assembly', term = search_term)
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
@@ -27,7 +29,7 @@ def assembly_esearch(search_term):
     return esearch_result
 
 def assembly_esummary(ID):
-    sleep(0.4)
+    sleep(0.4)  # necessary for Entrez 3/s requests limit
     esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
     # Utilize esummary to fetch BioProject Accession number from Assembly IDs
     # https://www.biostars.org/p/141581/
@@ -44,7 +46,12 @@ def assembly_esummary(ID):
         # Location of BioProject ID
     # esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
         # Location of organism name
+    refseq_ftp_rpt = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['FtpPath_Assembly_rpt']
+    # used to build url for genome
+    url = refseq_ftp_rpt.replace('_assembly_report.txt', '_genomic.fna.gz')
+    # genome url since NCBI naming is consistent
     refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
+    # used to make supplementary table
     organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
     try:
         sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
@@ -52,8 +59,14 @@ def assembly_esummary(ID):
         organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
     except:
         pass
-    
-    return organism, refseq_acc
+    filename = '_'.join([refseq_acc, organism]).replace(' ', '_').replace(':', '_')
+    filename = "{0}{1}.fna".format(argv[2], filename)
+    response = urllib.request.urlopen(url)
+    # opens url to retreive document
+    with open(filename, 'wb') as f:
+        f.write(gzip.decompress(response.read()))
+        # decompresses and writes GZIPed file
+    return organism, refseq_acc, filename
 
 
 with open(argv[1], newline='') as f:
@@ -96,7 +109,7 @@ for organism in organisms:
                 genome_tsv.write("{0}\tN/A\tN/A\tNot Included\n".format(organism))
             elif 'virus' not in str(organism):
                 for ID in esearch_result['IdList']:
-                    organism, refseq_acc = assembly_esummary(ID)
+                    organism, refseq_acc, filename = assembly_esummary(ID)
                     refseq_accs.append(refseq_acc)
                     print('%s   Full Genome Included' % str(organism))
                     genome_tsv.write("{0}\tFull Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
@@ -121,7 +134,7 @@ for organism in organisms:
                     genome_tsv.write("{0}\tFull Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
         else:
             for ID in esearch_result['IdList']:
-                organism, refseq_acc = assembly_esummary(ID)
+                organism, refseq_acc, filename = assembly_esummary(ID)
                 refseq_accs.append(refseq_acc)
                 print('%s   Representative Genome   Included' % str(organism))
                 genome_tsv.write("{0}\tRepresentative Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
@@ -130,14 +143,13 @@ for organism in organisms:
     # This limits number of results and insures better quality genomes if available
     else:
         for ID in esearch_result['IdList']:
-            organism, refseq_acc = assembly_esummary(ID)
+            organism, refseq_acc, filename = assembly_esummary(ID)
             refseq_accs.append(refseq_acc)
             print('%s   Reference Genome    Included' % str(organism))
             genome_tsv.write("{0}\tReference Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
 
-#if len(biosample_accession_numbers) > 0:
+
 for biosample_accession_number in biosample_accession_numbers:
-#for refseq_acc in refseq_accs:
     sleep(0.4)
     esearch_handle = Entrez.esearch(db = 'nuccore', \
         term = '%s[BioSample] AND biomol_genomic[PROP] \
@@ -145,8 +157,6 @@ for biosample_accession_number in biosample_accession_numbers:
     # Searching BioSample Accession number to get GeneBank IDs for FASTA download
     # Sorted by decreasing sequence length
     # NOT is to avoid WGS projects
-#    esearch_handle = Entrez.esearch(db = 'nuccore', \
-#                                    term = '"{}"[RefSeq]'.format(refseq_acc))
     esearch_result = Entrez.read(esearch_handle)
     esearch_handle.close()
     genebank_ids.append(esearch_result['IdList'][0])
@@ -160,28 +170,28 @@ genome_tsv.close()
 genebank_ids = list(set(genebank_ids))
 
 #%%
-"""Uses GIs to find Genebank files used to build organism names/RefSeq 
-Accession numbers into filenames. This could be done in each step above.
-"""
-sleep(0.4)
-efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids,
-                              rettype = 'gb', retmode = 'text')
-efetch_records = SeqIO.parse(efetch_handle, 'gb')
-filenames = []
-for record in efetch_records:
-    organism_name = \
-    record.annotations['organism'].replace(' ', '_').replace('.', '')
-    refseq_acc = record.annotations['accessions'][0]
-    filenames.append('_'.join([refseq_acc, organism_name]))
+#"""Uses GIs to find Genebank files used to build organism names/RefSeq 
+#Accession numbers into filenames. This could be done in each step above.
+#"""
+#sleep(0.4)
+#efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids,
+#                              rettype = 'gb', retmode = 'text')
+#efetch_records = SeqIO.parse(efetch_handle, 'gb')
+#filenames = []
+#for record in efetch_records:
+#    organism_name = \
+#    record.annotations['organism'].replace(' ', '_').replace('.', '')
+#    refseq_acc = record.annotations['accessions'][0]
+#    filenames.append('_'.join([refseq_acc, organism_name]))
 #%%
-for filename, genebank_id in zip(filenames, genebank_ids):
-    sleep(0.4)
-    efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_id,
-                                  rettype = 'fasta', retmode = 'text')
-    # Fetches FASTA file for genome
-    # filename = '%sGBID%s.fasta' % (argv[2], genebank_id)
-    # ex: /root/path/to/ref_genomes_folder/GBID1234567.fasta
-    filename = "{0}{1}.fasta".format(argv[2], filename)
-    with open(filename, 'w') as f:
-        f.write(efetch_handle.read())
-        # Writes FASTA file under specified directory
+#for filename, genebank_id in zip(filenames, genebank_ids):
+#    sleep(0.4)
+#    efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_id,
+#                                  rettype = 'fasta', retmode = 'text')
+#    # Fetches FASTA file for genome
+#    # filename = '%sGBID%s.fasta' % (argv[2], genebank_id)
+#    # ex: /root/path/to/ref_genomes_folder/GBID1234567.fasta
+#    filename = "{0}{1}.fasta".format(argv[2], filename)
+#    with open(filename, 'w') as f:
+#        f.write(efetch_handle.read())
+#        # Writes FASTA file under specified directory
