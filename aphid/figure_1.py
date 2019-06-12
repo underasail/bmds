@@ -1,28 +1,86 @@
 #! /usr/bin/python3
 
-
+import csv
 import numpy as np
 from matplotlib import pyplot as plt
 
+gut_data_plant = {}
+bac_data_plant = {}
 
+with open('other-bacteria_percents.txt', 'r') as f:
+    csvreader = csv.reader(f, delimiter = '\t')
+    for row in csvreader:
+        if len(row) == 1:
+            dataset = row[0]
+            total = float(next(csvreader)[2])
+            abp = float(next(csvreader)[2])
+            ap = float(next(csvreader)[2])
+            ab = float(next(csvreader)[2])
+            bp = float(next(csvreader)[2])
+            aphid = float(next(csvreader)[2])
+            buchnera = float(next(csvreader)[2])
+            plant = float(next(csvreader)[2])
+            ob_ex = float(next(csvreader)[2])
+            Ps_ex = float(next(csvreader)[2])
+            CRi_ex = float(next(csvreader)[2])
+            Cn_ex = float(next(csvreader)[2])
+            Pd_ex = float(next(csvreader)[2])
+            Hd_ex = float(next(csvreader)[2])
+            Ss_ex = float(next(csvreader)[2])
+            Ph_ex = float(next(csvreader)[2])
+            Al_ex = float(next(csvreader)[2])
+            Pa_ex = float(next(csvreader)[2])
+            Ea_ex = float(next(csvreader)[2])
+            other_bacteria = ob_ex + Ps_ex + Cn_ex + Pd_ex + Hd_ex + Ss_ex + Ph_ex + Al_ex + Pa_ex + Ea_ex
+            if dataset == 'G006 Gut':
+                gut_data_plant['abp'] = abp/26266.50
+                gut_data_plant['ap'] = ap/26266.50
+                gut_data_plant['ab'] = ab/26266.50
+                gut_data_plant['bp'] = bp/26266.50
+                gut_data_plant['aphid'] = aphid/26266.50
+                gut_data_plant['buchnera'] = buchnera/26266.50
+                gut_data_plant['plant'] = plant/26266.50
+                gut_data_plant['other_bacteria'] = other_bacteria/26266.50
+                gut_data_plant['CRi'] = CRi_ex/26266.50
+                gut_data_plant['unknown'] = (2626650 - abp - ap - ab - bp - aphid - buchnera - plant - other_bacteria - CRi_ex)/26266.50
+            elif dataset == 'G006 Bacteriome':
+                bac_data_plant['abp'] = abp/219608.73
+                bac_data_plant['ap'] = ap/219608.73
+                bac_data_plant['ab'] = ab/219608.73
+                bac_data_plant['bp'] = bp/219608.73
+                bac_data_plant['aphid'] = aphid/219608.73
+                bac_data_plant['buchnera'] = buchnera/219608.73
+                bac_data_plant['plant'] = plant/219608.73
+                bac_data_plant['other_bacteria'] = other_bacteria/219608.73
+                bac_data_plant['CRi'] = CRi_ex/219608.73
+                bac_data_plant['unknown'] = (21960873 - abp - ap - ab - bp - aphid - buchnera - plant - other_bacteria - CRi_ex)/219608.73
+            else:
+                pass
+        else:
+            pass
+
+for key in gut_data_plant.keys():
+    if gut_data_plant[key] < 1:
+        gut_data_plant[key] = 0
+    else:
+        pass
+    if bac_data_plant[key] < 1:
+        bac_data_plant[key] = 0
+    else:
+        pass
+    
+#%%
 ################
 # Data Storage #
 ################
 
-gut_data = {'holobiont' : 1453832/26266.50, 'nonholobiont' : 1172818/26266.50}
+gut_data = {}
+gut_data['nonholobiont'] = (gut_data_plant['unknown'] + gut_data_plant['plant'] + gut_data_plant['other_bacteria'] + gut_data_plant['CRi'])
+gut_data['holobiont'] = 100 - gut_data['nonholobiont']
 
-bac_data = {'holobiont' : 21342271/219608.73, 'nonholobiont' : 618602/219608.73}
-
-gut_data_plant = {'aphid' : 1153705/26266.50, 'buchnera' : 0/26266.50, 
-                  'plant' : 863949/26266.50, 'ab': 0/26266.50, 
-                  'ap' : 286498/26266.50, 'bp' : 0/26266.50, 
-                  'abp' : 0/26266.50, 'unknown' : (2626650-2317781)/26266.50}
-
-bac_data_plant = {'aphid' : 1775626/219608.73, 'buchnera' : 13523886/219608.73, 
-                  'plant' : 0/219608.73, 'ab': 1422774/219608.73, 
-                  'ap' : 0/219608.73, 'bp' : 1850387/219608.73, 
-                  'abp' : 2553368/219608.73, 'unknown' : (21960873-21391121)/219608.73}
-
+bac_data = {}
+bac_data['nonholobiont'] = (bac_data_plant['unknown'] + bac_data_plant['plant'] + bac_data_plant['other_bacteria'] + bac_data_plant['CRi'])
+bac_data['holobiont'] = 100 - bac_data['nonholobiont']
 
 ###################
 # Data Formatting #
@@ -44,6 +102,10 @@ p_bp = (gut_data_plant['bp'], bac_data_plant['bp'])
 p_bp = np.array(p_bp)
 p_abp = (gut_data_plant['abp'], bac_data_plant['abp'])
 p_abp = np.array(p_abp)
+p_other_bacteria = (gut_data_plant['other_bacteria'], bac_data_plant['other_bacteria'])
+p_other_bacteria = np.array(p_other_bacteria)
+p_CRi = (gut_data_plant['CRi'], bac_data_plant['CRi'])
+p_CRi = np.array(p_CRi)
 # With plant data set-up
 
 
@@ -77,16 +139,18 @@ sizes_bac.reverse()
 colors = ['steelblue', 'darkorange']  # Sets up colors for pie charts
 labels = ['Mapped', 'Not Mapped']
 
-data_list = [p_aphid, p_buchnera, p_ab, p_plant, p_ap, p_bp, p_abp, p_unknown]
-string_list = ['p_aphid_plot', 'p_buchnera_plot', 'p_ab_plot', 'p_plant_plot', 'p_ap_plot', 
-               'p_bp_plot', 'p_abp_plot', 'p_unknown_plot']
+data_list = [p_aphid, p_buchnera, p_ab, p_plant, p_ap, p_bp, p_abp, p_CRi, p_other_bacteria, p_unknown]
+string_list = ['p_aphid_plot', 'p_buchnera_plot', 'p_ab_plot', 'p_plant_plot', 
+               'p_ap_plot', 'p_bp_plot', 'p_abp_plot', 'p_CRi', 'p_other_bacteria', 'p_unknown_plot']
                # Keeps names the same as before for loop
-               # Allows a dictionary to be created with these as the keys and then save 
-               # bar chart characteristics under them for legend generation
+               # Allows a dictionary to be created with these as the keys 
+               # and then save bar chart characteristics under them for legend 
+               # generation
 string_dict = {}
 color_list = ['maroon', 'red', 'lightsalmon', 
               'darkgreen', 'darkgoldenrod', 
-              'gold', 'c', 'mediumorchid']
+              'gold', 'c', 'mediumvioletred', 
+              'violet', 'darkorchid']
 left = 0
 
 #####################
@@ -129,23 +193,28 @@ plt.axis('equal')
 # Panel B: Bar Charts #
 #######################
 
-ax = plt.subplot(1, 3, (2, 3))  # Sets up ax for later proptery manipulations of ticks
+ax = plt.subplot(1, 3, (2, 3))
+# Sets up ax for later proptery manipulations of ticks
 
 for data, string, color in zip(data_list, string_list, color_list):
-    string_dict[string] = ax.barh(N, data, color = color, left = left, height = 0.55, 
-                                  linewidth = 0)
+    string_dict[string] = ax.barh(N, data, color = color, left = left, 
+                                  height = 0.55, linewidth = 0)
     left += data
     
 plt.title('Extra-holobiont Mapping\n', fontdict = title_font)
 plt.legend((string_dict['p_aphid_plot'][0], string_dict['p_buchnera_plot'][0], 
-            string_dict['p_ab_plot'][0], string_dict['p_unknown_plot'][0], 
+            string_dict['p_ab_plot'][0], 
+            string_dict['p_CRi'][0], string_dict['p_other_bacteria'][0],
             string_dict['p_plant_plot'][0], string_dict['p_ap_plot'][0], 
-            string_dict['p_bp_plot'][0], string_dict['p_abp_plot'][0]),
-           ('Aphid', 'Symbiont', 'Aphid & Symbiont', 'Unknown', 'Host plant', 
+            string_dict['p_bp_plot'][0], string_dict['p_abp_plot'][0], 
+            string_dict['p_unknown_plot'][0]),
+           ('Aphid', 'Symbiont', 'Aphid & Symbiont', 'Regiella insecticola', 
+            'Other bacteria', 'Host plant', 
             'Aphid & Host plant', 'Symbiont & Host plant', 
-            'Aphid, Symbiont, & Host plant'),
+            'Aphid, Symbiont, & Host plant', 'Unknown'),
            loc = 'upper left', bbox_to_anchor = (-0.1, -0.2), 
-           prop = {'family' : 'sans-serif', 'size' : 12}, frameon = False, ncol = 2)
+           prop = {'family' : 'sans-serif', 'size' : 12}, frameon = False, 
+           ncol = 2)
 plt.xlabel('Percentage', fontdict = other_font)
 plt.xlim(right = 100)
 plt.yticks((0.25, 0.75), ('', ''), size = 12, family = 'sans-serif')
@@ -155,7 +224,8 @@ plt.text(-80, 1.67, 'a)', fontsize = 20, family = 'sans-serif')
 plt.text(-5, 1.67, 'b)', fontsize = 20, family = 'sans-serif')
 # Uses panel b bar chart axes to position text for panel labels
 plt.text(-70, 0.75, 'Gut', fontsize = 16, family = 'sans-serif', rotation = 90)
-plt.text(-70, 0.25, 'Bacteriome', fontsize = 16, family = 'sans-serif', rotation = 90)
+plt.text(-70, 0.25, 'Bacteriome', fontsize = 16, family = 'sans-serif', 
+         rotation = 90)
 # Uses panel b bar chart axes to position text for panel a pie chart subtitles
 
 ax.spines['right'].set_visible(False)  # Removes right axis
