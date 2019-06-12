@@ -10,7 +10,7 @@ matched_dict = {}
 with open(argv[1], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             # with scaffold header lines, would need too many next()
             # this will skip header lines too
             # also selects for alignments with one mismatch or fewer

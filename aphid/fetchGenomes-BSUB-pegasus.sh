@@ -24,17 +24,24 @@ module switch python/3.6.5 > /dev/null 2>&1
 # Other Bacteria #
 ##################
 
-python /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
-/nethome/mct30/bmds/associated/HF-lit-search_and_2018-aphid-gut-paper.txt \
-/nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/ \
-/nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/genomes_included.tsv
-# Uses BioPython to fetch genomes of aphid associated other bacteria
-# and download them in FASTA format
+# python /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
+# /nethome/mct30/bmds/associated/HF-lit-search_and_2018-aphid-gut-paper.txt \
+# /nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/ \
+# /nethome/mct30/bmds/ref_genomes/other-bacteria_HF-lit-search_and_2018-aphid-gut-paper/genomes_included.tsv
+# # Uses BioPython to fetch genomes of aphid associated other bacteria
+# # and download them in FASTA format
 
 
 ###########
 # Viruses #
 ###########
+
+mkdir -p /nethome/mct30/bmds/ref_genomes/viruses2/
+
+python /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
+/nethome/mct30/bmds/associated/aphid-associated-viruses.csv \
+/nethome/mct30/bmds/ref_genomes/viruses2/ \
+/nethome/mct30/bmds/ref_genomes/viruses2/viruses_genomes_included.tsv
 
 # /nethome/mct30/gitclones/bmds/aphid/fetchGenomes.py \
 # /nethome/mct30/bmds/associated/aphid-associated-viruses.csv \

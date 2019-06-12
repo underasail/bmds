@@ -1,13 +1,13 @@
 #! /bin/bash
 
-#BSUB -J eliminate_matched
-#BSUB -e /nethome/mct30/eliminate_matched.err
-#BSUB -o /nethome/mct30/eliminate_matched.out
-#BSUB -n 2
+#BSUB -J eliminate_matched_2
+#BSUB -e /nethome/mct30/eliminate_matched_2.err
+#BSUB -o /nethome/mct30/eliminate_matched_2.out
+#BSUB -n 16
 #BSUB -P acypi
 #BSUB -R "span[ptile=16]"
 #BSUB -R "rusage[mem=6500]"
-#BSUB -q bigmem
+#BSUB -q parallel
 #BSUB -W 72:00
 #BSUB -B
 #BSUB -N
@@ -20,6 +20,19 @@
 
 module switch python/3.6.5
 # need to work in python3
+
+
+parallel --link -j 6 \
+'/nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
+/nethome/mct30/bmds/SAM_out/{1}_Myzus-only.map \
+/nethome/mct30/bmds/SAM_out/{1}_Buchnera-only.map \
+/nethome/mct30/bmds/SAM_out/{1}_plants-only.map \
+/nethome/mct30/bmds/reads/{2}_trimmed_17-35.fa \
+/nethome/mct30/bmds/reads/{1}_unmatched_corrected.fasta' \
+::: G006_Gut G002_Gut BTIRed_Gut \
+G006_Bac G002_Bac BTIRed_Bac \
+::: G006_Gut_F G002_Gut BTIRed_Gut \
+G006_Bac_F G002_Bac BTIRed_Bac
 
 
 # #
@@ -45,14 +58,14 @@ module switch python/3.6.5
 # G006
 #
 
-parallel --link -j 2 \
-'/nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
-/nethome/mct30/bmds/SAM_out/{1} \
-/nethome/mct30/bmds/reads/{2} \
-/nethome/mct30/bmds/reads/{3}' \
-::: G006_Bac_Buchnera_Myzus_plant.map G006_Gut_Buchnera_Myzus_plant.map \
-::: G006_Bac_F_trimmed_17-35.fa G006_Gut_F_trimmed_17-35.fa \
-::: G006_Bac_F_trimmed_17-35_unmatched.fasta G006_Gut_F_trimmed_17-35_unmatched.fasta
+# parallel --link -j 2 \
+# '/nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
+# /nethome/mct30/bmds/SAM_out/{1} \
+# /nethome/mct30/bmds/reads/{2} \
+# /nethome/mct30/bmds/reads/{3}' \
+# ::: G006_Bac_Buchnera_Myzus_plant.map G006_Gut_Buchnera_Myzus_plant.map \
+# ::: G006_Bac_F_trimmed_17-35.fa G006_Gut_F_trimmed_17-35.fa \
+# ::: G006_Bac_F_trimmed_17-35_unmatched.fasta G006_Gut_F_trimmed_17-35_unmatched.fasta
 
 # /nethome/mct30/gitclones/bmds/aphid/elimMatched.py \
 # /nethome/mct30/bmds/SAM_out/G006_Bac_Buchnera.map \

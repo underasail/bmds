@@ -7,12 +7,12 @@ from Bio import Entrez
 from Bio import SeqIO
 import pickle
 
-#argv = ['percentage_calculations_other_bacteria.py', 
-#        'C:\\Users\\Thompson\\Downloads\\G006_Gut_Myzus-only.map', 
-#        'C:\\Users\\Thompson\\Downloads\\G006_Gut_Buchnera-only.map', 
-#        'C:\\Users\\Thompson\\Downloads\\G006_Gut_plants-only.map', 
-#        'C:\\Users\\Thompson\\Downloads\\G006_Gut_other_bacteria_HF_2018.map', 
-#        'C:\\Users\\Thompson\\Documents\\G006_Gut_other_bacteria_percentages_HF_2018.txt']
+# argv = ['percentage_calculations_other_bacteria.py', 
+#         'C:\\Users\\Thompson\\Downloads\\G006_Gut_Myzus-only.map', 
+#         'C:\\Users\\Thompson\\Downloads\\G006_Gut_Buchnera-only.map', 
+#         'C:\\Users\\Thompson\\Downloads\\G006_Gut_plants-only.map', 
+#         'C:\\Users\\Thompson\\Downloads\\G006_Gut_other_bacteria_HF_2018_corrected.map', 
+#         'C:\\Users\\Thompson\\Documents\\G006_Gut_other_bacteria_percentages_HF_2018_corrected.txt']
 
 Entrez.email = 'mct30@miami.edu'
 
@@ -26,6 +26,12 @@ Ps = set()
 CRi = set()
 Cn = set()
 Pd = set()
+Hd = set()
+Ss = set()
+Ph = set()
+Al = set()
+Pa = set()
+Ea = set()
 
 primary = ['Buchnera', 'Myzus']
 secondary = ['plants', 'other_bacteria', 'viruses']
@@ -35,8 +41,15 @@ CRi_rin_list = []
 Ps_list = []
 Cn_list = []
 Pd_list = []
+Hd_list = []
+Ss_list = []
+Ph_list = []
+Al_list = []
+Pa_list = []
+Ea_list = []
 
-with open('/nethome/mct30/bmds/org_names.pkl', 'rb') as list_file:
+with open('/nethome/mct30/bmds/viruses2_org_names.pkl', 'rb') as list_file:
+# with open('/nethome/mct30/bmds/org_names.pkl', 'rb') as list_file:
 #with open('org_names.pkl', 'rb') as list_file:
     org_names = pickle.load(list_file)
 
@@ -51,6 +64,18 @@ for entry in org_names:
         Cn_list.append(acc)
     elif 'Paenibacillus daejeonensis DSM 15491' in name:
         Pd_list.append(acc)
+    elif 'Candidatus Hamiltonella defensa' in name:
+        Hd_list.append(acc)
+    elif 'Serratia symbiotica' in name:
+        Ss_list.append(acc)
+    elif 'Paenibacillus herberti' in name:
+        Ph_list.append(acc)
+    elif 'Candidatus Arsenophonus lipoptenae' in name:
+        Al_list.append(acc)
+    elif 'Pseudomonas aeruginosa PAO1' in name:
+        Pa_list.append(acc)
+    elif 'Erwinia aphidicola' in name:
+        Ea_list.append(acc)
     else:
         pass
 
@@ -93,7 +118,7 @@ elif 'BTIRed' in argv[1]:
 with open(argv[1], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
@@ -107,7 +132,7 @@ with open(argv[1], newline='') as f:
 with open(argv[2], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
@@ -120,7 +145,7 @@ with open(argv[2], newline='') as f:
 with open(argv[3], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
@@ -135,7 +160,7 @@ mapped_to_a_b_p = aphid | buchnera | plant
 with open(argv[4], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
@@ -145,13 +170,24 @@ with open(argv[4], newline='') as f:
                 pass
             if refgen in Ps_list:
                 Ps.add(readnum)
-#            elif 'NZ_AGCA01000390.1' == refgen:
             elif refgen in CRi_rin_list:
                 CRi.add(readnum)
             elif refgen in Cn_list:
                 Cn.add(readnum)
             elif refgen in Pd_list:
                 Pd.add(readnum)
+            elif refgen in Hd_list:
+                Hd.add(readnum)
+            elif refgen in Ss_list:
+                Ss.add(readnum)
+            elif refgen in Ph_list:
+                Ph.add(readnum)
+            elif refgen in Al_list:
+                Al.add(readnum)
+            elif refgen in Pa_list:
+                Pa.add(readnum)
+            elif refgen in Ea_list:
+                Ea.add(readnum)
             else:
                 refgen = 'ob'
                 ob.add(readnum)
@@ -159,40 +195,47 @@ with open(argv[4], newline='') as f:
         else:
             pass
 
-ob_ex = ob - aphid - buchnera - plant
-if 'G006' in argv[1]:
-    ob_ex = ob_ex | Ps | Cn | Pd
-    CRi_ex = CRi - ob_ex - aphid - buchnera - plant
-elif 'G002' in argv[1]:
-    ob_ex = ob_ex | Pd
-    CRi_ex = CRi - ob_ex - Ps - Cn - aphid - buchnera - plant
-    Ps_ex = Ps - ob_ex - CRi - Cn - aphid - buchnera - plant
-    Cn_ex = Cn - ob_ex - CRi - Ps - aphid - buchnera - plant
-elif 'BTIRed_Gut' in argv[1]:
-    ob_ex = ob_ex | Pd
-    CRi_ex = CRi - ob_ex - Ps - Cn - aphid - buchnera - plant
-    Ps_ex = Ps - ob_ex - CRi - Cn - aphid - buchnera - plant
-    Cn_ex = Cn - ob_ex - CRi - Ps - aphid - buchnera - plant
-elif 'BTIRed_Bac' in argv[1]:
-    ob_ex = ob_ex
-    CRi_ex = CRi - ob_ex - Ps - Cn - Pd - aphid - buchnera - plant
-    Ps_ex = Ps - ob_ex - CRi - Cn - Pd - aphid - buchnera - plant
-    Cn_ex = Cn - ob_ex - CRi - Ps - Pd - aphid - buchnera - plant
-    Pd_ex = Pd - ob_ex - CRi - Ps - Cn - aphid - buchnera - plant
-else:
-    pass
+ob_ex = ob - mapped_to_a_b_p
+
+#if 'G006' in argv[1]:
+#    ob_ex = ob_ex | Ps | Cn | Pd
+#    CRi_ex = CRi - ob_ex - mapped_to_a_b_p
+#elif 'G002' in argv[1]:
+#    ob_ex = ob_ex | Pd
+#    CRi_ex = CRi - ob_ex - Ps - Cn - mapped_to_a_b_p
+#    Ps_ex = Ps - ob_ex - CRi - Cn - mapped_to_a_b_p
+#    Cn_ex = Cn - ob_ex - CRi - Ps - mapped_to_a_b_p
+#elif 'BTIRed_Gut' in argv[1]:
+#    ob_ex = ob_ex | Pd
+#    CRi_ex = CRi - ob_ex - Ps - Cn - mapped_to_a_b_p
+#    Ps_ex = Ps - ob_ex - CRi - Cn - mapped_to_a_b_p
+#    Cn_ex = Cn - ob_ex - CRi - Ps - mapped_to_a_b_p
+#elif 'BTIRed_Bac' in argv[1]:
+ob_ex = ob_ex
+CRi_ex = CRi - (ob_ex | Ps | Cn | Pd | Hd | Ss | Ph | Al | Pa | Ea) - mapped_to_a_b_p - Ps - Cn - Pd - Hd - Ss - Ph - Al - Pa - Ea
+Ps_ex = Ps - (ob_ex | Cn | Pd | Hd | Ss | Ph | Al | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Cn - Pd - Hd - Ss - Ph - Al - Pa - Ea
+Cn_ex = Cn - (ob_ex | Ps | Pd | Hd | Ss | Ph | Al | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Pd - Hd - Ss - Ph - Al - Pa - Ea
+Pd_ex = Pd - (ob_ex | Ps | Cn | Hd | Ss | Ph | Al | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Hd - Ss - Ph - Al - Pa - Ea
+Hd_ex = Hd - (ob_ex | Ps | Cn | Pd | Ss | Ph | Al | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Pd - Ss - Ph - Al - Pa - Ea
+Ss_ex = Ss - (ob_ex | Ps | Cn | Pd | Hd | Ph | Al | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Pd - Hd - Ph - Al - Pa - Ea
+Ph_ex = Ph - (ob_ex | Ps | Cn | Pd | Hd | Ss | Al | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Pd - Hd - Ss - Al - Pa - Ea
+Al_ex = Al - (ob_ex | Ps | Cn | Pd | Hd | Ss | Ph | Pa | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Pd - Hd - Ss - Ph - Pa - Ea
+Pa_ex = Pa - (ob_ex | Ps | Cn | Pd | Hd | Ss | Ph | Al | Ea | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Pd - Hd - Ss - Ph - Al - Ea
+Ea_ex = Ea - (ob_ex | Ps | Cn | Pd | Hd | Ss | Ph | Al | Pa | CRi) - mapped_to_a_b_p - CRi - Ps - Cn - Pd - Hd - Ss - Ph - Al - Pa
+#else:
+#    pass
 # Ps_ex = Ps - CRi - ob - aphid - buchnera - plant
 # CRi_ex = CRi - Ps - ob - aphid - buchnera - plant
 
 #with open(argv[5], 'w') as f:
 #    f.write('Total: {}\n'.format((len(aphid | buchnera | plant | ob)/totalreads)*100))
-#    #print('All: ', len(aphid & buchnera & plant))
-#    #print('Aphid and plant: ', len((aphid & plant) - buchnera))
-#    #print('Aphid and Buchnera: ', len((aphid & buchnera) - plant))
-#    #print('Buchnera and Plant: ', len((buchnera & plant) - aphid))
-#    #print('Aphid: ', len(aphid - buchnera - plant))
-#    #print('Buchnera: ', len(buchnera - aphid - plant))
-#    #print('Plant: ', len(plant - aphid - buchnera))
+# print('All: ', len(aphid & buchnera & plant))
+# print('Aphid and plant: ', len((aphid & plant) - buchnera))
+# print('Aphid and Buchnera: ', len((aphid & buchnera) - plant))
+# print('Buchnera and Plant: ', len((buchnera & plant) - aphid))
+# print('Aphid: ', len(aphid - buchnera - plant))
+# print('Buchnera: ', len(buchnera - aphid - plant))
+# print('Plant: ', len(plant - aphid - buchnera))
 #    f.write('Other Bacteria: {}\n'.format((len(ob - plant - aphid - buchnera)/totalreads)*100))
 #%%
 #genbank_accession_numbers = list(genomes_dict.keys())
@@ -240,9 +283,41 @@ ordered_list = sorted(genomes_dict_collapsed, key=lambda x: (len(genomes_dict_co
 
 with open(argv[5], 'w') as f:
 #    f.write('{}\t\t\t\n'.format(argv[1]))
-    f.write('{}\t\t\n'.format(argv[1]))
-    f.write('Total: {}%\n'.format(round((len(aphid | buchnera | plant | ob)/totalreads)*100, 2)))
-    f.write('Other Bacteria Exclusively: {0}%\t{1}\n'.format(round((len(ob_ex)/totalreads)*100, 2), len(ob_ex)))
+    f.write('{}\t\t\n'.format(argv[1].lstrip('/nethome/mct30/bmds/SAM_out/').rstrip('_Myzus-only.map').replace('_', ' ').replace('Bac', 'Bacteriome')))
+    # f.write('Total: {}%\n'.format(round((len(aphid | buchnera | plant | ob)/totalreads)*100, 2)))
+    # f.write('All: {}%\n'.format(round((len(aphid & buchnera & plant)/totalreads)*100, 2)))
+    # f.write('Aphid and plant: {}%\n'.format(round((len((aphid & plant) - buchnera)/totalreads)*100, 2)))
+    # f.write('Aphid and Buchnera: {}%\n'.format(round((len((aphid & buchnera) - plant)/totalreads)*100, 2)))
+    # f.write('Buchnera and Plant: {}%\n'.format(round((len((buchnera & plant) - aphid)/totalreads)*100, 2)))
+    # f.write('Aphid: {}%\n'.format(round((len(aphid - buchnera - plant)/totalreads)*100, 2)))
+    # f.write('Buchnera: {}%\n'.format(round((len(buchnera - aphid - plant)/totalreads)*100, 2)))
+    # f.write('Plant: {}%\n'.format(round((len(plant - aphid - buchnera)/totalreads)*100, 2)))
+    # f.write('Other Bacteria Exclusively: {0}%\t{1}\n'.format(round((len(ob_ex)/totalreads)*100, 2), len(ob_ex)))
+    # try:
+    #     f.write('Pseudomonas syringae pv. tomato str. DC3000 Exclusively: {0}%\t{1}\n'.format(round((len(Ps_ex)/totalreads)*100, 2), len(Ps_ex)))
+    # except:
+    #     pass
+    # try:
+    #     f.write('Candidatus Regiella insecticola 5.15 Exclusively: {0}%\t{1}\n'.format(round((len(CRi_ex)/totalreads)*100, 2), len(CRi_ex)))
+    # except:
+    #     pass
+    # try:
+    #     f.write('Cupriavidus necator N-1 Exclusively: {0}%\t{1}\n'.format(round((len(Cn_ex)/totalreads)*100, 2), len(Cn_ex)))
+    # except:
+    #     pass
+    # try:
+    #     f.write('Paenibacillus daejeonensis DSM 15491 Exclusively: {0}%\t{1}\n'.format(round((len(Pd_ex)/totalreads)*100, 2), len(Pd_ex)))
+    # except:
+    #     pass
+    f.write('Total: {0}%\t{1}\n'.format(round((len(aphid | buchnera | plant | ob)/totalreads)*100, 2), len(aphid | buchnera | plant | ob)))
+    f.write('All: {0}%\t{1}\n'.format(round((len(aphid & buchnera & plant)/totalreads)*100, 2), len(aphid & buchnera & plant)))
+    f.write('Aphid and plant: {0}%\t{1}\n'.format(round((len((aphid & plant) - buchnera)/totalreads)*100, 2), len((aphid & plant) - buchnera)))
+    f.write('Aphid and Buchnera: {0}%\t{1}\n'.format(round((len((aphid & buchnera) - plant)/totalreads)*100, 2), len((aphid & buchnera) - plant)))
+    f.write('Buchnera and Plant: {0}%\t{1}\n'.format(round((len((buchnera & plant) - aphid)/totalreads)*100, 2), len((buchnera & plant) - aphid)))
+    f.write('Aphid: {0}%\t{1}\n'.format(round((len(aphid - buchnera - plant)/totalreads)*100, 2), len(aphid - buchnera - plant)))
+    f.write('Buchnera: {0}%\t{1}\n'.format(round((len(buchnera - aphid - plant)/totalreads)*100, 2), len(buchnera - aphid - plant)))
+    f.write('Plant: {0}%\t{1}\n'.format(round((len(plant - aphid - buchnera)/totalreads)*100, 2), len(plant - aphid - buchnera)))
+    f.write('Other Bacteria Total without Aphid, Buchnera, and Plant: {0}%\t{1}\n'.format(round((len(ob_ex)/totalreads)*100, 2), len(ob_ex)))
     try:
         f.write('Pseudomonas syringae pv. tomato str. DC3000 Exclusively: {0}%\t{1}\n'.format(round((len(Ps_ex)/totalreads)*100, 2), len(Ps_ex)))
     except:
@@ -259,8 +334,31 @@ with open(argv[5], 'w') as f:
         f.write('Paenibacillus daejeonensis DSM 15491 Exclusively: {0}%\t{1}\n'.format(round((len(Pd_ex)/totalreads)*100, 2), len(Pd_ex)))
     except:
         pass
-#    f.write('Percentage\tNumber of Reads\tOrganism Name\tDescription\n')
-    f.write('Percentage\tNumber of Reads\tOrganism Name\n')
+    try:
+        f.write('Candidatus Hamiltonella defensa Exclusively: {0}%\t{1}\n'.format(round((len(Hd_ex)/totalreads)*100, 2), len(Hd_ex)))
+    except:
+        pass
+    try:
+        f.write('Serratia symbiotica Exclusively: {0}%\t{1}\n'.format(round((len(Ss_ex)/totalreads)*100, 2), len(Ss_ex)))
+    except:
+        pass
+    try:
+        f.write('Paenibacillus herberti Exclusively: {0}%\t{1}\n'.format(round((len(Ph_ex)/totalreads)*100, 2), len(Ph_ex)))
+    except:
+        pass
+    try:
+        f.write('Candidatus Arsenophonus lipoptenae Exclusively: {0}%\t{1}\n'.format(round((len(Al_ex)/totalreads)*100, 2), len(Al_ex)))
+    except:
+        pass
+    try:
+        f.write('Pseudomonas aeruginosa PAO1 Exclusively: {0}%\t{1}\n'.format(round((len(Pa_ex)/totalreads)*100, 2), len(Pa_ex)))
+    except:
+        pass
+    try:
+        f.write('Erwinia aphidicola Exclusively: {0}%\t{1}\n'.format(round((len(Ea_ex)/totalreads)*100, 2), len(Ea_ex)))
+    except:
+        pass
+#    f.write('Percentage\tNumber of Reads\tOrganism Name\n')
     for entry in ordered_list:
         readnums = genomes_dict_collapsed[entry]
         refgen = entry
@@ -275,5 +373,5 @@ with open(argv[5], 'w') as f:
         genomes_dict_collapsed[refgen].append(percent)
         # genomes_dict[genome] = {read1, read2, ... , count, percentage}
 #        f.write('%s%%\t%s\t%s\t%s\n' % (percent, count, refgen, readnums[-3]))
-        f.write('{0}%\t{1}\t{2}\n'.format(percent, count, refgen))
+        f.write('{0}\t\t{1}%\t\t\t{2}\n'.format(refgen, percent, count))
 

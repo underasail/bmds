@@ -13,7 +13,7 @@ plant = set()
 with open(argv[1], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             # with scaffold header lines, would need too many next()
             # this will skip header lines too
             # also selects for alignments with one mismatch or fewer
@@ -39,7 +39,7 @@ with open(argv[1], newline='') as f:
 with open(argv[2], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             # with scaffold header lines, would need too many next()
             # this will skip header lines too
             # also selects for alignments with one mismatch or fewer
@@ -65,7 +65,7 @@ with open(argv[2], newline='') as f:
 with open(argv[3], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
-        if (len(row) >= 14) and ('XM:i:0' or 'XM:i:1' in str(row)):
+        if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
             # with scaffold header lines, would need too many next()
             # this will skip header lines too
             # also selects for alignments with one mismatch or fewer
@@ -103,7 +103,7 @@ for header_line in reads_in:
     readnum = header_line[1:-1]
     # removes '>' from begining of header line leaving read number
 
-    if readnum in plant_Myzus_set:
+    if readnum in plant_total_set:
         reads_out.write(header_line)
         reads_out.write(seq_line)
         # writes to reads_out in FASTA format for unmatched entries in reads_in
