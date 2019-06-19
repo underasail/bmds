@@ -17,6 +17,12 @@
 module load bowtie2
 # Need to load bowtie2 module from /share
 
+bowtie2 -L 10 -f -p 8 --no-unal \
+-a -R 10 
+-x /nethome/mct30/bmds/index/plants/plants_index \
+-U /nethome/mct30/bmds/reads/G002_Bac_trimmed_17-35.fa \
+-S /nethome/mct30/bmds/SAM_out/G002_Bac_plants-full.map
+
 
 #
 # G002 Plants
