@@ -18,6 +18,7 @@ for file in map_folder_files:
 #txt_files = ['fve-miR162-3p_Cluster_32077_reads.txt']
 #txt_files = ['csi-miR168-3p_Cluster_2535_reads.txt']
 #txt_files = ['aly-miR393b-3p_Cluster_134074_reads.txt']
+#txt_files = ['aof-miR156a_Cluster_313917_reads.txt']
 
 for file in txt_files:
     with open(map_folder + file) as f:
@@ -29,10 +30,10 @@ for file in txt_files:
         empty = next(csvreader)
         reads_aligned = next(csvreader)
         
-        m_start = precursor.index(mature)
-        m_end = m_start + len(mature)
-        s_start = precursor.index(star)
-        s_end = s_start + len(star)
+        m_start = precursor.index(mature) + 1
+        m_end = m_start + len(mature) - 1
+        s_start = precursor.index(star) + 1
+        s_end = s_start + len(star) - 1
         end = len(precursor)
         
         read_seqs = []
@@ -53,9 +54,9 @@ for file in txt_files:
         a_ind = 0
         a = []
         for read in reads_expanded:
-            start_ind = ref_seq.index(read)
-            end_ind = start_ind + len(read)
-            inds.append([start_ind + 1, end_ind + 1, read])
+            start_ind = ref_seq.index(read) + 1
+            end_ind = start_ind + len(read) - 1
+            inds.append([start_ind, end_ind, read])
         len_inds = len(inds)
         while len(inds_2) < len_inds:
             line = []
@@ -104,39 +105,49 @@ for file in txt_files:
         fig = plt.figure(figsize = (15, 7))
         ax = plt.subplot(1, 1, 1)
         i = 0
+        darkdarkgreen = '#015b00'
+        lw = 7
         for line in lines:
             i += 1
             for entry in line:
                 x = list(range(entry[0], entry[1] + 1))
                 y = [i] * len(x)
-                plt.plot(x, y, color = 'black', linewidth = 5)
+                if entry[0] == m_start and entry[1] == m_end:
+                    plt.plot(x, y, color = darkdarkgreen, linewidth = lw)
+                elif entry[0] == s_start and entry[1] == s_end:
+                    plt.plot(x, y, color = 'darkred', linewidth = lw)
+                else:
+                    plt.plot(x, y, color = 'black', linewidth = lw)
 
 #%%
-
+    alpha = 0.25
     if m_start > s_start:
-        five_start = s_start
-        five_end = s_end + 1
-        three_start = m_start
-        three_end = m_end + 1
+        plt.axvspan(0, s_start, color = 'black', 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(s_start, s_end, color = 'firebrick', 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(s_end, m_start, color = 'gold', 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(m_start, m_end, color = darkdarkgreen, 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(m_end, end, color = 'black', 
+                    alpha = alpha, zorder = 1)
     elif s_start > m_start:
-        five_start = m_start
-        five_end = m_end + 1
-        three_start = s_start
-        three_end = s_end + 1
-    plt.axvspan(0, five_start + 0.5, color = 'black', 
-                alpha = 0.25, zorder = 1)
-    plt.axvspan(five_start + 0.5, five_end + 0.5, color = 'firebrick', 
-                alpha = 0.25, zorder = 1)
-    plt.axvspan(five_end + 0.5, three_start + 0.5, color = 'gold', 
-                alpha = 0.25, zorder = 1)
-    plt.axvspan(three_start + 0.5, three_end + 0.5, color = 'darkgreen', 
-                alpha = 0.25, zorder = 1)
-    plt.axvspan(three_end + 0.5, end, color = 'black', 
-                alpha = 0.25, zorder = 1)
+        plt.axvspan(0, m_start, color = 'black', 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(m_start, m_end, color = darkdarkgreen, 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(m_end, s_start, color = 'gold', 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(s_start, s_end, color = 'firebrick', 
+                    alpha = alpha, zorder = 1)
+        plt.axvspan(s_end, end, color = 'black', 
+                    alpha = alpha, zorder = 1)
     plt.xlim(0, len(ref_seq))
 #    plt.ylim(0.75, max(js) + 0.5)
     plt.ylim(0.25, i + 0.75)
     plt.yticks([], [])
+#    plt.xticks(range(0, len(precursor)), range(0, len(precursor)))
     plt.xlabel('\nPosition in Precursor')
 #    plt.ylabel('Reads Mapped\n')
     plt.title('{}\n'.format(name))
