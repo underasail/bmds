@@ -55,7 +55,7 @@ for file in txt_files:
         for read in reads_expanded:
             start_ind = ref_seq.index(read)
             end_ind = start_ind + len(read)
-            inds.append([start_ind, end_ind, read])
+            inds.append([start_ind + 1, end_ind + 1, read])
         len_inds = len(inds)
         while len(inds_2) < len_inds:
             line = []
@@ -113,104 +113,26 @@ for file in txt_files:
 
 #%%
 
-#        reads = 0
-#        i = 0
-#        j = 0
-#        bottom_read_x = last_read_x = [0]
-#        js = []
-#        xs = []
-#        last_j = 0
-#        j_dict = {}
-#        num2 = 0
-#        for num1 in range(0, 1501):
-#            j_dict[num1] = []
-#        for read_seq, read_count in zip(read_seqs, read_counts):
-#            i += 1
-#            ref_seq_index = ref_seq.index(read_seq)
-#            x = list(range(ref_seq_index + 1, ref_seq_index + len(read_seq) + 1))
-#            k = 0
-#            if j not in [0, 1]:
-#                for num in range(1, j + 1):
-#                    try:
-#                        next_ref_seq_index = ref_seq.index(reads_expanded[reads + num - 1])
-#                        x_range = list(range(next_ref_seq_index + 1, next_ref_seq_index + len(reads_expanded[i + num]) + 1))
-#                        if min(x_range) >= (max(j_dict[num]) + 2) and \
-#                        min(j_dict[num]) > 0:
-##                            print(j, num, max(j_dict[num]), min(x_range))
-#                            k = num
-#                        else:
-##                            print(j, num, max(j_dict[num]), min(x_range), 'Failed')
-#                            break
-#                    except IndexError:
-##                        print('IndexError')
-#                        break
-#                if k >= j or k == len(reads_expanded) - reads:
-##                    print('yes')
-#                    j = 0
-#                elif k < j and 0 < k <= read_count:
-#                    j_standin = j
-#                    j = 0
-#                    reads += k
-#                    read_count = read_count - k
-#                    for j in range(j + 1, k + 1 + j):
-##                        print('\n', j, min(x))
-#                        y = [j] * (len(read_seq))
-#                        plt.plot(x, y, color = 'black')
-#                        j_dict.setdefault(j, []).extend(x)
-#                    js.append(j)
-#                    prev_j = j
-#                    j = j_standin
-##                elif k >= prev_j:
-##                    print('Happened')
-##                    j_standin = j
-##                    j = prev_j
-##                    reads += read_count
-###                    read_count = read_count - k
-##                    for j in range(j + 1, read_count + 1 + j):
-##                        print('\n', j, min(x))
-##                        y = [j] * (len(read_seq))
-##                        plt.plot(x, y, color = 'black')
-##                        j_dict.setdefault(j, []).extend(x)
-##                    js.append(j)
-###                    prev_j = j
-##                    j = j_standin
-#                else:
-#                    pass
-#            else:
-#                pass
-#            reads += read_count
-#            for j in range(j + 1, read_count + 1 + j):
-##                print('\n', j, min(x))
-#                y = [j] * (len(read_seq))
-#                plt.plot(x, y, color = 'black')
-#                j_dict.setdefault(j, []).extend(x)
-#            js.append(j)
-##            j += 1
-
-#%%
-
     if m_start > s_start:
-        plt.axvspan(0, s_start + 0.5, color = 'black', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(s_start + 0.5, s_end + 0.5, color = 'firebrick', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(s_end + 0.5, m_start + 0.5, color = 'gold', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(m_start + 0.5, m_end + 0.5, color = 'darkgreen', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(m_end + 0.5, end, color = 'black', 
-                    alpha = 0.25, zorder = 1)
+        five_start = s_start
+        five_end = s_end + 1
+        three_start = m_start
+        three_end = m_end + 1
     elif s_start > m_start:
-        plt.axvspan(0, m_start + 0.5, color = 'black', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(m_start + 0.5, m_end + 0.5, color = 'darkgreen', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(m_end + 0.5, s_start + 0.5, color = 'gold', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(s_start + 0.5, s_end + 0.5, color = 'firebrick', 
-                    alpha = 0.25, zorder = 1)
-        plt.axvspan(s_end + 0.5, end, color = 'black', 
-                    alpha = 0.25, zorder = 1)
+        five_start = m_start
+        five_end = m_end + 1
+        three_start = s_start
+        three_end = s_end + 1
+    plt.axvspan(0, five_start + 0.5, color = 'black', 
+                alpha = 0.25, zorder = 1)
+    plt.axvspan(five_start + 0.5, five_end + 0.5, color = 'firebrick', 
+                alpha = 0.25, zorder = 1)
+    plt.axvspan(five_end + 0.5, three_start + 0.5, color = 'gold', 
+                alpha = 0.25, zorder = 1)
+    plt.axvspan(three_start + 0.5, three_end + 0.5, color = 'darkgreen', 
+                alpha = 0.25, zorder = 1)
+    plt.axvspan(three_end + 0.5, end, color = 'black', 
+                alpha = 0.25, zorder = 1)
     plt.xlim(0, len(ref_seq))
 #    plt.ylim(0.75, max(js) + 0.5)
     plt.ylim(0.25, i + 0.75)
