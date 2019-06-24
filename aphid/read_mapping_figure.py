@@ -102,7 +102,7 @@ for file in txt_files:
                 pass
             
 #%%
-        fig = plt.figure(figsize = (15, 7))
+        fig = plt.figure()
         ax = plt.subplot(1, 1, 1)
         i = 0
         darkdarkgreen = '#015b00'
@@ -122,37 +122,44 @@ for file in txt_files:
 #%%
     alpha = 0.25
     if m_start > s_start:
-        plt.axvspan(0, s_start, color = 'black', 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(s_start, s_end, color = 'firebrick', 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(s_end, m_start, color = 'gold', 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(m_start, m_end, color = darkdarkgreen, 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(m_end, end, color = 'black', 
-                    alpha = alpha, zorder = 1)
+        plt.axvspan(0.5, s_start - 0.5, color = 'black', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(s_start - 0.5, s_end + 0.5, color = 'firebrick', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(s_end + 0.5, m_start - 0.5, color = 'gold', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(m_start - 0.5, m_end + 0.5, color = darkdarkgreen, 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(m_end + 0.5, end + 0.5, color = 'black', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
     elif s_start > m_start:
-        plt.axvspan(0, m_start, color = 'black', 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(m_start, m_end, color = darkdarkgreen, 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(m_end, s_start, color = 'gold', 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(s_start, s_end, color = 'firebrick', 
-                    alpha = alpha, zorder = 1)
-        plt.axvspan(s_end, end, color = 'black', 
-                    alpha = alpha, zorder = 1)
-    plt.xlim(0, len(ref_seq))
+        plt.axvspan(0.5, m_start - 0.5, color = 'black', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(m_start - 0.5, m_end + 0.5, color = darkdarkgreen, 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(m_end + 0.5, s_start - 0.5, color = 'gold', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(s_start - 0.5, s_end + 0.5, color = 'firebrick', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+        plt.axvspan(s_end + 0.5, end + 0.5, color = 'black', 
+                    alpha = alpha, zorder = 1, ymin = -0.05)
+    plt.xlim(1, len(ref_seq))
 #    plt.ylim(0.75, max(js) + 0.5)
     plt.ylim(0.25, i + 0.75)
     plt.yticks([], [])
 #    plt.xticks(range(0, len(precursor)), range(0, len(precursor)))
+    plt.xticks(range(1, len(ref_seq) + 1), ref_seq)
+    ax.spines['right'].set_visible(False)  # Removes right axis
+    ax.spines['left'].set_visible(False)  # Removes left axis
+    ax.spines['top'].set_visible(False)  # Removes right axis
+    ax.spines['bottom'].set_visible(False)  # Removes left axis
+    ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
+    ax.xaxis.set_ticks_position('none')
     plt.xlabel('\nPosition in Precursor')
 #    plt.ylabel('Reads Mapped\n')
     plt.title('{}\n'.format(name))
     
-    fig.set_size_inches(15, 0.25 * i)
+    fig.set_size_inches(25, 0.25 * i)
     
     if len(reads_expanded) > 50:
         plt.savefig(map_folder + '{0}_individual-reads.svg'.format(name), 
