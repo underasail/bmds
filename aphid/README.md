@@ -1,9 +1,8 @@
 # Aphid Gut/Bacteriocyte sRNA Analysis Project
 
-Download genomes for Myzus persicae, Buchnera Aphidicola, and Brassica oleracea var. capitata Wisconsin Golden Acre from AphidBase and NCBI
+Download genomes for Myzus persicae, Buchnera Aphidicola, and Brassica oleracea var. capitata Wisconsin Golden Acre from AphidBase and NCBI. 
 Use fetchGenomes to collect other bacteria and virus genomes
 
-    Manually select those that don't meet script criteria
     Pulls genomes from literature review into downloaded FASTA files
 bowtie2-indexing
 
