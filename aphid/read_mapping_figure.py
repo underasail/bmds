@@ -9,7 +9,7 @@ map_folder = 'C:\\Users\\Thompson\\AppData\\Local\\Packages\\CanonicalGroupLimit
 txt_files = []
 map_folder_files = listdir(map_folder)
 for file in map_folder_files:
-    if file.endswith('_reads.txt') and file not in ['summary_reads.txt', 'sbi-miR156e_Cluster_177978_reads.txt', 'aof-miR156a_Cluster_1224_reads.txt', 'aof-miR168a_Cluster_233394_reads.txt']:
+    if file.startswith('bol') and file.endswith('_reads.txt') and file not in ['summary_reads.txt', 'sbi-miR156e_Cluster_177978_reads.txt', 'aof-miR156a_Cluster_1224_reads.txt', 'aof-miR168a_Cluster_233394_reads.txt']:
         txt_files.append(file)
     else:
         pass
@@ -19,16 +19,18 @@ for file in map_folder_files:
 #txt_files = ['csi-miR168-3p_Cluster_2535_reads.txt']
 #txt_files = ['aly-miR393b-3p_Cluster_134074_reads.txt']
 #txt_files = ['aof-miR156a_Cluster_313917_reads.txt']
+#txt_files = ['cas-miR395c-3p-1_Cluster_111197_reads.txt']
+#txt_files = ['aof-miR166d_Cluster_154753_reads.txt']
 
 for file in txt_files:
     with open(map_folder + file) as f:
         csvreader = csv.reader(f, delimiter = ' ')
-        name = next(csvreader)[0]
+        name = next(csvreader)[0].replace(',', '/')
         precursor = ref_seq = next(csvreader)[0].replace('U', 'T')
         mature = re.split(r'([AGCTU]+)', next(csvreader)[0])[1]
         star = re.split(r'([AGCTU]+)', next(csvreader)[0])[1]
         empty = next(csvreader)
-        reads_aligned = next(csvreader)
+#        reads_aligned = next(csvreader)
         
         m_start = precursor.index(mature) + 1
         m_end = m_start + len(mature) - 1
@@ -39,10 +41,17 @@ for file in txt_files:
         read_seqs = []
         read_counts = []
         reads_expanded = []
+        mat_count = 0
         for row in csvreader:
             if row[0][0] == '.':
                 read_seq = re.split(r'([AGCTU]+)', row[0])[1]
-                read_count = int(row[1])
+                read_count = int(row[2].lstrip('a='))
+                start_ind = ref_seq.index(read_seq) + 1
+                end_ind = start_ind + len(read_seq) - 1
+                if start_ind == m_start and end_ind == m_end and read_count > 300:
+                    read_count = 1
+                else:
+                    pass
                 read_seqs.append(read_seq)
                 read_counts.append(read_count)
                 reads_expanded += [read_seq] * read_count
@@ -104,9 +113,9 @@ for file in txt_files:
 #%%
         fig = plt.figure()
         ax = plt.subplot(1, 1, 1)
-        i = 0
+        i = mat_count = 0
         darkdarkgreen = '#015b00'
-        lw = 7
+        lw = 2
         for line in lines:
             i += 1
             for entry in line:
@@ -114,6 +123,7 @@ for file in txt_files:
                 y = [i] * len(x)
                 if entry[0] == m_start and entry[1] == m_end:
                     plt.plot(x, y, color = darkdarkgreen, linewidth = lw)
+                    mat_count += 1
                 elif entry[0] == s_start and entry[1] == s_end:
                     plt.plot(x, y, color = 'darkred', linewidth = lw)
                 else:
@@ -121,52 +131,59 @@ for file in txt_files:
 
 #%%
     alpha = 0.25
+    ymin = 0
     if m_start > s_start:
         plt.axvspan(0.5, s_start - 0.5, color = 'black', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(s_start - 0.5, s_end + 0.5, color = 'firebrick', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(s_end + 0.5, m_start - 0.5, color = 'gold', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(m_start - 0.5, m_end + 0.5, color = darkdarkgreen, 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(m_end + 0.5, end + 0.5, color = 'black', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
     elif s_start > m_start:
         plt.axvspan(0.5, m_start - 0.5, color = 'black', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(m_start - 0.5, m_end + 0.5, color = darkdarkgreen, 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(m_end + 0.5, s_start - 0.5, color = 'gold', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(s_start - 0.5, s_end + 0.5, color = 'firebrick', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
         plt.axvspan(s_end + 0.5, end + 0.5, color = 'black', 
-                    alpha = alpha, zorder = 1, ymin = -0.05)
+                    alpha = alpha, zorder = 1, ymin = ymin)
     plt.xlim(1, len(ref_seq))
 #    plt.ylim(0.75, max(js) + 0.5)
     plt.ylim(0.25, i + 0.75)
     plt.yticks([], [])
 #    plt.xticks(range(0, len(precursor)), range(0, len(precursor)))
-    plt.xticks(range(1, len(ref_seq) + 1), ref_seq)
+    plt.xticks(range(0, len(precursor), 25)[1:], 
+               range(0, len(precursor), 25)[1:], fontsize = 8)
+#    plt.xticks(range(1, len(ref_seq) + 1), ref_seq)
     ax.spines['right'].set_visible(False)  # Removes right axis
     ax.spines['left'].set_visible(False)  # Removes left axis
     ax.spines['top'].set_visible(False)  # Removes right axis
-    ax.spines['bottom'].set_visible(False)  # Removes left axis
+#    ax.spines['bottom'].set_visible(False)  # Removes left axis
     ax.yaxis.set_ticks_position('none')  # Keeps vertical ticks hidden
-    ax.xaxis.set_ticks_position('none')
+#    ax.xaxis.set_ticks_position('none')
     plt.xlabel('\nPosition in Precursor')
 #    plt.ylabel('Reads Mapped\n')
-    plt.title('{}\n'.format(name))
+    plt.title('{0}\n(Cluster_{1})'.format(name.split('_Cluster_')[0],
+                                          name.split('_Cluster_')[1]))
     
-    fig.set_size_inches(25, 0.25 * i)
+    name = name.replace('/', ',')
     
-    if len(reads_expanded) > 50:
-        plt.savefig(map_folder + '{0}_individual-reads.svg'.format(name), 
-                    bbox_inches = 'tight', format = 'svg')
-    else:
-        plt.savefig(map_folder + '{0}_individual-reads.svg'.format(name), 
-                    bbox_inches = 'tight', format = 'svg')
-#        plt.show()
+    fig.set_size_inches(3.25, (0.075 * i))
+    try:
+        if len(reads_expanded) > 50:
+            plt.savefig(map_folder + '{0}_individual-reads.svg'.format(name), 
+                        bbox_inches = 'tight', format = 'svg', dpi = 300)
+        else:
+            plt.savefig(map_folder + '{0}_individual-reads.svg'.format(name), 
+                        bbox_inches = 'tight', format = 'svg', dpi = 300)
+    except RuntimeError:
+        print('RuntimeError for', file)
     plt.show()
     plt.close('all')

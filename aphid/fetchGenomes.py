@@ -2,7 +2,7 @@
 # USAGE = ./fetchGenomes.py [CSV FILE WITH ORGANISMS] [/root/path/to/ref_genomes_folder/] [/path/to/genomes_downloaded.tsv]
 # with closing '/' at end of path
 
-from sys import argv
+#from sys import argv
 import csv
 from Bio import Entrez
 from Bio import SeqIO
@@ -14,9 +14,9 @@ organisms = []
 biosample_accession_numbers = []
 refseq_accs = []
 genebank_ids = []
-#argv = ['', 'C:\\Users\\Thompson\\Downloads\\aphid-associated-viruses.csv', 
-#        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
-#        'C:\\Users\\Thompson\\Documents\\Genomes\\viruses2_genomes_included.tsv']
+argv = ['', 'HF-lit-search_and_2018-aphid-gut-paper.txt', 
+        'C:\\Users\\Thompson\\Documents\\Genomes\\', 
+        'C:\\Users\\Thompson\\Documents\\Genomes\\genomes_included.tsv']
 
 Entrez.email = 'mct30@miami.edu'
 
@@ -116,22 +116,20 @@ for organism in organisms:
             else:
                 for ID in esearch_result['IdList']:
                     sleep(0.4)
-#                    esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
-#                    esummary_result = Entrez.read(esummary_handle)
-#                    genebank_ids.append(\
-#                    esummary_result['DocumentSummarySet']['DocumentSummary'][0]['GbUid'])
-#                    # GenBank ID Location
-#                    refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
-#                    refseq_accs.append(refseq_acc)
-#                    organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
-#                    try:
-#                        sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
-#                        sub_value = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_value']
-#                        organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
-#                    except:
-#                        pass
-                    organism, refseq_acc, filename = assembly_esummary(ID)
+                    esummary_handle = Entrez.esummary(db = 'assembly', id = ID, report = 'full')
+                    esummary_result = Entrez.read(esummary_handle)
+                    genebank_ids.append(\
+                    esummary_result['DocumentSummarySet']['DocumentSummary'][0]['GbUid'])
+                    # GenBank ID Location
+                    refseq_acc = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['AssemblyAccession']
                     refseq_accs.append(refseq_acc)
+                    organism = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Organism']
+                    try:
+                        sub_type = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_type']
+                        sub_value = esummary_result['DocumentSummarySet']['DocumentSummary'][0]['Biosource']['InfraspeciesList'][0]['Sub_value']
+                        organism = "{0} {1} {2}".format(organism, sub_type, sub_value)
+                    except:
+                        pass
                     print('%s   Full Genome Included' % str(organism))
                     genome_tsv.write("{0}\tFull Genome\t{1}\tIncluded\n".format(organism, refseq_acc))
         else:
@@ -166,7 +164,6 @@ for biosample_accession_number in biosample_accession_numbers:
 else:
     pass
     # Viruses should be only thing to pass, and they already have GBIDs
-    # (though not anymore)
 
 genome_tsv.close()
 
@@ -177,15 +174,15 @@ genebank_ids = list(set(genebank_ids))
 #Accession numbers into filenames. This could be done in each step above.
 #"""
 #sleep(0.4)
-#efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids,
-#                              rettype = 'gb', retmode = 'text')
-#efetch_records = SeqIO.parse(efetch_handle, 'gb')
-#filenames = []
-#for record in efetch_records:
-#    organism_name = \
-#    record.annotations['organism'].replace(' ', '_').replace('.', '')
-#    refseq_acc = record.annotations['accessions'][0]
-#    filenames.append('_'.join([refseq_acc, organism_name]))
+efetch_handle = Entrez.efetch(db = 'nuccore', id = genebank_ids,
+                              rettype = 'gb', retmode = 'text')
+efetch_records = SeqIO.parse(efetch_handle, 'gb')
+filenames = []
+for record in efetch_records:
+    organism_name = \
+    record.annotations['organism'].replace(' ', '_').replace('.', '')
+    refseq_acc = record.annotations['accessions'][0]
+    filenames.append('_'.join([refseq_acc, organism_name]))
 #%%
 #for filename, genebank_id in zip(filenames, genebank_ids):
 #    sleep(0.4)

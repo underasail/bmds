@@ -71,7 +71,7 @@ org_names = []
 
 genebank_ids = []
 
-with open('/nethome/mct30/bmds/viruses2_sq_lines.tsv', 'r') as f:
+with open('C:\\Users\\Thompson\\Downloads\\viruses2_sq_lines.tsv', 'r') as f:
     csvreader = csv.reader(f)
     for row in csvreader:
         genebank_ids.append(row[0])
@@ -98,6 +98,7 @@ for record in efetch_records:
 #    print(organism_name)
     entry = [organism_name, nuccore_id, description]
     org_names.append(entry)
+    print(entry)
 
-with open('/nethome/mct30/bmds/viruses2_org_names.pkl', 'wb') as list_file:
+with open('viruses2_org_names.pkl', 'wb') as list_file:
     pickle.dump(org_names, list_file, protocol = pickle.HIGHEST_PROTOCOL)
