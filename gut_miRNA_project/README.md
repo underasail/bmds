@@ -46,11 +46,11 @@
 9. Parse miRNA targets to find target sites where all programs agree on the seed region using [`miRNA_intersect.py`](miRNA_intersect.py) for aphid data and [`miRNA_intersect_plant.py`](miRNA_intersect_plant.py) for plant data
    - Input files may require some modification to match parameters within or parameters can be adjusted
    - Output sites are agreed upon by all packages
-9. Collect protein sequences for the genes found to be targeted and assess their function using HMMs via [EggNOG-mapper](http://eggnog-mapper.embl.de/).
+10. Collect protein sequences for the genes found to be targeted and assess their function using HMMs via [EggNOG-mapper](http://eggnog-mapper.embl.de/).
    - Repeat this process for the genome of interest as it will be used to generate null distributions.
-10. Process target COG assignments in relation to genome COG assignments and produce SVGs for Figures 5 and 6 using [`isoformAnalysis_small.py`](isoformAnalysis_small.py) and [`isoformAnalysis_small_plant.py`](isoformAnalysis_small_plant.py) for the aphid and plant genomes respectively
-   - Simulations for the generation of a null distribution can be further parallelized across multiple jobs on a cluster through depositing the probability dictionaries into pickle files each time and later amassing a main dictionary to save.
-     - It is recommened that the simulations only be run once and then loaded from a pickle dictionary each time as this is the most time and computatinoally intensive part.
+11. Process target COG assignments in relation to genome COG assignments and produce SVGs for Figures 5 and 6 using [`isoformAnalysis_small.py`](isoformAnalysis_small.py) and [`isoformAnalysis_small_plant.py`](isoformAnalysis_small_plant.py) for the aphid and plant genomes respectively
+    - Simulations for the generation of a null distribution can be further parallelized across multiple jobs on a cluster through depositing the probability dictionaries into pickle files each time and later amassing a main dictionary to save.
+      - It is recommened that the simulations only be run once and then loaded from a pickle dictionary each time as this is the most time and computatinoally intensive part.
 
 
 
