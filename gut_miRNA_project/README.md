@@ -14,9 +14,10 @@
 5. Analyze the alignments with respect to your genomes of interest using [`percentage_calculations.py`](percentage_calculations.py)
    - Parses bowtie2 output SAM files and assigns each read alignment to a genome set.
    - Genome sets are compared for overlap and percentages are assigned to each section based on the total reads in the fasta file used in making these alignments.
-6. Generate read subset files for futher analysis using [`elimMatched.py`](elimMatched.py)
+6. Generate read subset files for futher analysis using [`elimMatched.py`](elimMatched.py) and ['elimUnmatched_plant-only.py'](elimUnmatched_plant-only.py)
    - elimMatched will parse a given SAM file and associate fasta file to generate a new fasta file with only the reads that have not met the criteria for a match
      - This will set up the "unknown" reads to be aligned against the bacterial and viral libraries
+   - elimUnmatched_plant-only works int he same manner as above only to output reads with have met the criteria for a match to the plant genome
 
 
 ## Bacterial and Viral Assignment of Unknown Reads
@@ -36,5 +37,8 @@
 4. Annotate potential miRNA precursors using [ShortStack](https://github.com/MikeAxtell/ShortStack)
 5. Assess homology to existing precursors using local BLAST against [miRBase](http://mirbase.org/ftp.shtml)
 6. Collect accepted miRNA precursors and assocaited information into a csv with similar formating to Supplementary Table 3.
+7. Use ['mirFinder.py'](mirFinder.py) to search small RNA reads for exact copies of 5' and 3' sequences from annotated plant miRNA precursors
+   - mirFinder can also be fed csvs of additional miRNA sequences to see if they are represented in your found miRNAs
+
 
 
