@@ -39,6 +39,7 @@
 6. Collect accepted miRNA precursors and assocaited information into a csv with similar formating to Supplementary Table 3.
 7. Use [`mirFinder.py`](mirFinder.py) to search small RNA reads for exact copies of 5' and 3' sequences from annotated plant miRNA precursors
    - mirFinder can also be fed csvs of additional miRNA sequences to see if they are represented in your found miRNAs
+###### Target Analysis 
 8. Predict targets in both the plant genome and the aphid genome using multiple miRNA target prediction software packages
    - [miRanda](http://www.microrna.org/microrna/getDownloads.do), [PITA](https://genie.weizmann.ac.il/pubs/mir07/mir07_exe.html), and [RNAhybrid](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid) were used for aphid predictions
    - [psRNAtarget](http://plantgrn.noble.org/psRNATarget/?dowhat=Help) and [TargetFinder](https://github.com/carringtonlab/TargetFinder) were used for plant predictions
@@ -51,7 +52,8 @@
 11. Process target COG assignments in relation to genome COG assignments and produce SVGs for Figures 5 and 6 using [`isoformAnalysis_small.py`](isoformAnalysis_small.py) and [`isoformAnalysis_small_plant.py`](isoformAnalysis_small_plant.py) for the aphid and plant genomes respectively
     - Simulations for the generation of a null distribution can be further parallelized across multiple jobs on a cluster through depositing the probability dictionaries into pickle files each time and later amassing a main dictionary to save.
       - It is recommened that the simulations only be run once and then loaded from a pickle dictionary each time as this is the most time and computatinoally intensive part.
-
+###### Precursor Processing Analysis
+12. 
 
 
 
