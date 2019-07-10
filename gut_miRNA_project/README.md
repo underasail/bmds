@@ -2,7 +2,8 @@
 ###### Max C. Thompson, Honglin Feng, Stefan Wuchty, and Alexandra C. C. Wilson
 
 - Code included here was used to format, analyze, and display the data and results present in the above paper.
-- Scripts are often paired wherein a BASH script is used to call the primary Python script either in the terminal interface or within the University of Miami's Pegasus Supercomputer using the LSF job scheduler. Please note that scheduling systems and requriements may be very different for your local cluster.
+- Paths within the Python scripts have been mostly altered to input('') phrases that explain what file path needs to go in there. The extensions shown tell what type of file is currently expected.
+  - The scripts are not expected to be run while manually inputting these file paths each time (though it would be possible, just painful). Instead, swap them out for strings that have the file paths you will be using in the scripts.
 
 
 ## Initial Workflow
