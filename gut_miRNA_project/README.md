@@ -37,15 +37,21 @@
 4. Annotate potential miRNA precursors using [ShortStack](https://github.com/MikeAxtell/ShortStack)
 5. Assess homology to existing precursors using local BLAST against [miRBase](http://mirbase.org/ftp.shtml)
 6. Collect accepted miRNA precursors and assocaited information into a csv with similar formating to Supplementary Table 3.
-7. Use ['mirFinder.py'](mirFinder.py) to search small RNA reads for exact copies of 5' and 3' sequences from annotated plant miRNA precursors
+7. Use [`mirFinder.py`](mirFinder.py) to search small RNA reads for exact copies of 5' and 3' sequences from annotated plant miRNA precursors
    - mirFinder can also be fed csvs of additional miRNA sequences to see if they are represented in your found miRNAs
 8. Predict targets in both the plant genome and the aphid genome using multiple miRNA target prediction software packages
    - [miRanda](http://www.microrna.org/microrna/getDownloads.do), [PITA](https://genie.weizmann.ac.il/pubs/mir07/mir07_exe.html), and [RNAhybrid](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid) were used for aphid predictions
    - [psRNAtarget](http://plantgrn.noble.org/psRNATarget/?dowhat=Help) and [TargetFinder](https://github.com/carringtonlab/TargetFinder) were used for plant predictions
    - Compact output should be used and will need to be parsed to match input formating for miRNA_intersect
-9. Parse miRNA targets to find target sites where all programs agree on the seed region using ['miRNA_intersect.py'](miRNA_intersect.py) for aphid data and ['miRNA_intersect_plant.py'](miRNA_intersect_plant.py) for plant data
+9. Parse miRNA targets to find target sites where all programs agree on the seed region using [`miRNA_intersect.py`](miRNA_intersect.py) for aphid data and [`miRNA_intersect_plant.py`](miRNA_intersect_plant.py) for plant data
    - Input files may require some modification to match parameters within or parameters can be adjusted
    - Output sites are agreed upon by all packages
+9. Collect protein sequences for the genes found to be targeted and assess their function using HMMs via [EggNOG-mapper](http://eggnog-mapper.embl.de/).
+   - Repeat this process for the genome of interest as it will be used to generate null distributions.
+10. Process target COG assignments in relation to genome COG assignments and produce SVGs for Figures 5 and 6 using [`isoformAnalysis_small.py`](isoformAnalysis_small.py) and [`isoformAnalysis_small_plant.py`](isoformAnalysis_small_plant.py) for the aphid and plant genomes respectively
+   - Simulations for the generation of a null distribution can be further parallelized across multiple jobs on a cluster through depositing the probability dictionaries into pickle files each time and later amassing a main dictionary to save.
+     - It is recommened that the simulations only be run once and then loaded from a pickle dictionary each time as this is the most time and computatinoally intensive part.
+
 
 
 
