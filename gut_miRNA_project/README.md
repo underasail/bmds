@@ -16,10 +16,10 @@
 6. Analyze the alignments with respect to your genomes of interest using percentage_calculations_other_bacteria
    - Parses bowtie2 output SAM files and assigns each read alignment to a genome set.
    - Genome sets are compared for overlap and percentages are assigned to each section based on the total reads in the fasta file used in making these alignments.
-7. Generate read subset files for futher analysis using elimMatched and elimUnmatched
+7. Generate read subset files for futher analysis using elimMatched
    - elimMatched will parse a given SAM file and associate fasta file to generate a new fasta file with only the reads that have not met the criteria for a match
      - This will set up the "unknown" reads to be aligned against the bacterial and viral libraries
-   - elimUnmatched
+   
    
 elimMatched
 
