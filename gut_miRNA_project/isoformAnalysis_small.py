@@ -42,15 +42,6 @@ pvals_raw = []
 pvals_dict = {}
 ci = {}  # holds confidence intervals
 
-#with open('cogs_dict.pkl', 'rb') as dict_file:
-#    cogs_dict = pickle.load(dict_file)
-#with open('cogs_dict_g.pkl', 'rb') as dict_file:
-#    cogs_dict_g = pickle.load(dict_file)
-#with open('cogs_dict_final.pkl', 'rb') as dict_file:
-#    cogs_dict_final = pickle.load(dict_file)
-
-#with open('probs_dict_1Mil.pkl', 'rb') as dict_file:
-#    probs_dict = pickle.load(dict_file)
 
 filelist = ["corrected_myseq0.fa.emapper.annotations", 
             "corrected_myseq4500.fa.emapper.annotations", 
@@ -59,12 +50,11 @@ filelist = ["corrected_myseq0.fa.emapper.annotations",
             "corrected_myseq18000.fa.emapper.annotations", 
             "corrected_myseq22500.fa.emapper.annotations", 
             "corrected_myseq27000.fa.emapper.annotations"]
-            # target COG files
-#total_g = 0
+            # genome COG assignments
+
 for file in filelist:
     with open(file) as f:
         csvreader = csv.reader(f, delimiter = '\t')
-#        header = next(csvreader)
         for row in csvreader:
             cog = row[11]
             name = '_'.join(row[0].split('_')[0:4])
@@ -72,66 +62,44 @@ for file in filelist:
             if cog == "S":
                 pass
             else:
-#                total_g = total_g + 1
-                # actual total number instead of total which includes proteins 
-                # multiple times for each COG assigned
                 if len(cog) > 1:
                     cogs_list_g = cog.split(', ')  # because entries can match to multiple COGs
                     for entry in cogs_list_g:
                         # entry is cog
                         cogs_dict_g.setdefault(entry, []).append(name)
-#                        cogs_dict_utr_g.append([entry, name, utr])
-#                        cogs_dict_utr_g.setdefault('{0}_{1}'.format(entry, utr), []).append(name)
                         cogs_dict_utr_g.setdefault(utr, []).append('{0}_{1}'.format(entry, name))
-#                        cogs_dict_g.setdefault(entry, []).append(scaffold_name_list[parent_list.index(name)])
                 else:
                     cogs_dict_g.setdefault(cog, []).append(name)
-#                    cogs_dict_utr_g.append([cog, name, utr])
-#                    cogs_dict_utr_g.setdefault('{0}_{1}'.format(cog, utr), []).append(name)
                     cogs_dict_utr_g.setdefault(utr, []).append('{0}_{1}'.format(cog, name))
-#                    cogs_dict_g.setdefault(cog, []).append(scaffold_name_list[parent_list.index(name)])
+
 total_g = 0
 for key in cogs_dict_g:
-#    cogs_dict_g[key] = set(cogs_dict_g[key])
-#    total_g = total_g + len(set(cogs_dict_g[key]))
     total_g = total_g + len(cogs_dict_g[key])
-#total_t = 0
+
 with open('Myzus_persicae_Clone_G006b_scaffolds.gff.pep_exact_mirs_targets.fa.emapper.annotations') as f:
+    # target COG assignments
     csvreader = csv.reader(f, delimiter = '\t')
     header = next(csvreader)
     for row in csvreader:
         cog = row[11]
-#        name = row[0]
         name = '_'.join(row[0].split('_')[0:4])
         utr = '_'.join(row[0].split('_')[4:6])
-#        name = name.split('.')[1]
         if cog == 'S':
             pass
         else:
-#            total_t = total_t + 1
             if len(cog) > 1:
                 cogs_list = cog.split(', ')
                 for entry in cogs_list:
                     cogs_dict.setdefault(entry, []).append(name)
-                    cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(entry, name))
-#                    cogs_dict.setdefault(entry, []).append(scaffold_name_list[parent_list.index(name)])
-#                    cogs_dict_utr.append([entry, name, utr])
-#                    cogs_dict_utr.setdefault('{0}_{1}'.format(entry, utr), []).append(name)
-                    
+                    cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(entry, name)) 
             elif len(cog) == 1:
                 cogs_dict.setdefault(cog, []).append(name)
-#                cogs_dict.setdefault(cog, []).append(scaffold_name_list[parent_list.index(name)])
-#                cogs_dict_utr.append([cog, name, utr])
-#                cogs_dict_utr.setdefault('{0}_{1}'.format(cog, utr), []).append(name)
                 cogs_dict_utr.setdefault(utr, []).append('{0}_{1}'.format(cog, name))
             else:
                 pass
 total_t = 0
 for key in cogs_dict:
-#    cogs_dict[key] = set(cogs_dict[key])
-#    total_t = total_t + len(set(cogs_dict[key]))
     total_t = total_t + len(cogs_dict[key])
-# these create dictionaries with the COG letters as keys and proteins as values
 
 labels = ["RNA processing and modification", 
           "Chromatin structure and dynamics", 
@@ -171,15 +139,12 @@ for (long_form, short_form) in zip(labels, labels_letters):
         # creates percentage from number of values (proteins) over the total
     except KeyError:
         pass
-#not_in_targets = ["Defense mechanisms", 
-#                  "Coenzyme transport and metabolism", 
-#                  "Cell motility"]
+
 not_in_targets = ["Cell motility"]
 #                  # these entries show up in the genome proteins but not targets
 #                  # this sorts it out for the figure production
 for entry in not_in_targets:
     cogs_dict[entry] = 0
-
 
 for (long_form, short_form) in zip(labels, labels_letters):
     try:
@@ -189,125 +154,50 @@ for (long_form, short_form) in zip(labels, labels_letters):
     except KeyError:
         pass
 
-#with open('cogs_dict.pkl', 'wb') as dict_file:
-#    pickle.dump(cogs_dict, dict_file, protocol = pickle.HIGHEST_PROTOCOL)
-with open('cogs_dict_g_aphid.pkl', 'wb') as dict_file:
-    pickle.dump(cogs_dict_g, dict_file, protocol = pickle.HIGHEST_PROTOCOL)
-#with open('cogs_dict_final.pkl', 'wb') as dict_file:
-#    pickle.dump(cogs_dict_final, dict_file, protocol = pickle.HIGHEST_PROTOCOL)
-
 #%%
         
-#mid_time = time.time()
-#print(round(mid_time - start_time, 2))
-#
-#def choices_list(i):
-#    choices = []
-#    counted_dict = {}
-#    for i in range(0, 926):
-##        choice_out = list(choice(sorted(cogs_dict_utr_g.keys()), 1))
-##        cog = choice_out[0].split('_')[0]
-##        length = len(cogs_dict_utr_g[choice_out[0]])
-##        choices.extend(list(cog)*length)
-#        utr = list(choice(sorted(cogs_dict_utr_g.keys()), 1))[0]
-#        for entry in cogs_dict_utr_g[utr]:
-#            cog = entry.split('_')[0]
-##            name = '_'.join(entry.split('_')[1:])
-#            choices.append(cog)
-#    for label in labels:
-#        percent = (choices.count(labels_letters[labels.index(label)]))/(len(choices)/100)
-#        counted_dict.setdefault(label, []).append(percent)
-#
-#    return counted_dict
-#
-##num_cores = multiprocessing.cpu_count()
-#num_cores = 4
-#counted_dicts = Parallel(n_jobs=num_cores)(delayed(choices_list)(i) for i in range(1, 10001))
-#
-#for counted_dict in counted_dicts:
-#    for label in counted_dict.keys():
-#        probs_dict.setdefault(label, []).extend(counted_dict[label])
+mid_time = time.time()
+print(round(mid_time - start_time, 2))
 
+def choices_list(i):
+    choices = []
+    counted_dict = {}
+    for i in range(0, 926):
+        utr = list(choice(sorted(cogs_dict_utr_g.keys()), 1))[0]
+        for entry in cogs_dict_utr_g[utr]:
+            cog = entry.split('_')[0]
+            choices.append(cog)
+    for label in labels:
+        percent = (choices.count(labels_letters[labels.index(label)]))/(len(choices)/100)
+        counted_dict.setdefault(label, []).append(percent)
+    # runs simulations to generate null distributions
+    # simulation selection is such that target COGs are grouped by UTR
+    # when one is chosen, the whole group is used to mimic the selection of 
+    # aphid genes by working back from UTRs
+    return counted_dict
 
-# Old methods
-        # grabs the short form label from the matching index of the long form
-        # list and checks the count of that in the cog output (choices) then
-        # divdes to make a percentage using a matching length
-        
-        # stores percentages from each simulation
-    # MC simulation
-    # uses the probabilities from above to simulate 1 million random samplings from the 
-    # genome that are 173 proteins like the miRNA target set
-#mid_time_2 = time.time()
-#print(round(mid_time_2 - mid_time, 2))
+#num_cores = multiprocessing.cpu_count()
+num_cores = 4
+counted_dicts = Parallel(n_jobs=num_cores)(delayed(choices_list)(i) for i in range(1, 10001))
+
+for counted_dict in counted_dicts:
+    for label in counted_dict.keys():
+        probs_dict.setdefault(label, []).extend(counted_dict[label])
+
+with open('probs_dict_exact_mirs_aphid_100k_{0}.pkl'.format(argv[1]), 'wb') as dict_file:
+    pickle.dump(probs_dict, dict_file, protocol = pickle.HIGHEST_PROTOCOL)
+    # argv and this pickle formating is used to allow parallelization across
+    # several jobs if submitting to a cluster. Fewer simulations can be run 
+    # each time and ammased later.
+    # Once you have enough simulations, build a final dictionary and save it
+    # with pickle to avoid needing to resimulate
+
+mid_time_2 = time.time()
+print(round(mid_time_2 - mid_time, 2))
+
 #%%
-
-#time_3 = time.time()
-#
-with open('probs_dict_exact_mirs_1Mil.pkl', 'rb') as dict_file:
-    probs_dict = pickle.load(dict_file)
-#
-#
-#sns.set(color_codes=True)
-#sns.set_style('white')
-#for label in probs_dict.keys():
-#    probs_dict_bc[label] = [x + 1 for x in probs_dict[label]]
-#    # establishes a distribution shifted right by 1 for coxbox transform
-#    
-#    dist = probs_dict[label]
-#    fig = plt.figure(figsize = (8, 8))
-#    ax = fig.add_subplot(221)
-#    stats.probplot(dist, dist="norm", plot=pylab)
-#    ax.set_title('')
-#    ax2 = fig.add_subplot(222)
-#    sns.distplot(dist, kde = False, rug = False)
-#    ax2.set_xlabel('COG Composition in Simulation Run (%)')
-#    ax2.set_ylabel('\n')
-#    label2 = label.replace("\n","")
-#    label2 = label2.replace('/', ' and ')
-#    # Plots the non-transformed distribution in a QQ and histogram
-#    
-#    dist_bc = stats.boxcox(probs_dict_bc[label])[0]
-#    ax3 = fig.add_subplot(223)
-#    stats.probplot(dist_bc, dist="norm", plot=pylab)
-#    ax3.set_title('')
-#    ax4 = fig.add_subplot(224)
-#    sns.distplot(dist_bc, kde = False, rug = False)
-#    ax4.set_xlabel('COG Composition in Simulation Run (%)')
-#    ax4.set_ylabel('\n')
-#    fig.suptitle(label, fontsize = 18)
-#    plt.savefig('%s_prob_dist_boxcox_comp_exact_mirs.png' % label2, 
-#                bbox_inches = 'tight', format = 'png', dpi = 300)
-##    plt.show()
-#    plt.close()
-#    # Plots the transformed version
-## Creates QQ and histogram plots for each COG based on the MC simulated distributions
-#with open('norm_dist_tests_exact_mirs.txt', 'w') as f:
-#    for label in probs_dict.keys():
-#        f.write('{0}: \nShapiro-Wilk (test-statistic, p-value): {1}\nNormaltest: {2}\n\n'.format(label, stats.shapiro(probs_dict[label]), stats.normaltest(probs_dict[label])))
-#        if not stats.shapiro(probs_dict[label])[0] > 0.96:
-#            f.write('Shapiro-Wilk test statistic not greater than 0.96.\n\n')
-#    for label in probs_dict_bc.keys():
-#        f.write('[Box Cox] - {0}: \nShapiro-Wilk (test-statistic, p-value): {1}\nNormaltest: {2}\n\n'.format(label, stats.shapiro(stats.boxcox(probs_dict_bc[label])[0]), stats.normaltest(stats.boxcox(probs_dict_bc[label])[0])))
-## Runs Shapiro-Wilk test to determine if the distrobutions are normal (p < 0.05 means not normal)
-#
-#time_4 = time.time()
-#print(time_4 - time_3)
-#%%
-    
-##for label in labels_final:  # or labels_norm
-#for label in labels:
-#    Z = (cogs_dict[label] - sum(probs_dict[label])/len(probs_dict[label]))/statistics.stdev(probs_dict[label])
-#    pvals_raw.append(scipy.stats.norm.sf(abs(Z))*2)
-#    print(label, scipy.stats.norm.sf(abs(Z))*2)
-#    if Z > 0:
-#        ci.setdefault(label, []).append(sum(probs_dict[label])/len(probs_dict[label]) + stats.norm.ppf(.975)*statistics.stdev(probs_dict[label]))
-#    else:
-#        ci.setdefault(label, []).append(sum(probs_dict[label])/len(probs_dict[label]) + stats.norm.ppf(.025)*statistics.stdev(probs_dict[label]))
-#print(ci)
 
 sorted_dict_list = sorted(cogs_dict.items(), key=lambda x: (abs(x[1]), abs(cogs_dict_final[x[0]])), reverse = True)
-# sorted_dict_list = sorted(cogs_dict_final.items(), key=lambda x: ((x[1]), abs(cogs_dict_final[x[0]])), reverse = True)
 # sorts the dictionary into a list to keep a consistent order
 # second sorting key goes by magnitude of percent difference
 # secondary sorting also assures the same order each time
@@ -315,33 +205,18 @@ for entry in sorted_dict_list[:-1]:
     label = entry[0]
     percent = entry[1]
     labels_final.append(label)
-#    probs_dict[label] = []
     cogs_per.append(percent)
     cogs_per_final.append(cogs_dict_final[label])
-    # cogs_per_final.append(percent)
-    # cogs_per.append(cogs_dict[label])
     # this loop estabilishes many lists for the figure at once, keeping the order the same
-
-with open('labels_final_aphid.pkl', 'wb') as list_file:
-    pickle.dump(labels_final, list_file, protocol = pickle.HIGHEST_PROTOCOL)
-with open('cogs_per_aphid.pkl', 'wb') as list_file:
-    pickle.dump(cogs_per, list_file, protocol = pickle.HIGHEST_PROTOCOL)
-with open('cogs_per_final_aphid.pkl', 'wb') as list_file:
-    pickle.dump(cogs_per_final, list_file, protocol = pickle.HIGHEST_PROTOCOL)
 
 for label in labels_final:
     target_per = cogs_dict[label]
     total_sims = len(probs_dict[label])
-#    if cogs_dict_final[label] < 0 and cogs_dict_g[label] < 2:
-#        greater_pval = len([i for i in probs_dict[label] if i > target_per])/total_sims
-#        greater_ci = sorted(probs_dict[label])[int(0.975*total_sims)]
-#        ci.setdefault(label, []).append(greater_ci)
     if cogs_dict_final[label] < 0:
         lesser_pval = len([i for i in probs_dict[label] if i < target_per])/total_sims
         lesser_ci = sorted(probs_dict[label])[int(0.025*total_sims)]
         ci.setdefault(label, []).append(lesser_ci)
         pvals_raw.append(lesser_pval)
-#        pvals_dict[label] = {'lesser', lesser_pval}
         if lesser_pval < 0.05 and lesser_pval != 0:
             print('{0} (Lesser): {1}\nConfidence interval: {2}\n'.format(label, lesser_pval, lesser_ci))
             pvals_dict[label] = {'lesser', lesser_pval}
@@ -352,7 +227,6 @@ for label in labels_final:
         greater_ci = sorted(probs_dict[label])[int(0.975*total_sims)]
         ci.setdefault(label, []).append(greater_ci)
         pvals_raw.append(greater_pval)
-#        pvals_dict[label] = {'greater', greater_pval}
         if greater_pval < 0.05 and greater_pval != 0:
             print('{0} (Greater): {1}\nConfidence interval: {2}\n'.format(label, greater_pval, greater_ci))
             pvals_dict[label] = {'greater', greater_pval}
@@ -360,24 +234,6 @@ for label in labels_final:
             pass
     else:
         pass
-
-with open('ci_aphid.pkl', 'wb') as dict_file:
-    pickle.dump(ci, dict_file, protocol = pickle.HIGHEST_PROTOCOL)
-with open('pvals_dict_aphid.pkl', 'wb') as dict_file:
-    pickle.dump(pvals_dict, dict_file, protocol = pickle.HIGHEST_PROTOCOL)
-
-#reject, pvals_cor, alphacSidak, alphacBonf = smm.multipletests(pvals_raw, alpha = 0.05, method = 'fdr_bh')
-##with open('p-values.txt', 'w') as f:
-#for label, p_cor, p_raw in zip(labels_final, pvals_cor, pvals_raw):
-#    if p_cor <= 0.05:
-##            f.write('%s (p-value > 0.05): %s (raw: %s)\n' % (label, p_cor, p_raw))
-#        print('%s (p-value > 0.05): %s (raw: %s)\n' % (label, p_cor, p_raw))
-#    else:
-##            f.write('%s (p-value): %s (raw: %s)\n' % (label, p_cor, p_raw))
-##            print('%s (p-value): %s (raw: %s)\n' % (label, p_cor, p_raw))
-#        pass
-
-    
 
 #%%
 
@@ -396,7 +252,6 @@ newcolors = np.vstack((top(np.linspace(0.1, 0.85, 251000)),
                        middle_red(np.linspace(0.05, 0.15, 5000)),
                        bottom(np.linspace(0.15, 0.9, 251000))))
 centered_cm = ListedColormap(newcolors, name='Blue_Red')
-# https://matplotlib.org/tutorials/colors/colormap-manipulation.html#creating-listed-colormaps
 
 colors_2 = []
 for entry in cogs_per_final:
@@ -404,7 +259,9 @@ for entry in cogs_per_final:
                                 / (float(2.75) 
                                 - -2.75)))
 
-plot = plt.scatter([-2.75, 2.75], [-2.75, 2.75], c = [-2.75, 2.75], cmap = centered_cm)  # establishes colorbar in scatterplot
+plot = plt.scatter([-2.75, 2.75], [-2.75, 2.75], c = [-2.75, 2.75], 
+                   cmap = centered_cm)
+# establishes colorbar in scatterplot
 plt.close()  # clears scatterplot
  
 #%%
@@ -418,7 +275,6 @@ ind = np.arange(len(labels_final))
 ax = plt.subplot(1, 22, (1, 7))
 barlist = plt.barh(ind, cogs_per, height = 1, align = 'edge', zorder = 10)
 for i, color in zip(range(0, len(barlist)), colors_2):
-#    barlist[i].set_color(color)
     barlist[i].set_color('#808080')
     if i%2 == 0:
         ax.axhspan(i, 1 + i, color = 'white', alpha = 0.15, zorder = 1)
