@@ -58,10 +58,11 @@
     - Filtering and file conversion can be accomplish with Bamtools and Samtools respectively
     - Filtered BAM files will also need to be indexed
 14. Process precursor alignments using [`bamAnalysis.py`](bamAnalysis.py) to generate text file visualizations of small read alignment for each precursor
+    - An example txt file is available for [bol-miR168b-3p (Cluster_2535)](examples/bol-miR168b-3p_Cluster_2535_reads.txt)
     - bamAnalysis will also calculate the percentage of reads assigned to mature, star, loop, 5', and 3' sections and produce and SVG figure that displays this in a bar chart
     - You can also create histogram figures for each precursor based on per nucleotide mapping
     - This uses Python packages only built for Mac/UNIX systems. Linux Subsystem for Windows can be used to run these on a Windows machine
-15. Using the text file outputs from bamAnalysis, generate read alignment figures for each precursor using [`precursor_read_figure.py`](precursor_read_figure.py)
+15. Using the text file outputs from bamAnalysis, generate read alignment figures for each precursor using [`read_mapping_figure.py`](read_mapping_figure.py)
     - This uses Python packages only built for Mac/UNIX systems. Linux Subsystem for Windows can be used to run these on a Windows machine
 
 
