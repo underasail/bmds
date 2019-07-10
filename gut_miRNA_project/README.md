@@ -48,12 +48,15 @@
    - Input files may require some modification to match parameters within or parameters can be adjusted
    - Output sites are agreed upon by all packages
 10. Collect protein sequences for the genes found to be targeted and assess their function using HMMs via [EggNOG-mapper](http://eggnog-mapper.embl.de/).
-   - Repeat this process for the genome of interest as it will be used to generate null distributions.
+    - Repeat this process for the genome of interest as it will be used to generate null distributions.
 11. Process target COG assignments in relation to genome COG assignments and produce SVGs for Figures 5 and 6 using [`isoformAnalysis_small.py`](isoformAnalysis_small.py) and [`isoformAnalysis_small_plant.py`](isoformAnalysis_small_plant.py) for the aphid and plant genomes respectively
     - Simulations for the generation of a null distribution can be further parallelized across multiple jobs on a cluster through depositing the probability dictionaries into pickle files each time and later amassing a main dictionary to save.
       - It is recommened that the simulations only be run once and then loaded from a pickle dictionary each time as this is the most time and computatinoally intensive part.
 ###### Precursor Processing Analysis
-12. 
+12. Align all processed small-RNA-seq data against plant miRNA precursors in step 6 above using bowtie2
+13. Filter alignments to include only those with zero mismatches and zero gaps in a BAM file
+    - Filtering and file conversion can be accomplish with Bamtools and Samtools respectively
+14. Process alignments using [`bamAnalysis.py`](bamAnalysis.py)
 
 
 
