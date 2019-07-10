@@ -52,22 +52,19 @@
 11. Process target COG assignments in relation to genome COG assignments and produce SVGs for Figures 5 and 6 using [`isoformAnalysis_small.py`](isoformAnalysis_small.py) and [`isoformAnalysis_small_plant.py`](isoformAnalysis_small_plant.py) for the aphid and plant genomes respectively
     - Simulations for the generation of a null distribution can be further parallelized across multiple jobs on a cluster through depositing the probability dictionaries into pickle files each time and later amassing a main dictionary to save.
       - It is recommened that the simulations only be run once and then loaded from a pickle dictionary each time as this is the most time and computatinoally intensive part.
+12. Visualize structures for the precursors using Python subprocess calls to VARNA CLI with [`varna_structure_from_fass.py`](varna_structure_from_fass.py)
+    - [VARNA](http://varna.lri.fr/index.php?lang=en&page=downloads&css=varna) will need to be downloaded and accessible in the commmand line environment this Python script is run from.
+    - A FASS (fasta and secondary structure) file will also be needed with all of the precursors structures. This can come from ShortStack, but the rounds of optimizing and trimming within may leave the brackets not matching up, and VARNA will be unable to use it. Instead [RNAfold](https://www.tbi.univie.ac.at/RNA/#download) can be used to produce this file.
 ###### Precursor Processing Analysis
-12. Align all processed small-RNA-seq data against plant miRNA precursors in step 6 above using bowtie2
-13. Filter alignments to include only those with zero mismatches and zero gaps in a BAM file
+13. Align all processed small-RNA-seq data against plant miRNA precursors in step 6 above using bowtie2
+14. Filter alignments to include only those with zero mismatches and zero gaps in a BAM file
     - Filtering and file conversion can be accomplish with Bamtools and Samtools respectively
     - Filtered BAM files will also need to be indexed
-14. Process precursor alignments using [`bamAnalysis.py`](bamAnalysis.py) to generate text file visualizations of small read alignment for each precursor
+15. Process precursor alignments using [`bamAnalysis.py`](bamAnalysis.py) to generate text file visualizations of small read alignment for each precursor
     - An example txt file is available for [bol-miR168b-3p (Cluster_2535)](examples/bol-miR168b-3p_Cluster_2535_reads.txt)
     - bamAnalysis will also calculate the percentage of reads assigned to mature, star, loop, 5', and 3' sections and produce and SVG figure that displays this in a bar chart
     - You can also create histogram figures for each precursor based on per nucleotide mapping
     - This uses Python packages only built for Mac/UNIX systems. Linux Subsystem for Windows can be used to run these on a Windows machine
-15. Using the text file outputs from bamAnalysis, generate read alignment figures for each precursor using [`read_mapping_figure.py`](read_mapping_figure.py)
+16. Using the text file outputs from bamAnalysis, generate read alignment figures for each precursor using [`read_mapping_figure.py`](read_mapping_figure.py)
     - This uses Python packages only built for Mac/UNIX systems. Linux Subsystem for Windows can be used to run these on a Windows machine
-
-
-
-
-
-
 
