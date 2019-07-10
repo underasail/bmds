@@ -66,13 +66,13 @@ nt_vars_string = ''.join(nt_vars_set)
 #                     'mirFinder_master_G002_Gut_plants_corrected.out', 
 #                     'mirFinder_master_BTIRed_Gut_plants_corrected.out']
 
-#reads_files = ['C:\\Users\\Thompson\\Documents\\reads\\G006_Gut_plants-only_corrected.fasta', 
-#               'C:\\Users\\Thompson\\Documents\\reads\\G002_Gut_plants-only_corrected.fasta', 
-#               'C:\\Users\\Thompson\\Documents\\reads\\BTIRed_Gut_plants-only_corrected.fasta']
+reads_files = ['C:\\Users\\Thompson\\Documents\\reads\\G006_Gut_plants-only_corrected.fasta', 
+               'C:\\Users\\Thompson\\Documents\\reads\\G002_Gut_plants-only_corrected.fasta', 
+               'C:\\Users\\Thompson\\Documents\\reads\\BTIRed_Gut_plants-only_corrected.fasta']
 
-reads_files = ['C:\\Users\\Thompson\\Documents\\reads\\G006_Bac_plants-only_corrected.fasta', 
-               'C:\\Users\\Thompson\\Documents\\reads\\G002_Bac_plants-only_corrected.fasta', 
-               'C:\\Users\\Thompson\\Documents\\reads\\BTIRed_Bac_plants-only_corrected.fasta']
+#reads_files = ['C:\\Users\\Thompson\\Documents\\reads\\G006_Bac_plants-only_corrected.fasta', 
+#               'C:\\Users\\Thompson\\Documents\\reads\\G002_Bac_plants-only_corrected.fasta', 
+#               'C:\\Users\\Thompson\\Documents\\reads\\BTIRed_Bac_plants-only_corrected.fasta']
 
 #dict_strings = ['G006_reads_dict', 'G002_reads_dict', 'BTIRed_reads_dict']
 
@@ -324,7 +324,7 @@ for line in print_lines:
                          found_list[3], found_list[4], found_list[5])
     i += 1
 
-with open('mirFinder_Bac.out', 'w') as f:
+with open('mirFinder_Gut.out', 'w') as f:
     f.write("Homolog\tmiRNA Sequence\tLength\tExact Matches In: G006\tG002\tUS"
             "DA\tTotal\tPreviously Found In: {0}\t{1}\t{2}\t{3}\t{4}\t{5}\n".format(species_s[0], 
             species_s[1], species_s[2], species_s[3], species_s[4], 
@@ -334,3 +334,7 @@ with open('mirFinder_Bac.out', 'w') as f:
         print(line)
     print('Total: {0} reads'.format(total))
     f.write('Total: {0} reads\n'.format(total))
+
+#%%
+
+gut_mirs = ['TTTGGATTGAAGGGAGCTCTA', 'TTGACAGAAGATAGAGAGCAC', 'CTGAAGTGTTTGGGGGGACTC', 'TGAGCCAAAGATGACTTGCCG', 'TGCCAAAGGAGAGTTGCCCTG', 'CTGAAGTGTTTGGGGGAACTC', 'GCAAGTTGACTTTGGCTCTGT', 'CCCGCCTTGCATCAACTGAAT', 'TCGGACCAGGCTTCATTCCCC', 'TGAGCCAAAGATGACTTGCC', 'TCGCTTGGTGCAGGTCGGGAA', 'GATCATGTTCGTAGTTTCACC', 'GGAGGCAGCGGTTCATCGATC', 'TTGACAGAAGAGAGCGAGCAC', 'TCGATAAACCTCTGCATCCAG', 'GGATTGTTGTCTGGCACGAGG', 'CGCTGTCCATCCTGAGTTTCA', 'TCGCTTGGTGCAGGTCGGGAC', 'TGACAGAAGAGAGTGAGCAC', 'CTGAAGTGTTTGGGGGGACT', 'GCAAGTCGACTTTGGCTCTGT', 'ATCATGCGATCTCATTGGATT', 'GGAATGTTGTCTGGCACGAGG', 'TTCCACAGCTTTCTTGAACTT', 'GCTTACTCTCTCTCTGTCACC', 'TGTTTTGTGCGTGAATCTAATT', 'TGGAGAAGCAGGGCACGTGCA', 'GGGTCGACATGAGAACACATG', 'TGGAGAAGCAGGGCACGTGCG', 'TGTTCTGTGGGTTTTTACCGA', 'TTGACAGAAGAAAGAGAGCAC', 'GCTCTCTAGCCTTCTGTCATCA']
