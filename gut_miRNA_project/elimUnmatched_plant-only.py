@@ -1,6 +1,6 @@
-#! /share/opt/python/3.6.5/bin/python
-
-# USAGE: ./percentage_calculations.py [APHID/BUCHNERA SAM FILE] > [DESIRED OUTPUT FILE]
+# USAGE: python3 ./elimUnmatched_plant-only.py [APHID SAM FILE] [BUCHNERA SAM FILE] \
+#                                              [PLANT SAM FILE] [READS TO BE FILETERED] \
+#                                              [DESIRED OUTPUT READS FILE]
 
 from sys import argv
 import csv
@@ -14,14 +14,13 @@ with open(argv[1], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
         if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
-            # with scaffold header lines, would need too many next()
             # this will skip header lines too
             # also selects for alignments with one mismatch or fewer
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
-            # http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output
             if '__len__' in refgen:
+                # based on strings specific to each genome in SAM file
                 refgen = 'buchnera'
                 buchnera.add(readnum)
             elif 'scaffold_' in refgen:
@@ -40,13 +39,9 @@ with open(argv[2], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
         if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
-            # with scaffold header lines, would need too many next()
-            # this will skip header lines too
-            # also selects for alignments with one mismatch or fewer
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
-            # http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output
             if '__len__' in refgen:
                 refgen = 'buchnera'
                 buchnera.add(readnum)
@@ -57,8 +52,6 @@ with open(argv[2], newline='') as f:
                 refgen = 'plant'
                 plant.add(readnum)
             matched_dict.setdefault(readnum, []).append(refgen)
-            # allows key to be created if not already and added to without disruption
-            # if previously generated
         else:
             pass
 
@@ -66,13 +59,9 @@ with open(argv[3], newline='') as f:
     csvreader = csv.reader(f, delimiter = '\t')
     for row in csvreader:
         if (len(row) >= 14) and (('XM:i:0' or 'XM:i:1') in str(row)):
-            # with scaffold header lines, would need too many next()
-            # this will skip header lines too
-            # also selects for alignments with one mismatch or fewer
             readnum = row[0]
             refgen = row[2]
             seq = row[9]
-            # http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output
             if '__len__' in refgen:
                 refgen = 'buchnera'
                 buchnera.add(readnum)
@@ -83,13 +72,11 @@ with open(argv[3], newline='') as f:
                 refgen = 'plant'
                 plant.add(readnum)
             matched_dict.setdefault(readnum, []).append(refgen)
-            # allows key to be created if not already and added to without disruption
-            # if previously generated
         else:
             pass
 
 plant_total_set = set(plant)
-plant_only_set = set(plant - aphid - buchnera)
+plant_only_set = set(plant - aphid - buchnera)  # read sets to choose between
 plant_Myzus_set = set(plant & aphid)
 
 reads_in = open(argv[4], 'r')
