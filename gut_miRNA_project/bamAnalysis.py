@@ -1,16 +1,17 @@
 import csv
 from Bio import SeqIO
 import re
-import pysam
+import pysam  # only Mac or Linux
 import numpy as np
 import matplotlib.pyplot as plt
-from statistics import mean
 
-docs_folder = '/home/underasail/Thompson/Documents/'
-map_folder = '/home/underasail/mapping_svgs/'
+docs_folder = input('/path/to/bam_alignment_files_and_indexes')
+map_folder = input('/path/to/folder_for_alignment_visualizations')
 
 m_s_dict = {}
-with open(docs_folder + 'exact_mirs_precursor_info.csv', 'r') as f:
+with open(docs_folder + input('/path/to/precursor_info_file_only_including_'\
+                              'those_with_miRNAs_in_your_dataset'), 'r') as f:
+    # check below for file formatting needs or modify below to match your file
     csvreader = csv.reader(f, delimiter = ',')
     for row in csvreader:
         name = row[0]
@@ -21,10 +22,11 @@ with open(docs_folder + 'exact_mirs_precursor_info.csv', 'r') as f:
                           'precursor' : precursor}
 
 record_dict = SeqIO.to_dict(SeqIO.parse(docs_folder + 
-                                        'exact_mirs_precursors_T_new.fasta', 
+                                        input('/path/to/precursors.fasta'), 
                                         'fasta'))
 
 bam_ext = '_Gut_plant-precursors_bowtie1_a_T_mm0_gap0.sorted.bam'
+# file extension of bam files
 BTIRed_bam = pysam.AlignmentFile(docs_folder + 'BTIRed' + bam_ext)
 G002_bam = pysam.AlignmentFile(docs_folder + 'G002' + bam_ext)
 G006_bam = pysam.AlignmentFile(docs_folder + 'G006' + bam_ext)
@@ -32,6 +34,8 @@ G006_bam = pysam.AlignmentFile(docs_folder + 'G006' + bam_ext)
 bams = [G006_bam, G002_bam, BTIRed_bam]
 
 G006_not_m_s = open(docs_folder + 'G006_not_m_s_reads.fa', 'w')
+# will store all reads that are not assigned to the mature or star sequences
+# for later analysis
 G002_not_m_s = open(docs_folder + 'G002_not_m_s_reads.fa', 'w')
 BTIRed_not_m_s = open(docs_folder + 'BTIRed_not_m_s_reads.fa', 'w')
 
@@ -74,7 +78,6 @@ for name in record_dict.keys():
             f.write('{0}{1}{2} Star\n\n'.format('-' * s_start, 
                                              star.replace('U', 'T'), 
                                              '-' * (end - s_end)))
-#            f.write('{0}\n{0} Reads aligned:\n'.format(' ' * end))
             
             read_lines = []
             for bam in bams:
@@ -82,7 +85,6 @@ for name in record_dict.keys():
                 for read in bam:
                     read_ref_name = read.reference_name.split('_Cluster_')[-1]
                     name_name = name.split('_Cluster_')[-1]
-#                    if read.reference_name == name:
                     if read_ref_name == name_name:
                         readnum = read.qname
                         read_positions = read.positions
@@ -139,17 +141,13 @@ for name in record_dict.keys():
                                 loop_count_sum += 1
                             else:
                                 pass
-#                        if i - mat_count <= 2 and mat_count > 0:
                         if (mat_tail_count <= 1 and loop_count <= 1) and mat_count > 0:
                             matures += 1
                             matures_summary += 1
-#                        elif i - star_count <= 2 and star_count > 0:
                         elif (star_tail_count <= 1 and loop_count <= 1) and star_count > 0:
                             stars += 1
                             stars_summary += 1
                         elif i - mat_tail_count <= 1 and mat_tail_count > 0:
-#                        elif (star_tail_count <= 1 or loop_count <= 1) and mat_tail_count > 0:
-#                        elif mat_tail_count > 0:
                             mature_tails += 1
                             mature_tails_summary += 1
                             if aphid_line == 'G006':
@@ -161,7 +159,6 @@ for name in record_dict.keys():
                             else:
                                 pass
                         elif i - star_tail_count <= 1 and star_tail_count > 0:
-#                        elif star_tail_count > 0:
                             star_tails += 1
                             star_tails_summary += 1
                             if aphid_line == 'G006':
@@ -172,9 +169,7 @@ for name in record_dict.keys():
                                 BTIRed_not_m_s.write(">{0}\n{1}\n".format(readnum, read_seq))
                             else:
                                 pass
-#                        elif i - loop_count <= 2 and loop_count > 0:
                         elif (star_count <= 1 and mat_count <= 1) and loop_count > 0:
-#                        elif loop_count > 0:
                             loops += 1
                             loops_summary += 1
                             if aphid_line == 'G006':
@@ -186,7 +181,6 @@ for name in record_dict.keys():
                             else:
                                 pass
                         else:
-#                            print(name, mat_count, star_count, mat_tail_count, star_tail_count, loop_count)
                             others += 1
                             if aphid_line == 'G006':
                                 G006_not_m_s.write(">{0}\n{1}\n".format(readnum, read_seq))
@@ -196,6 +190,9 @@ for name in record_dict.keys():
                                 BTIRed_not_m_s.write(">{0}\n{1}\n".format(readnum, read_seq))
                             else:
                                 pass
+# Below matplotlib section can be used to generat histogram visualizations
+# of read mapping for each precursor.
+
 #            fig = plt.figure(figsize = (15, 7))
 #            ax = plt.subplot(1, 1, 1)
 #            barlist = plt.bar(positions, read_counts, width = 1.0, 
@@ -278,9 +275,7 @@ for name in record_dict.keys():
                                            re.split(r'([AGCTU]+)', x)[1]),
                                     2 ** -len(re.split(r'([AGCTU]+)', x)[1])), 
                                     reverse = False))
-#                                     (len(re.split(r'([AGCTU]+)', x)[0]), 
-#                                     2 ** -len(re.split(r'([AGCTU]+)', x)[1])), 
-#                                     reverse = False))
+
             for line in read_lines_sorted:
                 f.write('{0}\n'.format(line))
             f.write("Mature: {0}\nStar: {1}\nMature Tail: {2}\nStar Tail: "
@@ -291,7 +286,8 @@ for name in record_dict.keys():
                                               round(100*loop_count/i, 2)))
             loops_per = (loops*100)/(matures + stars + loops + mature_tails + star_tails)
             if loops_per >= 1:
-                print("Had >1% loop reads: {0}\n{1}% Loops ({2})\tMatures {3}\tStars {4}".format(name, round(loops_per, 2), loops, matures, stars))
+                print("Had >1% loop reads: {0}\n{1}% Loops ({2})\tMatures {3}\tStars {4}"\
+                      .format(name, round(loops_per, 2), loops, matures, stars))
             else:
                 pass
             
@@ -316,10 +312,6 @@ with open(map_folder + 'summary_reads.txt'.format(name), 'w') as f:
                                   round(100*star_tails_summary/total_reads, 2), 
                                   round(100*loops_summary/total_reads, 2),
                                   round(100*others/total_reads, 2)))
-#    f.write("Mature Tail Overlaps: {0}\nStar Tail Overlaps: {1}\n"
-#            "Loop Star Overlaps: {2}\nLoop Mature Ovelaps: {3}\n".format(
-#                        mat_tail_overs_summary, star_tail_overs_summary, 
-#                        loop_mat_overs_summary, loop_star_overs_summary))
     f.write("Mature: {0}%\nStar: {1}%\nMature Tail: {2}%\nStar Tail: {3}%\n"
             "Loop: {4}%\n".format(round(100*mat_count_sum/i_sum, 2), 
                                   round(100*star_count_sum/i_sum, 2), 
