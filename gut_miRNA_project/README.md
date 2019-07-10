@@ -42,6 +42,12 @@
 8. Predict targets in both the plant genome and the aphid genome using multiple miRNA target prediction software packages
    - [miRanda](http://www.microrna.org/microrna/getDownloads.do), [PITA](https://genie.weizmann.ac.il/pubs/mir07/mir07_exe.html), and [RNAhybrid](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid) were used for aphid predictions
    - [psRNAtarget](http://plantgrn.noble.org/psRNATarget/?dowhat=Help) and [TargetFinder](https://github.com/carringtonlab/TargetFinder) were used for plant predictions
+   - Compact output should be used and will need to be parsed to match input formating for miRNA_intersect
+9. Parse miRNA targets to find target sites where all programs agree on the seed region using ['miRNA_intersect.py'](miRNA_intersect.py) for aphid data and ['miRNA_intersect_plant.py'](miRNA_intersect_plant.py) for plant data
+   - Input files may require some modification to match parameters within or parameters can be adjusted
+   - Output sites are agreed upon by all packages
+
+
 
 
 
