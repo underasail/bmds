@@ -39,6 +39,11 @@
 6. Collect accepted miRNA precursors and assocaited information into a csv with similar formating to Supplementary Table 3.
 7. Use ['mirFinder.py'](mirFinder.py) to search small RNA reads for exact copies of 5' and 3' sequences from annotated plant miRNA precursors
    - mirFinder can also be fed csvs of additional miRNA sequences to see if they are represented in your found miRNAs
+8. Predict targets in both the plant genome and the aphid genome using multiple miRNA target prediction software packages
+   - [miRanda](http://www.microrna.org/microrna/getDownloads.do), [PITA](https://genie.weizmann.ac.il/pubs/mir07/mir07_exe.html), and [RNAhybrid](https://bibiserv.cebitec.uni-bielefeld.de/rnahybrid) were used for aphid predictions
+   - [psRNAtarget](http://plantgrn.noble.org/psRNATarget/?dowhat=Help) and [TargetFinder](https://github.com/carringtonlab/TargetFinder) were used for plant predictions
+
+
 
 
 
